@@ -3,266 +3,402 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0f0f13">
+<meta name="theme-color" content="#0a0f1d">
 <title>F1 Liga</title>
-<meta name="description" content="Poradie, výsledky pretekov a štatistiky našej F1 ligy.">
+<meta name="description" content="Súkromná F1 liga: poradie, výsledky pretekov a štatistiky.">
 <meta property="og:title" content="F1 Liga">
-<meta property="og:description" content="Poradie, výsledky pretekov a štatistiky našej F1 ligy.">
+<meta property="og:description" content="Súkromná F1 liga: poradie, výsledky pretekov a štatistiky.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23e10600'/><text x='32' y='43' font-size='30' font-family='Arial' font-weight='900' fill='white' text-anchor='middle' font-style='italic'>F1</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230a0f1d'/><path d='M14 44 L26 20 H52 L48 28 H32 L30 32 H44 L40 40 H26 L24 44 Z' fill='%23ff2b3a'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,400;0,600;0,700;0,900;1,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700&family=Saira+Extra+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800;1,900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0f0f13; --surface:#1a1a19; --surface-2:#232328; --surface-3:#2d2d33; --line:#303036;
-  --text:#f0efec; --text-2:#c3c2b7; --muted:#8e8d86;
-  --red:#e10600; --red-soft:rgba(225,6,0,.14);
-  --gold:#e6b422; --silver:#b9bec6; --bronze:#c27a43; --purple:#a855f7;
-  --good:#0ca30c; --critical:#d03b3b;
-  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
-  --r:14px;
+  --night:#0a0f1d; --asphalt:#121929; --asphalt-2:#192136; --asphalt-3:#222b43; --line:#252f48; --line-2:#34405f;
+  --flood:#eef1f8; --mist:#a6aec4; --dim:#6f7892;
+  --kerb:#ff2b3a; --kerb-w:#f3f5fa;
+  --purple:#b07cff; --green:#2fe08d; --gold:#ffcd3c; --silver:#c9d1df; --bronze:#e38c4c;
+  --display:"Saira Extra Condensed","Arial Narrow",sans-serif;
+  --body:"Saira",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:18px;
+  --glass:rgba(24,32,56,.52); --glass-2:rgba(255,255,255,.06); --glass-b:rgba(255,255,255,.10); --glass-hi:inset 0 1px 0 rgba(255,255,255,.10);
+  --blur:blur(18px) saturate(150%);
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Titillium Web",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-body{min-height:100vh;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+html,body{margin:0}
+body{background:var(--night);color:var(--flood);font-family:var(--body);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100vh;
+  background-image:
+    radial-gradient(700px 520px at 88% 4%,rgba(255,43,58,.20),transparent 62%),
+    radial-gradient(800px 600px at 6% 30%,rgba(61,110,255,.17),transparent 62%),
+    radial-gradient(700px 520px at 55% 105%,rgba(150,100,255,.13),transparent 62%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-attachment:fixed}
 button,select,input{font:inherit;color:inherit}
 button{cursor:pointer}
 a{color:inherit}
-.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+:focus-visible{outline:2px solid var(--kerb);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.num{font-variant-numeric:tabular-nums}
+.disp{font-family:var(--display);font-style:italic;font-weight:800;letter-spacing:.2px;line-height:.95}
+.kerb{height:6px;background:repeating-linear-gradient(-45deg,var(--kerb) 0 12px,var(--kerb-w) 12px 24px)}
+.muted{color:var(--dim)} .mist{color:var(--mist)}
+h1,h2,h3{margin:0}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001s!important;animation-delay:0s!important;transition-duration:.001s!important}}
 
-/* header */
-header.top{position:sticky;top:0;z-index:20;background:rgba(15,15,19,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.topbar{display:flex;align-items:center;gap:12px;height:60px}
-.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-style:italic;font-size:20px;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.logo .mark{background:var(--red);color:#fff;border-radius:8px;padding:2px 8px;font-size:16px;flex:none}
-.spacer{flex:1}
-.season-select{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px 32px 8px 12px;font-weight:700;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--text-2) 50%),linear-gradient(135deg,var(--text-2) 50%,transparent 50%);background-position:calc(100% - 16px) 52%,calc(100% - 11px) 52%;background-size:5px 5px;background-repeat:no-repeat;max-width:46vw}
-.icon-btn{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;width:40px;height:40px;display:grid;place-items:center;flex:none}
-.icon-btn svg{width:18px;height:18px}
+/* ---------- livery tag ---------- */
+.tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.6px;line-height:1}
+.tag::before{content:"";width:4px;height:16px;border-radius:2px;background:var(--c,#888);flex:none}
 
-nav.tabs{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(20,20,24,.97);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom)}
-nav.tabs button{flex:1;max-width:150px;background:none;border:0;padding:9px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--muted);font-size:12px;font-weight:600;position:relative}
-nav.tabs button svg{width:22px;height:22px}
-nav.tabs button.on{color:var(--text)}
-nav.tabs button.on::before{content:"";position:absolute;top:0;left:30%;right:30%;height:3px;border-radius:0 0 3px 3px;background:var(--red)}
-@media (min-width:860px){
-  body{padding-bottom:0}
-  nav.tabs{position:sticky;top:60px;bottom:auto;border-top:0;border-bottom:1px solid var(--line);background:rgba(15,15,19,.92);justify-content:flex-start;padding:0 calc((100vw - 1100px)/2 + 8px)}
-  nav.tabs button{flex:none;flex-direction:row;gap:8px;font-size:15px;padding:12px 16px;max-width:none}
-  nav.tabs button svg{width:18px;height:18px}
-  nav.tabs button.on::before{top:auto;bottom:0;left:12px;right:12px;border-radius:3px 3px 0 0}
+/* ---------- header ---------- */
+header.bar{position:sticky;top:0;z-index:30}
+header.bar::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(10,15,29,.55);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
+.bar-in{display:flex;align-items:center;gap:18px;height:62px}
+.mark{display:flex;align-items:center;gap:10px;text-decoration:none;flex:none}
+.mark i{width:26px;height:18px;background:var(--kerb);transform:skewX(-24deg);border-radius:2px;box-shadow:8px 0 0 -2px var(--kerb-w)}
+.mark b{font-family:var(--display);font-style:italic;font-weight:900;font-size:26px;letter-spacing:.3px}
+nav.tabs{display:flex;gap:2px;flex:1;min-width:0}
+nav.tabs button{background:none;border:1px solid transparent;padding:8px 14px;border-radius:999px;color:var(--mist);font-weight:600;font-size:15px;display:flex;align-items:center;gap:7px;white-space:nowrap;position:relative}
+nav.tabs button svg{width:18px;height:18px;opacity:.85}
+nav.tabs button:hover{color:var(--flood);background:rgba(255,255,255,.04)}
+nav.tabs button.on{color:var(--flood);background:var(--glass-2);border-color:var(--glass-b);box-shadow:var(--glass-hi)}
+nav.tabs button.on svg{color:var(--kerb);opacity:1}
+.bar-r{display:flex;align-items:center;gap:8px;flex:none}
+.sel{background-color:var(--glass-2);border:1px solid var(--glass-b);border-radius:999px;padding:8px 32px 8px 15px;box-shadow:var(--glass-hi);font-weight:600;appearance:none;-webkit-appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,var(--mist) 50%),linear-gradient(135deg,var(--mist) 50%,transparent 50%);background-position:calc(100% - 15px) 52%,calc(100% - 10px) 52%;background-size:5px 5px;background-repeat:no-repeat}
+.ibtn{width:38px;height:38px;border-radius:50%;background:var(--glass-2);border:1px solid var(--glass-b);box-shadow:var(--glass-hi);display:grid;place-items:center;flex:none;color:var(--mist)}
+.ibtn:hover{color:var(--flood);border-color:var(--line-2)}
+.ibtn svg{width:18px;height:18px}
+.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:15px;background:var(--glass-2);box-shadow:var(--glass-hi);border:2px solid var(--c,var(--line-2));flex:none}
+@media (max-width:900px){
+  body.app{padding-bottom:calc(70px + env(safe-area-inset-bottom))}
+  nav.tabs{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:40;background:rgba(18,25,44,.62);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-b);border-radius:999px;padding:5px;justify-content:space-around;box-shadow:var(--glass-hi),0 18px 40px rgba(0,0,0,.45)}
+  nav.tabs button{flex-direction:column;gap:2px;font-size:10.5px;padding:7px 2px;flex:1;max-width:96px}
+  nav.tabs button svg{width:20px;height:20px}
+  body.app{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+  .mark b{font-size:22px}
+  .sel{max-width:44vw}
 }
 
-main.wrap{padding:18px 16px 30px}
-h1,h2,h3{margin:0;line-height:1.15}
-h2.sec{font-size:13px;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);font-weight:700;margin:26px 0 10px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
-.pad{padding:16px}
-.muted{color:var(--muted)} .t2{color:var(--text-2)}
-.row{display:flex;align-items:center;gap:10px}
-.grid{display:grid;gap:12px}
-.num{font-variant-numeric:tabular-nums}
-.pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;color:var(--text-2);white-space:nowrap}
-.pill.live{background:var(--red-soft);border-color:rgba(225,6,0,.4);color:#ff8b85}
-.fl{display:inline-flex;align-items:center;gap:4px;color:#d4b0ff;font-size:12px;font-weight:700}
-.fl::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--purple)}
+/* ---------- generic ---------- */
+main{padding:26px 0 48px}
+body.gate-on main{padding:0}
+.panel{background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-b);border-radius:var(--r);box-shadow:var(--glass-hi),0 20px 50px rgba(0,0,0,.25)}
+.ptitle{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 12px}
+.ptitle h2{font-family:var(--display);font-style:italic;font-weight:800;font-size:28px;letter-spacing:.2px}
+.ptitle .side{color:var(--dim);font-size:14px}
+.link{background:none;border:0;color:var(--mist);font-weight:600;padding:4px 0;font-size:14px;text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:4px}
+.link:hover{color:var(--flood);text-decoration-color:var(--kerb)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:10px 20px;font-weight:700;border:1px solid var(--glass-b);background:var(--glass-2);color:var(--flood);box-shadow:var(--glass-hi);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:background .15s,border-color .15s,box-shadow .15s}
+.btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
+.btn.go{background:linear-gradient(180deg,#ff4a57,#e8152a);border-color:rgba(255,140,150,.5);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 8px 24px rgba(255,43,58,.35)}
+.btn.go:hover{background:linear-gradient(180deg,#ff5c68,#f01d31);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 10px 30px rgba(255,43,58,.5)}
+.btn.ghost{background:transparent;box-shadow:none;backdrop-filter:none}
+.btn.danger{background:transparent;border-color:rgba(255,43,58,.45);color:#ff8f98}
+.btn.sm{padding:6px 14px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.input{width:100%;background:rgba(5,9,20,.45);border:1px solid var(--glass-b);border-radius:14px;padding:12px 16px;color:var(--flood)}
+.input:focus{outline:none;border-color:var(--kerb);box-shadow:0 0 0 3px rgba(255,43,58,.18)}
+label.f{display:grid;gap:6px;font-size:13px;color:var(--mist);font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--glass-b);background:var(--glass-2);border-radius:999px;padding:3px 11px;font-size:12.5px;color:var(--mist);white-space:nowrap}
+.pill.red{border-color:rgba(255,43,58,.5);color:#ff9aa2;background:rgba(255,43,58,.08)}
+.pill.amber{border-color:rgba(255,205,60,.45);color:var(--gold);background:rgba(255,205,60,.07)}
+.flag{font-size:1.05em}
+.fl{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--purple);box-shadow:0 0 8px var(--purple);vertical-align:middle}
+.hint{font-size:13px;color:var(--dim);margin:8px 0}
+.empty{padding:40px 20px;text-align:center;color:var(--dim)}
+.toast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(14,20,38,.75);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-b);padding:11px 20px 11px 16px;border-radius:999px;display:flex;align-items:center;gap:10px;z-index:80;font-weight:600;box-shadow:0 16px 40px rgba(0,0,0,.5);max-width:92vw;animation:tin .2s ease-out}
+.toast::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.toast.err{color:#ffb0b6}.toast.err::before{background:var(--kerb);box-shadow:0 0 10px var(--kerb)}
+@keyframes tin{from{opacity:0;transform:translate(-50%,8px)}}
+.loading{display:grid;place-items:center;min-height:60vh;color:var(--dim)}
 
-/* hero */
-.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:12px}
-@media (max-width:720px){.hero{grid-template-columns:1fr}}
-.home-hero{position:relative;overflow:hidden;padding:28px 24px;background:radial-gradient(120% 140% at 100% 0%,rgba(225,6,0,.28) 0%,rgba(225,6,0,.06) 40%,transparent 70%),var(--surface);margin-bottom:12px}
-.home-hero::after{content:"";position:absolute;right:-60px;bottom:-70px;width:260px;height:260px;border-radius:50%;border:34px solid rgba(225,6,0,.10)}
-.home-hero h1{font-size:44px;font-weight:900;font-style:italic;letter-spacing:-.5px;margin:6px 0 6px}
-.home-hero .lbl{font-size:12px;text-transform:uppercase;letter-spacing:1.4px;color:#ff8b85;font-weight:700}
-.home-hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;position:relative;z-index:1}
-.home-hero .btn{padding:11px 18px;font-size:15px}
-.home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-@media (max-width:820px){.home-grid{grid-template-columns:1fr}.home-hero h1{font-size:34px}}
-.leader{position:relative;overflow:hidden;padding:20px;background:linear-gradient(135deg,#2a0b0a 0%,var(--surface) 60%)}
-.leader::after{content:"";position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;border:28px solid rgba(225,6,0,.12)}
-.leader .lbl{font-size:12px;text-transform:uppercase;letter-spacing:1.4px;color:#ff8b85;font-weight:700}
-.leader .name{font-size:38px;font-weight:900;font-style:italic;margin:6px 0 2px}
-.leader .pts{font-size:22px;font-weight:700}
-.leader .gap{margin-top:12px;color:var(--text-2)}
-.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.stat{padding:14px 16px}
-.stat .v{font-size:26px;font-weight:900}
-.stat .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700}
-.progress{height:6px;border-radius:6px;background:var(--surface-3);overflow:hidden;margin-top:8px}
-.progress>i{display:block;height:100%;background:var(--red);border-radius:6px}
+/* ---------- position badges ---------- */
+.pos{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 4px;border-radius:9px;font-family:var(--display);font-weight:800;font-size:18px;background:var(--asphalt-3);color:var(--flood)}
+.pos.p1{background:var(--gold);color:#241a00}.pos.p2{background:var(--silver);color:#151a24}.pos.p3{background:var(--bronze);color:#2a1406}
+.pos.s{min-width:24px;height:24px;font-size:15px;border-radius:6px}
 
-/* table */
-.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse}
-th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700;text-align:right;padding:10px 10px;white-space:nowrap}
-td{padding:11px 10px;border-top:1px solid var(--line);text-align:right;white-space:nowrap}
-th.l,td.l{text-align:left}
-tbody tr{cursor:pointer;transition:background .12s}
-tbody tr:hover{background:var(--surface-2)}
-.posn{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:900;background:var(--surface-3);font-size:14px}
-.p1{background:var(--gold);color:#1a1300}.p2{background:var(--silver);color:#15171a}.p3{background:var(--bronze);color:#1c0f04}
-.pname{font-weight:700;font-size:16px}
-.ptsbig{font-weight:900;font-size:18px}
-.hide-sm{}
-@media (max-width:640px){.hide-sm{display:none}.orow [data-up],.orow [data-down]{display:none}.orow{padding:6px}.orow .pname{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}td,th{padding-left:7px;padding-right:7px}.logo{font-size:17px}.logo #leagueName{max-width:34vw;overflow:hidden;text-overflow:ellipsis}.season-select{max-width:38vw}}
+/* ---------- GATE (landing / pending) ---------- */
+body.gate-on header.bar{display:none}
+.gate{min-height:100vh;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.gate::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(60% 50% at 20% 110%,rgba(255,43,58,.22),transparent 70%),
+    radial-gradient(40% 50% at 82% 45%,rgba(255,43,58,.28),transparent 70%),
+    radial-gradient(35% 45% at 70% 70%,rgba(61,110,255,.22),transparent 70%),
+    repeating-linear-gradient(105deg,transparent 0 120px,rgba(255,255,255,.018) 120px 122px)}
+.gate>.wrap{width:100%}
+.gate-top{display:flex;align-items:center;justify-content:space-between;padding-top:22px;padding-bottom:22px}
+.gate-main{flex:1;display:grid;grid-template-columns:1.25fr .9fr;gap:56px;align-items:center;padding-top:20px;padding-bottom:60px}
+.lights{display:flex;gap:14px;margin-bottom:34px}
+.pod{width:58px;padding:9px 0;border-radius:12px;background:linear-gradient(180deg,#1b2032,#0d111d);border:1px solid #2a3149;display:grid;gap:9px;justify-items:center;box-shadow:inset 0 2px 0 rgba(255,255,255,.04),0 12px 30px rgba(0,0,0,.4)}
+.pod i{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#2b0b0f,#14060a 70%);box-shadow:inset 0 2px 6px rgba(0,0,0,.8);transition:background .08s,box-shadow .08s}
+.pod.on i{background:radial-gradient(circle at 40% 35%,#ff8a92,#ff2b3a 45%,#b8000f 80%);box-shadow:0 0 18px 4px rgba(255,43,58,.55),inset 0 -3px 6px rgba(0,0,0,.25)}
+.pod.green i{background:radial-gradient(circle at 40% 35%,#b9ffd9,#2fe08d 45%,#0b8a4e 80%);box-shadow:0 0 18px 4px rgba(47,224,141,.45)}
+.gate-title{font-family:var(--display);font-style:italic;font-weight:900;font-size:clamp(84px,12vw,176px);line-height:.82;letter-spacing:-1px;margin:0 0 22px;text-transform:none}
+.gate-sub{font-size:18px;color:var(--mist);max-width:30em;margin:0}
+.gate-meta{margin-top:26px;display:flex;gap:22px;flex-wrap:wrap;color:var(--dim);font-size:14px}
+.gate-meta span{display:flex;align-items:center;gap:8px}
+.gate-meta i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.gate-card{background:rgba(26,34,60,.45);border:1px solid var(--glass-b);border-radius:26px;padding:28px;box-shadow:var(--glass-hi),0 30px 80px rgba(0,0,0,.45);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%)}
+.gate-card h2{font-family:var(--display);font-style:italic;font-weight:800;font-size:34px;margin-bottom:4px}
+.gate-card .lead{color:var(--mist);margin:0 0 18px;font-size:14.5px}
+.seg{display:inline-flex;background:rgba(5,9,20,.4);border:1px solid var(--glass-b);border-radius:999px;padding:4px;gap:2px;box-shadow:var(--glass-hi)}
+.seg button{background:none;border:1px solid transparent;border-radius:999px;padding:7px 16px;font-weight:700;color:var(--dim);font-size:14px}
+.seg button.on{background:rgba(255,255,255,.1);border-color:var(--glass-b);color:var(--flood);box-shadow:var(--glass-hi)}
+.gate .kerb{height:6px}
+/* lights-out sequence */
+.gate.seq .gate-title,.gate.seq .gate-sub,.gate.seq .gate-meta,.gate.seq .gate-card{opacity:0}
+.gate.go .gate-title{animation:launch .5s cubic-bezier(.2,.9,.2,1) both}
+.gate.go .gate-sub{animation:rise .5s .12s ease-out both}
+.gate.go .gate-meta{animation:rise .5s .2s ease-out both}
+.gate.go .gate-card{animation:rise .55s .18s ease-out both}
+@keyframes launch{from{opacity:0;transform:translateX(-80px) skewX(-12deg);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (max-width:900px){
+  .gate-main{grid-template-columns:1fr;gap:30px;padding-top:0}
 
-/* chart */
-.chart-card{padding:14px 14px 8px}
-.legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
-.legend button{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px;color:var(--text-2)}
-.legend button i{width:10px;height:10px;border-radius:3px;display:block}
-.legend button.off{opacity:.4}
+  .lights{gap:8px;margin-bottom:22px}.pod{width:44px;gap:7px;padding:7px 0}.pod i{width:26px;height:26px}
+  .gate-sub{font-size:16px}
+}
+
+/* ---------- HOME ---------- */
+.home-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:18px;flex-wrap:wrap}
+.home-head h1{font-family:var(--display);font-style:italic;font-weight:900;font-size:56px;line-height:.9}
+.home-head p{margin:6px 0 0;color:var(--mist)}
+.progress{display:flex;gap:3px;margin-top:12px;max-width:420px}
+.progress i{flex:1;height:6px;border-radius:2px;background:var(--asphalt-3)}
+.progress i.d{background:var(--flood)}
+.progress i.n{background:var(--kerb);box-shadow:0 0 8px var(--kerb)}
+.stage{display:grid;grid-template-columns:1fr 330px;gap:18px;align-items:end}
+.podium{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:12px;align-items:end;position:relative;padding-top:10px}
+.pb{display:flex;flex-direction:column;min-width:0}
+.pb-who{padding:0 4px 12px}
+.pb-who .tag{font-size:17px}
+.pb-name{font-family:var(--display);font-style:italic;font-weight:900;font-size:40px;line-height:.95;margin:6px 0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pb-pts{font-family:var(--display);font-weight:700;font-size:20px;color:var(--mist)}
+.pb-pts b{color:var(--flood);font-size:26px}
+.pb-step{position:relative;border-radius:18px 18px 0 0;border-top:4px solid var(--c);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--glass-hi);display:flex;align-items:flex-start;justify-content:center;padding-top:8px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.02)),rgba(24,32,56,.45)}
+.pb-step span{font-family:var(--display);font-weight:900;font-style:italic;font-size:110px;line-height:1;opacity:.95;
+  background:linear-gradient(180deg,var(--m) 10%,rgba(255,255,255,.05) 120%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pb.p1 .pb-step{height:210px;--m:var(--gold)} .pb.p2 .pb-step{height:160px;--m:var(--silver)} .pb.p3 .pb-step{height:122px;--m:var(--bronze)}
+.pb.p1 .pb-name{font-size:52px}
+.podium-base{grid-column:1/-1;height:10px;margin-top:-1px}
+.nextbox{padding:20px;position:relative;overflow:hidden}
+.nextbox::after{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--kerb);box-shadow:0 0 18px var(--kerb)}
+.nextbox small{color:var(--dim);font-weight:600}
+.nextbox .tr{font-family:var(--display);font-style:italic;font-weight:900;font-size:46px;line-height:.95;margin:8px 0 4px;display:flex;gap:10px;align-items:center}
+.nextbox .tr .flag{font-size:34px;font-style:normal}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+@media (max-width:900px){
+  .stage{grid-template-columns:1fr}.cols{grid-template-columns:1fr}
+  .home-head h1{font-size:44px}
+  .pb-name{font-size:24px}.pb.p1 .pb-name{font-size:30px}.pb-who{padding:0 2px 10px}.pb-who .tag{font-size:14px}
+  .pb-pts{font-size:14px}.pb-pts b{font-size:18px}
+  .pb.p1 .pb-step{height:150px}.pb.p2 .pb-step{height:112px}.pb.p3 .pb-step{height:86px}.pb-step span{font-size:74px}
+}
+
+/* ---------- TIMING TOWER ---------- */
+.tower{display:grid;gap:4px}
+.tw{display:grid;grid-template-columns:42px 1fr auto auto;align-items:center;gap:12px;padding:8px 16px 8px 10px;border-radius:14px;background:rgba(24,32,56,.42);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.06);box-shadow:var(--glass-hi);cursor:pointer;position:relative}
+.tw:hover{background:rgba(40,52,86,.55);border-color:var(--glass-b)}
+.tw .who{display:flex;align-items:center;gap:12px;min-width:0}
+.tw .nm{font-weight:600;color:var(--mist);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tw .gap{font-family:var(--display);font-weight:700;font-size:17px;color:var(--dim);min-width:48px;text-align:right}
+.tw .pts{font-family:var(--display);font-weight:800;font-size:24px;min-width:52px;text-align:right}
+.tw.lead{background:linear-gradient(90deg,rgba(255,205,60,.16),rgba(24,32,56,.42) 60%)}
+.tower.full .tw{grid-template-columns:42px minmax(150px,1fr) 150px repeat(4,62px) 60px 64px}
+.tower .hd{display:grid;grid-template-columns:42px minmax(150px,1fr) 150px repeat(4,62px) 60px 64px;gap:12px;padding:0 14px 6px 10px;font-size:12.5px;color:var(--dim);font-weight:600}
+.tower .hd span,.tower.full .tw .c{text-align:right}
+.tower.full .tw .c{font-family:var(--display);font-weight:700;font-size:18px;color:var(--mist)}
+.form{display:flex;gap:3px}
+.form i{width:22px;height:22px;border-radius:5px;display:grid;place-items:center;font-style:normal;font-family:var(--display);font-weight:800;font-size:13px;background:var(--asphalt-3);color:var(--mist)}
+.form i.p1{background:var(--gold);color:#241a00}.form i.p2{background:var(--silver);color:#151a24}.form i.p3{background:var(--bronze);color:#2a1406}
+.form i.x{background:transparent;border:1px dashed var(--line-2)}
+@media (max-width:900px){
+  .tower.full .tw,.tower .hd{grid-template-columns:36px 1fr 52px 58px}
+  .tower .hd .x,.tower.full .tw .x{display:none}
+  .tw{gap:8px}
+}
+
+/* ---------- chart ---------- */
+.chart-wrap{padding:16px 16px 10px;margin-top:18px}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.legend button{display:inline-flex;align-items:center;gap:7px;background:var(--glass-2);border:1px solid var(--glass-b);border-radius:999px;padding:4px 12px;font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.5px;color:var(--flood)}
+.legend button i{width:12px;height:4px;border-radius:2px;background:var(--c)}
+.legend button.off{opacity:.35}
 .chart{position:relative}
 .chart svg{display:block;width:100%;height:auto;overflow:visible}
-.tip{position:absolute;pointer-events:none;background:#0b0b0e;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;min-width:150px;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;transition:opacity .1s;z-index:5}
-.tip .h{font-weight:700;margin-bottom:4px}
-.tip .r{display:flex;align-items:center;gap:8px;justify-content:space-between}
-.tip .r i{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:6px}
+.tip{position:absolute;pointer-events:none;background:#070b16;border:1px solid var(--line-2);border-radius:9px;padding:9px 11px;font-size:13px;min-width:160px;box-shadow:0 16px 40px rgba(0,0,0,.5);opacity:0;transition:opacity .1s;z-index:5}
+.tip .h{font-weight:700;margin-bottom:5px}
+.tip .r{display:flex;justify-content:space-between;gap:10px;align-items:center}
 
-/* races */
-.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
-.seg button{background:none;border:0;border-radius:8px;padding:6px 12px;font-weight:700;color:var(--muted);font-size:14px}
-.seg button.on{background:var(--surface-3);color:var(--text)}
-.races{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px;align-items:start}
-.strip-wrap{position:relative}
-.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,270px);gap:10px;align-items:start;overflow-x:auto;scroll-snap-type:x proximity;scroll-behavior:smooth;padding:2px 2px 14px;scrollbar-width:thin;scrollbar-color:#3c3c44 transparent;-webkit-overflow-scrolling:touch}
-.strip::-webkit-scrollbar{height:8px}.strip::-webkit-scrollbar-thumb{background:#3c3c44;border-radius:8px}
-.strip>.race{scroll-snap-align:start}
-.strip-nav{display:flex;gap:6px}
-.strip-nav button{width:38px;height:34px;border-radius:9px;background:var(--surface-2);border:1px solid var(--line);font-size:18px;font-weight:900;color:var(--text-2);display:grid;place-items:center}
-.strip-nav button:hover{border-color:#55555f;color:var(--text)}
-.dots{display:flex;gap:4px;flex-wrap:wrap;margin:0 0 12px}
-.dots button{width:22px;height:22px;border-radius:6px;border:0;background:var(--surface-2);color:var(--muted);font-size:10px;font-weight:700;padding:0}
-.dots button.done{background:var(--surface-3);color:var(--text-2)}
-.dots button.next{background:var(--red);color:#fff}
-@media (max-width:640px){.strip{grid-auto-columns:82vw}.strip-nav{display:none}}
-.race{padding:14px;cursor:pointer;transition:border-color .12s,transform .12s;position:relative}
-.race:hover{border-color:#4a4a52}
-.race .rn{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase}
-.race .tn{font-size:19px;font-weight:900;margin:2px 0 10px;display:flex;align-items:center;gap:8px}
-.race.next{border-color:rgba(225,6,0,.6);background:linear-gradient(180deg,rgba(225,6,0,.08),var(--surface))}
-.race.todo .tn{color:var(--text-2)}
-.podium{display:grid;gap:5px}
-.podium .pr{display:flex;align-items:center;gap:8px;font-size:14px}
-.podium .pr .posn{width:22px;height:22px;font-size:12px;border-radius:6px}
-.podium .pr .pp{margin-left:auto;color:var(--muted);font-size:13px}
+/* ---------- RACES ---------- */
+.lapbar{display:flex;gap:3px;flex-wrap:wrap;margin:0 0 14px}
+.lapbar button{min-width:32px;height:32px;border-radius:999px;border:1px solid var(--glass-b);background:rgba(255,255,255,.03);color:var(--dim);font-family:var(--display);font-weight:800;font-size:15px;padding:0 6px}
+.lapbar button.d{background:var(--asphalt-3);color:var(--flood);border-color:var(--asphalt-3)}
+.lapbar button.n{background:var(--kerb);border-color:var(--kerb);color:#fff;box-shadow:0 0 12px rgba(255,43,58,.45)}
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(262px,280px);gap:12px;align-items:start;overflow-x:auto;scroll-snap-type:x proximity;scroll-behavior:smooth;padding:2px 2px 16px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.strip::-webkit-scrollbar{height:8px}.strip::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:8px}
+.board{scroll-snap-align:start;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--glass-hi);border:1px solid var(--glass-b);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:border-color .15s}
+.board:hover{border-color:var(--line-2)}
+.board .kerb{height:5px}
+.board .bh{padding:14px 16px 10px}
+.board .bh small{color:var(--dim);font-weight:600}
+.board .bh h3{font-family:var(--display);font-style:italic;font-weight:900;font-size:30px;line-height:1;margin-top:4px;display:flex;gap:9px;align-items:center}
+.board .bh h3 .flag{font-style:normal;font-size:22px}
+.board .rl{padding:0 10px 12px;display:grid;gap:2px}
+.rrow{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:10px;padding:5px 8px;border-radius:10px}
+.rrow:nth-child(odd){background:rgba(255,255,255,.025)}
+.rrow .nm{color:var(--mist);font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rrow .pp{font-family:var(--display);font-weight:700;color:var(--mist);font-size:16px}
+.board.next{border-color:rgba(255,43,58,.55);box-shadow:0 0 0 1px rgba(255,43,58,.25),0 18px 50px rgba(255,43,58,.12)}
+.board.next .bar-n{height:5px;background:var(--kerb)}
+.board.todo{opacity:.55}
+.board.todo .bar-n{height:5px;background:repeating-linear-gradient(90deg,var(--line-2) 0 8px,transparent 8px 14px)}
+.board .soon{padding:4px 16px 18px;color:var(--dim)}
+.navbtns{display:flex;gap:6px}
+.navbtns button{width:38px;height:38px;border-radius:50%;background:var(--glass-2);border:1px solid var(--glass-b);box-shadow:var(--glass-hi);color:var(--mist);font-size:18px;font-weight:800}
+.navbtns button:hover{color:var(--flood);border-color:var(--line-2)}
+.matrix{border-collapse:separate;border-spacing:3px;width:max-content}
+.matrix th{font-size:11px;color:var(--dim);font-weight:600;padding:2px 0}
+.matrix td.l,.matrix th.l{text-align:left;position:sticky;left:0;background:var(--asphalt);z-index:1;padding-right:12px}
+.matrix .c{display:grid;place-items:center;width:30px;height:28px;border-radius:5px;font-family:var(--display);font-weight:800;font-size:15px;background:var(--asphalt-3);position:relative}
+.matrix .c.p1{background:var(--gold);color:#241a00}.matrix .c.p2{background:var(--silver);color:#151a24}.matrix .c.p3{background:var(--bronze);color:#2a1406}
+.matrix .c.e{background:transparent;color:var(--line-2)}
+.matrix .c.f::after{content:"";position:absolute;top:2px;right:2px;width:6px;height:6px;border-radius:50%;background:var(--purple)}
+.scrollx{overflow-x:auto;padding:12px}
+@media (max-width:640px){.strip{grid-auto-columns:84vw}.navbtns{display:none}}
 
-.matrix td,.matrix th{padding:6px 4px;text-align:center;border-top:1px solid var(--line)}
-.matrix th{font-size:10px;letter-spacing:.5px}
-.matrix td.l,.matrix th.l{text-align:left;padding-left:10px;position:sticky;left:0;background:var(--surface);z-index:1}
-.matrix .c{display:inline-grid;place-items:center;width:28px;height:26px;border-radius:6px;font-weight:700;font-size:13px;background:var(--surface-2);position:relative}
-.matrix .c.p1{background:var(--gold)}.matrix .c.p2{background:var(--silver)}.matrix .c.p3{background:var(--bronze)}
-.matrix .c.e{background:none;color:#4a4a52}
-.matrix .c.f::after{content:"";position:absolute;top:2px;right:2px;width:5px;height:5px;border-radius:50%;background:var(--purple)}
-.matrix tbody tr{cursor:default}
+/* ---------- DRIVERS ---------- */
+.drivers{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.dcard{position:relative;overflow:hidden;padding:18px 18px 16px;cursor:pointer;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--glass-hi);border:1px solid var(--glass-b);border-radius:var(--r);transition:border-color .15s,transform .15s}
+.dcard:hover{border-color:var(--c);transform:translateY(-2px)}
+.dcard::before{content:"";position:absolute;right:-30px;top:-20px;width:140px;height:160px;background:var(--c);opacity:.16;transform:skewX(-22deg)}
+.dcard::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c)}
+.dcard .code{font-family:var(--display);font-style:italic;font-weight:900;font-size:64px;line-height:.85;color:transparent;-webkit-text-stroke:1.5px var(--c);letter-spacing:1px}
+.dcard .nm{font-family:var(--display);font-style:italic;font-weight:800;font-size:28px;margin-top:6px}
+.dcard .meta{color:var(--dim);font-size:13.5px;min-height:20px}
+.dstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.dstats b{display:block;font-family:var(--display);font-weight:800;font-size:24px;line-height:1}
+.dstats span{font-size:12px;color:var(--dim)}
+.cups{color:var(--gold);letter-spacing:2px}
+.dhero{position:relative;overflow:hidden;padding:26px;border-radius:var(--r);border:1px solid var(--glass-b);box-shadow:var(--glass-hi);background:linear-gradient(110deg,color-mix(in srgb,var(--c) 22%,var(--asphalt-2)) 0%,var(--asphalt) 55%);margin-bottom:18px}
+.dhero .code{position:absolute;right:20px;top:-14px;font-family:var(--display);font-style:italic;font-weight:900;font-size:180px;line-height:1;color:transparent;-webkit-text-stroke:2px color-mix(in srgb,var(--c) 70%,transparent);opacity:.6}
+.dhero h1{font-family:var(--display);font-style:italic;font-weight:900;font-size:64px;line-height:.9;position:relative}
+.dhero p{position:relative;color:var(--mist);margin:8px 0 0}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.kv>div{padding:14px 16px}
+.kv b{display:block;font-family:var(--display);font-weight:800;font-size:32px;line-height:1}
+.kv span{font-size:13px;color:var(--dim)}
+.kv em{display:block;font-style:normal;font-size:12px;color:var(--mist);margin-top:4px}
+table.t{width:100%;border-collapse:collapse}
+table.t th{font-size:12.5px;color:var(--dim);font-weight:600;text-align:right;padding:10px 12px}
+table.t td{padding:10px 12px;border-top:1px solid var(--line);text-align:right}
+table.t th.l,table.t td.l{text-align:left}
+table.t tr.click{cursor:pointer}
+table.t tr.click:hover td{background:rgba(255,255,255,.03)}
+.h2h{padding:18px}
+.h2h .score{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+.h2h .score b{font-family:var(--display);font-weight:900;font-size:40px}
+.h2h .bar{display:flex;height:10px;border-radius:5px;overflow:hidden;gap:2px;margin:6px 0}
+.back{background:none;border:0;color:var(--mist);padding:0;margin-bottom:14px;font-weight:600}
+.back:hover{color:var(--flood)}
 
-/* players */
-.players{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
-.pcard{padding:16px;cursor:pointer}
-.pcard:hover{border-color:#4a4a52}
-.avatar{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:900;font-style:italic;font-size:18px;background:var(--surface-3);flex:none}
-.pcard .meta{font-size:13px;color:var(--muted)}
-.minis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
-.mini .v{font-weight:900;font-size:18px}
-.mini .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
-.back{background:none;border:0;color:var(--text-2);padding:0;margin-bottom:12px;display:inline-flex;align-items:center;gap:6px;font-weight:600}
-.trophy{color:var(--gold)}
+/* ---------- HALL OF FAME ---------- */
+.champs{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.champ{position:relative;overflow:hidden;padding:20px;cursor:pointer;border-radius:var(--r);border:1px solid var(--glass-b);background:radial-gradient(120% 90% at 100% 0%,rgba(255,205,60,.14),transparent 55%),rgba(24,32,56,.5);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--glass-hi)}
+.champ.live{background:radial-gradient(120% 90% at 100% 0%,rgba(255,43,58,.16),transparent 55%),rgba(24,32,56,.5)}
+.champ svg{position:absolute;right:16px;top:16px;width:46px;height:46px;color:var(--gold);opacity:.9}
+.champ.live svg{color:var(--kerb)}
+.champ small{color:var(--dim);font-weight:600}
+.champ h3{font-family:var(--display);font-style:italic;font-weight:900;font-size:44px;line-height:.95;margin:8px 0 2px}
+.champ .rest{margin-top:12px;display:grid;gap:4px;font-size:14px;color:var(--mist)}
+.champ .rest div{display:flex;align-items:center;gap:8px}
+.champ .rest b{margin-left:auto;font-family:var(--display);font-size:16px;color:var(--mist)}
+.boards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:12px}
+.lb{padding:16px}
+.lb h3{font-family:var(--display);font-style:italic;font-weight:800;font-size:24px;margin-bottom:8px}
+.lb .r{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:6px 0;border-top:1px solid var(--line);cursor:pointer}
+.lb .r:first-of-type{border-top:0}
+.lb .r b{font-family:var(--display);font-weight:800;font-size:20px}
 
-/* forms / admin */
-.btn{background:var(--surface-3);border:1px solid #3c3c44;border-radius:10px;padding:9px 14px;font-weight:700;display:inline-flex;align-items:center;gap:6px;justify-content:center}
-.btn:hover{border-color:#55555f}
-.btn.primary{background:var(--red);border-color:var(--red);color:#fff}
-.btn.primary:hover{background:#f21810}
-.btn.danger{background:transparent;border-color:rgba(208,59,59,.5);color:#ff8a8a}
-.btn.sm{padding:5px 10px;font-size:13px;border-radius:8px}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.input,select.input{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%}
-.input:focus{outline:2px solid rgba(225,6,0,.5);outline-offset:0;border-color:transparent}
-label.f{display:grid;gap:5px;font-size:13px;color:var(--text-2);font-weight:600}
+/* ---------- ADMIN ---------- */
 details.adm{margin-bottom:10px}
-details.adm>summary{list-style:none;cursor:pointer;padding:16px;font-weight:700;font-size:17px;display:flex;align-items:center;gap:10px}
+details.adm>summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;align-items:center;gap:12px;font-family:var(--display);font-style:italic;font-weight:800;font-size:24px}
 details.adm>summary::-webkit-details-marker{display:none}
-details.adm>summary::after{content:"›";margin-left:auto;font-size:22px;color:var(--muted);transition:transform .15s}
-details.adm[open]>summary::after{transform:rotate(90deg)}
-details.adm .body{padding:0 16px 16px}
+details.adm>summary small{font-family:var(--body);font-style:normal;font-weight:500;font-size:13px;color:var(--dim)}
+details.adm>summary::after{content:"";width:9px;height:9px;border-right:2px solid var(--dim);border-bottom:2px solid var(--dim);transform:rotate(-45deg);margin-left:auto;transition:transform .15s}
+details.adm[open]>summary::after{transform:rotate(45deg)}
+details.adm .body{padding:0 18px 18px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-weight:700}
-.chip:hover{border-color:#55555f}
-.chip.used{opacity:.3;pointer-events:none}
-.order{display:grid;gap:6px;margin:12px 0}
-.orow{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:6px 8px}
-.orow .pname{flex:1}
-.orow .pp{color:var(--muted);font-size:13px;min-width:44px;text-align:right}
-.drag{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;color:var(--muted);font-size:18px;line-height:1;padding:6px 4px;flex:none}
-.drag:active{cursor:grabbing}
-.orow{transition:transform .15s ease}
-.orow.dragging{transition:none;position:relative;z-index:3;box-shadow:0 10px 24px rgba(0,0,0,.5);border-color:#55555f;background:var(--surface-3)}
-.acct{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-style:italic;background:var(--red);color:#fff;border:0;flex:none}
-.tabs-in{display:flex;gap:4px;margin-bottom:14px}
-.racelist{display:grid;gap:4px}
-.racelist .pr{display:flex;align-items:center;gap:8px;font-size:14px;padding:2px 0}
-.racelist .pr .posn{width:22px;height:22px;font-size:12px;border-radius:6px}
-.racelist .pr .pp{margin-left:auto;color:var(--muted);font-size:13px}
-.racelist .pr.low{color:var(--text-2)}
-.mini-btn{background:var(--surface-3);border:0;border-radius:7px;width:30px;height:30px;display:grid;place-items:center;font-weight:900;color:var(--text-2)}
-.mini-btn.on{background:var(--purple);color:#fff}
-.mini-btn:disabled{opacity:.3}
-.list-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line)}
-.list-row:first-child{border-top:0}
-.empty{padding:40px 20px;text-align:center;color:var(--muted)}
-.hint{font-size:13px;color:var(--muted);margin:6px 0 10px}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--glass-2);border:1px solid var(--glass-b);border-radius:999px;padding:8px 16px 8px 12px;font-weight:600;box-shadow:var(--glass-hi)}
+.chip:hover{border-color:var(--c)}
+.chip.used{opacity:.28;pointer-events:none}
+.order{display:grid;gap:6px;margin:14px 0}
+.orow{display:flex;align-items:center;gap:10px;background:var(--glass-2);border:1px solid var(--glass-b);border-left:4px solid var(--c);border-radius:999px;box-shadow:var(--glass-hi);padding:6px 8px;transition:transform .15s ease}
+.orow.dragging{transition:none;position:relative;z-index:3;box-shadow:0 14px 30px rgba(0,0,0,.5);border-color:var(--flood)}
+.orow .nm{flex:1;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.orow .pp{color:var(--mist);font-family:var(--display);font-weight:700;font-size:17px;min-width:40px;text-align:right}
+.drag{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;color:var(--dim);font-size:18px;padding:4px 2px}
+.mb{background:rgba(255,255,255,.06);border:1px solid var(--glass-b);border-radius:999px;min-width:32px;height:32px;padding:0 8px;display:grid;place-items:center;font-weight:800;color:var(--mist)}
+.mb.on{background:var(--purple);color:#fff;box-shadow:0 0 12px rgba(176,124,255,.6)}
+.mb:disabled{opacity:.25}
+.lrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.lrow:first-child{border-top:0}
+@media (max-width:640px){.orow [data-up],.orow [data-down]{display:none}}
 
-/* modal */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:50;display:flex;align-items:flex-end;justify-content:center;animation:fade .15s}
-.modal{background:var(--surface);border:1px solid var(--line);border-radius:18px 18px 0 0;width:100%;max-width:560px;max-height:88vh;overflow:auto;padding:20px;animation:up .2s ease-out}
-@media (min-width:640px){.modal-bg{align-items:center}.modal{border-radius:18px}}
-@keyframes fade{from{opacity:0}}@keyframes up{from{transform:translateY(30px);opacity:0}}
-.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#0b0b0e;border:1px solid var(--line);padding:10px 16px;border-radius:12px;z-index:60;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:90vw}
-.toast.err{border-color:rgba(208,59,59,.7);color:#ff9a9a}
-.toast.ok{border-color:rgba(12,163,12,.6)}
-.loading{display:grid;place-items:center;min-height:50vh;color:var(--muted)}
-.spin{width:34px;height:34px;border:3px solid var(--surface-3);border-top-color:var(--red);border-radius:50%;animation:sp 0.8s linear infinite;margin:0 auto 12px}
-@keyframes sp{to{transform:rotate(360deg)}}
-.flag{font-size:1.05em}
+/* ---------- modal ---------- */
+.modal-bg{position:fixed;inset:0;background:rgba(3,6,14,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:60;display:flex;align-items:flex-end;justify-content:center;animation:fade .15s}
+.modal{background:rgba(22,30,52,.72);backdrop-filter:blur(26px) saturate(160%);-webkit-backdrop-filter:blur(26px) saturate(160%);box-shadow:var(--glass-hi),0 30px 80px rgba(0,0,0,.5);border:1px solid var(--glass-b);border-radius:26px 26px 0 0;width:100%;max-width:540px;max-height:88vh;overflow:auto;animation:up .22s ease-out}
+.modal .kerb{height:6px}
+.modal .mc{padding:22px}
+@media (min-width:640px){.modal-bg{align-items:center}.modal{border-radius:26px}}
+@keyframes fade{from{opacity:0}}@keyframes up{from{transform:translateY(24px);opacity:0}}
 </style>
 <script src="config.js"></script>
 </head>
 <body>
-<header class="top"><div class="wrap topbar">
-  <div class="logo"><span class="mark">F1</span><span id="leagueName">F1 Liga</span></div>
-  <div class="spacer"></div>
-  <select id="seasonSel" class="season-select" aria-label="Sezóna"></select>
-  <button class="icon-btn" id="refreshBtn" title="Obnoviť dáta" aria-label="Obnoviť dáta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button>
-  <button class="icon-btn" id="accountBtn" title="Účet" aria-label="Účet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></button>
-</div></header>
-<nav class="tabs" id="tabs"></nav>
-<main class="wrap" id="app"><div class="loading"><div><div class="spin"></div>Načítavam…</div></div></main>
+<header class="bar" id="bar">
+  <div class="wrap bar-in">
+    <a class="mark" href="#/home" aria-label="Domov"><i></i><b id="leagueName">F1 Liga</b></a>
+    <nav class="tabs" id="tabs"></nav>
+    <div class="bar-r">
+      <select id="seasonSel" class="sel" aria-label="Sezóna"></select>
+      <button class="ibtn" id="refreshBtn" title="Obnoviť dáta" aria-label="Obnoviť dáta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button>
+      <button class="avatar" id="accountBtn" title="Účet" aria-label="Účet"></button>
+    </div>
+  </div>
+  <div class="kerb" style="height:4px"></div>
+</header>
+<main id="app"><div class="loading">Načítavam…</div></main>
 <div id="modalRoot"></div>
 
 <script type="module">
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 const CFG = window.F1_CONFIG || {};
+const LEAGUE = CFG.leagueName || "F1 Liga";
 const $app = document.getElementById("app");
 const $modal = document.getElementById("modalRoot");
-const SERIES = ["--s1","--s2","--s3","--s4","--s5","--s6","--s7","--s8"].map(v => getComputedStyle(document.documentElement).getPropertyValue(v).trim());
 const DEFAULT_SCHEME = [25,18,15,12,10,8,6,4,2,1];
-
-document.getElementById("leagueName").textContent = CFG.leagueName || "F1 Liga";
-document.title = CFG.leagueName || "F1 Liga";
+const LIVERY = ["#3d8bff","#ff8a1f","#18c9a0","#f5d442","#ff5fa8","#6fd0ff","#a6e33a","#ff4d4d","#9d8cff","#e9edf5","#7ef0c4","#c08552","#5b67e0","#e05cff"];
+document.getElementById("leagueName").textContent = LEAGUE;
+document.title = LEAGUE;
 
 // ---------- helpers ----------
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const FLAGS = {bahrain:"🇧🇭",jeddah:"🇸🇦","saudi":"🇸🇦",australia:"🇦🇺",melbourne:"🇦🇺",suzuka:"🇯🇵",japan:"🇯🇵",china:"🇨🇳",shanghai:"🇨🇳",miami:"🇺🇸",imola:"🇮🇹",monaco:"🇲🇨",canada:"🇨🇦",montreal:"🇨🇦",barcelona:"🇪🇸",spain:"🇪🇸",madrid:"🇪🇸","red bull":"🇦🇹",austria:"🇦🇹",silverstone:"🇬🇧",hungaroring:"🇭🇺",hungary:"🇭🇺",spa:"🇧🇪",zandvoort:"🇳🇱",monza:"🇮🇹",baku:"🇦🇿",singapore:"🇸🇬",usa:"🇺🇸",austin:"🇺🇸",mexico:"🇲🇽",interlagos:"🇧🇷",brazil:"🇧🇷","las vegas":"🇺🇸",qatar:"🇶🇦","abu dhabi":"🇦🇪",portugal:"🇵🇹",portimao:"🇵🇹",paul:"🇫🇷",france:"🇫🇷"};
-const flag = t => { const k = (t||"").toLowerCase(); for (const [n,f] of Object.entries(FLAGS)) if (k.includes(n)) return f; return "🏁"; };
-const initials = n => (n||"?").trim().slice(0,2).toUpperCase();
+const FLAGS = {bahrain:"🇧🇭",jeddah:"🇸🇦",saudi:"🇸🇦",australia:"🇦🇺",melbourne:"🇦🇺",suzuka:"🇯🇵",japan:"🇯🇵",china:"🇨🇳",shanghai:"🇨🇳",miami:"🇺🇸",imola:"🇮🇹",monaco:"🇲🇨",canada:"🇨🇦",montreal:"🇨🇦",barcelona:"🇪🇸",spain:"🇪🇸",madrid:"🇪🇸","red bull":"🇦🇹",austria:"🇦🇹",silverstone:"🇬🇧",hungaroring:"🇭🇺",hungary:"🇭🇺",spa:"🇧🇪",zandvoort:"🇳🇱",monza:"🇮🇹",baku:"🇦🇿",singapore:"🇸🇬",usa:"🇺🇸",austin:"🇺🇸",mexico:"🇲🇽",interlagos:"🇧🇷",brazil:"🇧🇷","las vegas":"🇺🇸",qatar:"🇶🇦","abu dhabi":"🇦🇪",portugal:"🇵🇹",portimao:"🇵🇹",paul:"🇫🇷",france:"🇫🇷"};
+const flag = t => { const k = (t || "").toLowerCase(); for (const [n, f] of Object.entries(FLAGS)) if (k.includes(n)) return f; return "🏁"; };
 const fmtAvg = v => v == null ? "–" : v.toFixed(1).replace(".", ",");
 const plural = (n, one, few, many) => n === 1 ? one : (n >= 2 && n <= 4 ? few : many);
+const fmtDate = d => d ? new Date(d).toLocaleDateString("sk-SK", { day: "numeric", month: "numeric" }) : "";
+const TROPHY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a4 4 0 0 1-4 4M7 5H4v2a4 4 0 0 0 4 4"/></svg>';
 function toast(msg, kind = "ok") {
   const t = document.createElement("div"); t.className = "toast " + kind; t.textContent = msg;
-  document.body.appendChild(t); setTimeout(() => t.remove(), kind === "err" ? 4200 : 2400);
+  document.body.appendChild(t); setTimeout(() => t.remove(), kind === "err" ? 4500 : 2600);
 }
 const errMsg = e => {
   const m = (e && (e.message || e.error_description)) || String(e);
@@ -271,48 +407,42 @@ const errMsg = e => {
   if (/Password should be at least/i.test(m)) return "Heslo musí mať aspoň 6 znakov";
   if (/Email not confirmed/i.test(m)) return "Email ešte nie je potvrdený";
   if (/Unable to validate email|invalid format/i.test(m)) return "Neplatný email";
-  if (/permission denied for function/i.test(m)) return "Musíš byť prihlásený";
+  if (/permission denied/i.test(m)) return "Na toto nemáš prístup";
   if (/results_race_id_player_id_key/.test(m)) return "Jeden jazdec je v závode dvakrát";
   if (/results_race_id_position_key/.test(m)) return "Dve rovnaké pozície v závode";
   if (/players_name_key/.test(m)) return "Hráč s týmto menom už existuje";
-  if (/violates foreign key/.test(m) && /players/.test(m)) return "Hráč má zapísané výsledky – nedá sa zmazať, iba deaktivovať";
-  if (/Failed to fetch|NetworkError/i.test(m)) return "Nepodarilo sa spojiť so serverom";
+  if (/Failed to fetch|NetworkError|Load failed/i.test(m)) return "Nepodarilo sa spojiť so serverom";
   return m;
 };
 
 // ---------- state ----------
 const S = {
   players: [], seasons: [], races: [], results: [], post: [],
-  seasonId: null, tab: "home", view: null,
-  raceView: "cards", hidden: new Set(), h2h: null,
-  user: null, profile: null, profiles: [], authTab: "login",
-  edit: null, loaded: false,
+  seasonId: null, tab: "home", view: null, raceView: "cards", hidden: new Set(), h2h: null,
+  user: null, profile: null, profiles: [], authTab: "login", edit: null, loaded: false,
 };
-
-let sb = null;
 const configured = CFG.supabaseUrl && CFG.supabaseKey && !/SEM_VLOZ/.test(CFG.supabaseUrl + CFG.supabaseKey);
-if (configured) sb = createClient(CFG.supabaseUrl, CFG.supabaseKey);
-const ROLE_LABEL = { viewer: "Divák", editor: "Zapisovateľ", admin: "Admin" };
+const sb = configured ? createClient(CFG.supabaseUrl, CFG.supabaseKey) : null;
+const ROLE_LABEL = { pending: "Čaká na schválenie", viewer: "Člen", editor: "Zapisovateľ", admin: "Admin" };
+const isMember = () => ["viewer", "editor", "admin"].includes(S.profile?.role);
 const canEdit = () => ["editor", "admin"].includes(S.profile?.role);
 const isAdmin = () => S.profile?.role === "admin";
+
 async function loadProfile() {
   if (!S.user) { S.profile = null; S.profiles = []; return; }
   const { data, error } = await sb.rpc("my_profile");
   S.profile = error ? null : data;
   if (isAdmin()) { const r = await sb.rpc("list_profiles"); S.profiles = r.data || []; } else S.profiles = [];
 }
-
 async function fetchAll(table, cols, order = "id") {
-  const out = []; const size = 1000;
-  for (let from = 0; ; from += size) {
-    const { data, error } = await sb.from(table).select(cols).order(order).range(from, from + size - 1);
+  const out = [];
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await sb.from(table).select(cols).order(order).range(from, from + 999);
     if (error) throw error;
-    out.push(...data);
-    if (data.length < size) break;
+    out.push(...data); if (data.length < 1000) break;
   }
   return out;
 }
-
 async function load() {
   const [players, seasons, races, results, post] = await Promise.all([
     fetchAll("players", "id,name,active"),
@@ -323,72 +453,71 @@ async function load() {
   ]);
   Object.assign(S, { players, seasons, races, results, post, loaded: true });
   S.seasons.sort((a, b) => a.sort_order - b.sort_order || a.id - b.id);
-  if (!S.seasonId || !S.seasons.some(s => s.id === S.seasonId)) {
-    S.seasonId = (S.seasons.find(s => s.is_current) || S.seasons[S.seasons.length - 1] || {}).id ?? null;
-  }
+  if (!S.seasonId || !S.seasons.some(s => s.id === S.seasonId)) S.seasonId = (S.seasons.find(s => s.is_current) || S.seasons[S.seasons.length - 1] || {}).id ?? null;
   idx();
 }
+function unload() { Object.assign(S, { players: [], seasons: [], races: [], results: [], post: [], loaded: false, edit: null }); idx(); }
 
-// ---------- derived data ----------
-let P = new Map(), RES_BY_RACE = new Map();
+// ---------- derived ----------
+let P = new Map(), RES_BY_RACE = new Map(), COLOR = new Map(), CODE = new Map();
 function idx() {
   P = new Map(S.players.map(p => [p.id, p]));
   RES_BY_RACE = new Map();
-  for (const r of S.results) {
-    if (!RES_BY_RACE.has(r.race_id)) RES_BY_RACE.set(r.race_id, []);
-    RES_BY_RACE.get(r.race_id).push(r);
-  }
-  for (const arr of RES_BY_RACE.values()) arr.sort((a, b) => a.position - b.position);
+  for (const r of S.results) { if (!RES_BY_RACE.has(r.race_id)) RES_BY_RACE.set(r.race_id, []); RES_BY_RACE.get(r.race_id).push(r); }
+  for (const a of RES_BY_RACE.values()) a.sort((x, y) => x.position - y.position);
+  COLOR = new Map(); CODE = new Map();
+  const ps = [...S.players].sort((a, b) => a.id - b.id); const used = new Set();
+  const norm = n => n.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^A-Za-z]/g, "").toUpperCase();
+  ps.forEach((p, i) => {
+    COLOR.set(p.id, LIVERY[i % LIVERY.length]);
+    const n = norm(p.name).padEnd(5, "X");
+    const c = [[0,1,2],[0,2,3],[0,1,3],[0,2,4],[0,3,4],[0,1,4]].map(ix => ix.map(k => n[k]).join("")).find(x => !used.has(x)) || (n.slice(0, 2) + (p.id % 10));
+    used.add(c); CODE.set(p.id, c);
+  });
 }
 const season = id => S.seasons.find(s => s.id === id);
 const pname = id => P.get(id)?.name ?? "?";
+const col = id => COLOR.get(id) || "#888";
+const code = id => CODE.get(id) || "???";
+const tag = id => `<span class="tag" style="--c:${col(id)}">${esc(code(id))}</span>`;
+const posb = (p, small) => `<span class="pos ${p <= 3 ? "p" + p : ""} ${small ? "s" : ""}">${p}</span>`;
 const ptsFor = (s, r) => ((s.points_scheme || DEFAULT_SCHEME)[r.position - 1] || 0) + (r.fastest_lap ? (s.fastest_lap_bonus || 0) : 0);
 const seasonRaces = sid => S.races.filter(r => r.season_id === sid).sort((a, b) => a.round - b.round);
 
 function standings(sid) {
   const s = season(sid); if (!s) return { rows: [], races: [], done: [] };
-  const races = seasonRaces(sid);
-  const done = races.filter(r => RES_BY_RACE.has(r.id));
+  const races = seasonRaces(sid); const done = races.filter(r => RES_BY_RACE.has(r.id));
   const map = new Map();
-  const get = pid => {
-    if (!map.has(pid)) map.set(pid, { pid, pts: 0, wins: 0, podiums: 0, starts: 0, posSum: 0, best: null, fl: 0, counts: Array(31).fill(0), odk: 0, cum: [] });
-    return map.get(pid);
-  };
+  const get = pid => { if (!map.has(pid)) map.set(pid, { pid, pts: 0, wins: 0, podiums: 0, starts: 0, posSum: 0, best: null, fl: 0, counts: Array(31).fill(0), odk: 0, cum: [], form: [] }); return map.get(pid); };
   for (const race of done) for (const r of RES_BY_RACE.get(race.id)) {
-    const o = get(r.player_id);
-    o.pts += ptsFor(s, r); o.starts++; o.posSum += r.position; o.counts[r.position]++;
-    if (r.position === 1) o.wins++;
-    if (r.position <= 3) o.podiums++;
-    if (r.fastest_lap) o.fl++;
+    const o = get(r.player_id); o.pts += ptsFor(s, r); o.starts++; o.posSum += r.position; o.counts[r.position]++;
+    if (r.position === 1) o.wins++; if (r.position <= 3) o.podiums++; if (r.fastest_lap) o.fl++;
     o.best = o.best == null ? r.position : Math.min(o.best, r.position);
   }
   for (const pp of S.post.filter(x => x.season_id === sid && x.count > 0)) get(pp.player_id).odk = pp.count;
-  // cumulative per finished race
   for (const o of map.values()) {
     let acc = 0;
     o.cum = done.map(race => { const r = RES_BY_RACE.get(race.id).find(x => x.player_id === o.pid); if (r) acc += ptsFor(s, r); return acc; });
+    o.form = done.slice(-5).map(race => RES_BY_RACE.get(race.id).find(x => x.player_id === o.pid)?.position ?? null);
   }
   const rows = [...map.values()].map(o => ({ ...o, avg: o.starts ? o.posSum / o.starts : null }));
   rows.sort((a, b) => b.pts - a.pts || cmpCounts(a, b) || pname(a.pid).localeCompare(pname(b.pid), "sk"));
   return { rows, races, done, season: s };
 }
 function cmpCounts(a, b) { for (let i = 1; i <= 30; i++) if (a.counts[i] !== b.counts[i]) return b.counts[i] - a.counts[i]; return 0; }
-function isFinished(s) { const races = seasonRaces(s.id); return !s.is_current && races.length > 0 && races.some(r => RES_BY_RACE.has(r.id)); }
-
+function isFinished(s) { const r = seasonRaces(s.id); return !s.is_current && r.length > 0 && r.some(x => RES_BY_RACE.has(x.id)); }
 function allTime() {
   const map = new Map();
   for (const p of S.players) map.set(p.id, { pid: p.id, pts: 0, wins: 0, podiums: 0, starts: 0, posSum: 0, fl: 0, titles: 0, titleNames: [], seasons: [] });
-  for (const s of S.seasons) {
-    const st = standings(s.id);
-    st.rows.forEach((row, i) => {
-      const o = map.get(row.pid); if (!o) return;
-      o.pts += row.pts; o.wins += row.wins; o.podiums += row.podiums; o.starts += row.starts; o.posSum += row.posSum; o.fl += row.fl;
-      o.seasons.push({ sid: s.id, name: s.name, place: i + 1, pts: row.pts, wins: row.wins, podiums: row.podiums, fl: row.fl, starts: row.starts, avg: row.avg, finished: isFinished(s), current: s.is_current });
-      if (i === 0 && isFinished(s)) { o.titles++; o.titleNames.push(s.name); }
-    });
-  }
+  for (const s of S.seasons) standings(s.id).rows.forEach((row, i) => {
+    const o = map.get(row.pid); if (!o) return;
+    o.pts += row.pts; o.wins += row.wins; o.podiums += row.podiums; o.starts += row.starts; o.posSum += row.posSum; o.fl += row.fl;
+    o.seasons.push({ sid: s.id, name: s.name, place: i + 1, pts: row.pts, wins: row.wins, podiums: row.podiums, fl: row.fl, starts: row.starts, avg: row.avg, current: s.is_current });
+    if (i === 0 && isFinished(s)) { o.titles++; o.titleNames.push(s.name); }
+  });
   return [...map.values()].map(o => ({ ...o, avg: o.starts ? o.posSum / o.starts : null }));
 }
+const formHtml = f => `<span class="form">${f.map(p => p == null ? '<i class="x"></i>' : `<i class="${p <= 3 ? "p" + p : ""}">${p}</i>`).join("")}</span>`;
 
 // ---------- routing ----------
 function readHash() {
@@ -401,175 +530,180 @@ function go(tab, view = null, sid = S.seasonId) {
   const h = `#/${tab}/${sid ?? ""}${view != null ? "/" + encodeURIComponent(view) : ""}`;
   if (location.hash !== h) location.hash = h; else render();
 }
-window.addEventListener("hashchange", () => { readHash(); render(); window.scrollTo({ top: 0 }); if (S.tab === "admin" && isAdmin()) loadProfile().then(() => { if (S.tab === "admin") { const st = keepOpen(); render(); restoreOpen(st); } }); });
+window.addEventListener("hashchange", () => {
+  readHash(); render(); window.scrollTo({ top: 0 });
+  if (S.tab === "admin" && isAdmin()) loadProfile().then(() => { if (S.tab === "admin") { const st = keepOpen(); render(); restoreOpen(st); } });
+});
 
-// ---------- tabs ----------
+// ---------- shell ----------
 const ICONS = {
-  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>',
-  standings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21V11H3v10h5zM15.5 21V4h-7v17h7zM21 21v-7h-5.5v7H21z"/></svg>',
-  races: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>',
-  players: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-7 7-7s7 3 7 7"/><path d="M16 4a4 4 0 0 1 0 8M22 21c0-3-1.5-5.5-4-6.5"/></svg>',
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>',
+  standings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h11M4 18h7"/></svg>',
+  races: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22V4"/><path d="M5 4h4v4H5zM13 4h4v4h-4zM9 8h4v4H9zM17 8h2v4h-2zM5 12h4v4H5zM13 12h4v4h-4z"/></svg>',
+  players: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 8 0 0 1 16 0v3H4z"/><path d="M4 13h16"/><path d="M12 7V4"/></svg>',
   hof: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a4 4 0 0 1-4 4M7 5H4v2a4 4 0 0 0 4 4"/></svg>',
-  admin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+  admin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
 };
-const TABS = [["home","Domov"],["standings","Poradie"],["races","Preteky"],["players","Hráči"],["hof","Sieň slávy"],["admin","Správa"]];
-function renderTabs() {
-  const ab = document.getElementById("accountBtn");
-  if (S.profile) { ab.className = "acct"; ab.textContent = initials(S.profile.display_name); ab.title = `${S.profile.display_name} (${ROLE_LABEL[S.profile.role]})`; }
-  else { ab.className = "icon-btn"; ab.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>'; ab.title = "Prihlásiť sa"; }
-  document.getElementById("tabs").innerHTML = TABS.filter(([k]) => k !== "admin" || canEdit() || S.tab === "admin").map(([k, l]) =>
+const TABS = [["home","Domov"],["standings","Poradie"],["races","Preteky"],["players","Jazdci"],["hof","Sieň slávy"],["admin","Správa"]];
+function renderShell() {
+  const member = isMember() && S.loaded;
+  document.body.classList.toggle("gate-on", !member);
+  document.body.classList.toggle("app", member);
+  if (!member) return;
+  document.getElementById("tabs").innerHTML = TABS.filter(([k]) => k !== "admin" || canEdit()).map(([k, l]) =>
     `<button data-tab="${k}" class="${S.tab === k ? "on" : ""}">${ICONS[k]}<span>${l}</span></button>`).join("");
+  const sel = document.getElementById("seasonSel");
+  sel.innerHTML = [...S.seasons].reverse().map(s => `<option value="${s.id}" ${s.id === S.seasonId ? "selected" : ""}>${esc(s.name)}</option>`).join("");
+  sel.style.display = S.seasons.length && !["hof", "players"].includes(S.tab) ? "" : "none";
+  const ab = document.getElementById("accountBtn");
+  const me = S.profile?.display_name || "?";
+  ab.textContent = me.trim().slice(0, 2).toUpperCase();
+  ab.title = `${me} (${ROLE_LABEL[S.profile.role]})`;
+  const mine = S.players.find(p => p.name.toLowerCase() === me.toLowerCase());
+  ab.style.setProperty("--c", mine ? col(mine.id) : "var(--kerb)");
 }
 document.getElementById("tabs").addEventListener("click", e => { const b = e.target.closest("[data-tab]"); if (b) go(b.dataset.tab); });
-
-function renderSeasonSel() {
-  const sel = document.getElementById("seasonSel");
-  sel.innerHTML = [...S.seasons].reverse().map(s => `<option value="${s.id}" ${s.id === S.seasonId ? "selected" : ""}>${esc(s.name)}${s.is_current ? " •" : ""}</option>`).join("");
-  sel.style.display = S.seasons.length && S.tab !== "hof" ? "" : "none";
-}
-document.getElementById("seasonSel").addEventListener("change", e => { S.seasonId = +e.target.value; S.hidden.clear(); go(S.tab, S.tab === "admin" ? null : (S.tab === "players" ? S.view : null)); });
-document.getElementById("accountBtn").addEventListener("click", () => accountModal());
+document.getElementById("seasonSel").addEventListener("change", e => { S.seasonId = +e.target.value; S.hidden.clear(); go(S.tab, null); });
 document.getElementById("refreshBtn").addEventListener("click", async () => { try { await Promise.all([load(), loadProfile()]); render(); toast("Dáta obnovené"); } catch (e) { toast(errMsg(e), "err"); } });
+document.getElementById("accountBtn").addEventListener("click", () => accountModal());
 
-// ---------- render ----------
 function render() {
-  renderTabs(); renderSeasonSel();
-  if (!configured) { $app.innerHTML = setupView(); return; }
-  if (!S.loaded) return;
+  renderShell();
+  if (!configured) { $app.innerHTML = `<div class="wrap"><div class="panel" style="padding:24px;max-width:560px;margin:40px auto"><h2 class="disp" style="font-size:32px">Chýba nastavenie</h2><p class="mist">Vyplň v súbore config.js adresu a kľúč zo Supabase.</p></div></div>`; return; }
+  if (!S.user) { $app.innerHTML = gateView(false); runLights(); return; }
+  if (!isMember()) { $app.innerHTML = gateView(true); runLights(true); return; }
+  if (!S.loaded) { $app.innerHTML = `<div class="loading">Načítavam…</div>`; return; }
   const views = { home: viewHome, standings: viewStandings, races: viewRaces, players: viewPlayers, hof: viewHof, admin: viewAdmin };
-  $app.innerHTML = (views[S.tab] || viewStandings)();
+  $app.innerHTML = `<div class="wrap">${(views[S.tab] || viewHome)()}</div>`;
   if (S.tab === "standings") mountChart();
   if (S.tab === "races") positionStrip();
 }
 
-function setupView() {
-  return `<div class="card pad" style="max-width:620px;margin:30px auto">
-    <h2 style="font-size:24px;font-weight:900">Appka ešte nie je prepojená so Supabase</h2>
-    <p class="t2">Otvor súbor <b>config.js</b> a vyplň <b>supabaseUrl</b> a <b>supabaseKey</b> (Supabase → Project Settings → API). Postup je v README.</p></div>`;
+// ===== GATE =====
+function gateView(pending) {
+  const lights = `<div class="lights" aria-hidden="true">${[0,1,2,3,4].map(i => `<div class="pod${pending ? " on" : ""}" data-pod="${i}"><i></i><i></i></div>`).join("")}</div>`;
+  const left = pending
+    ? `${lights}<h1 class="gate-title">Čakáš na zelenú</h1>
+       <p class="gate-sub">Ahoj ${esc(S.profile?.display_name || "")}, tvoj účet je vytvorený. Kým ťa admin ligy neschváli, poradie a výsledky neuvidíš.</p>`
+    : `${lights}<h1 class="gate-title">${esc(LEAGUE)}</h1>
+       <p class="gate-sub">Súkromná liga. Poradie, výsledky a štatistiky vidia iba schválení členovia.</p>`;
+  const login = S.authTab !== "signup";
+  const card = pending
+    ? `<div class="gate-card"><h2>Čaká na schválenie</h2>
+        <p class="lead">Napíš adminovi, že si sa zaregistroval. Keď ťa schváli, klikni na tlačidlo nižšie.</p>
+        <div style="display:grid;gap:10px"><button class="btn go" data-recheck>Skontrolovať znova</button><button class="btn ghost" data-logout>Odhlásiť sa</button></div></div>`
+    : `<div class="gate-card">
+        <div class="seg" style="margin-bottom:18px"><button data-authtab="login" class="${login ? "on" : ""}">Prihlásenie</button><button data-authtab="signup" class="${login ? "" : "on"}">Nový účet</button></div>
+        <h2>${login ? "Vitaj späť" : "Pridaj sa do ligy"}</h2>
+        <p class="lead">${login ? "Prihlás sa emailom a heslom." : "Po registrácii ťa ešte musí schváliť admin ligy."}</p>
+        <form id="${login ? "loginForm" : "signupForm"}" style="display:grid;gap:12px">
+          ${login ? "" : `<label class="f">Meno alebo prezývka<input class="input" name="dname" required maxlength="40" autocomplete="nickname"></label>`}
+          <label class="f">Email<input class="input" type="email" name="email" required autocomplete="email"></label>
+          <label class="f">Heslo<input class="input" type="password" name="password" required minlength="6" autocomplete="${login ? "current-password" : "new-password"}"></label>
+          <button class="btn go" type="submit" style="margin-top:6px;padding:12px">${login ? "Prihlásiť sa" : "Vytvoriť účet"}</button>
+        </form></div>`;
+  return `<section class="gate" id="gate"><div class="kerb"></div>
+    <div class="wrap gate-top"><span class="mark"><i></i><b>${esc(LEAGUE)}</b></span></div>
+    <div class="wrap gate-main"><div>${left}</div>${card}</div></section>`;
+}
+let lightsTimer = [];
+function runLights(pending) {
+  lightsTimer.forEach(clearTimeout); lightsTimer = [];
+  const gate = document.getElementById("gate"); if (!gate || pending) return;
+  const pods = [...gate.querySelectorAll(".pod")];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let seen = false; try { seen = sessionStorage.getItem("f1lights") === "1"; } catch {}
+  if (reduce || seen) return;
+  try { sessionStorage.setItem("f1lights", "1"); } catch {}
+  gate.classList.add("seq");
+  pods.forEach((p, i) => lightsTimer.push(setTimeout(() => p.classList.add("on"), 350 + i * 420)));
+  lightsTimer.push(setTimeout(() => { pods.forEach(p => p.classList.remove("on")); gate.classList.remove("seq"); gate.classList.add("go"); }, 350 + 5 * 420 + 650));
 }
 
-function emptySeason() {
-  return `<div class="card empty">Zatiaľ tu nie je žiadna sezóna.<br><br><button class="btn primary" onclick="location.hash='#/admin'">Prejsť do Adminu</button></div>`;
-}
-
-// ===== Poradie =====
+// ===== HOME =====
 function viewHome() {
-  const name = CFG.leagueName || "F1 Liga";
   const st = standings(S.seasonId); const s = st.season;
-  const next = st.races ? st.races.find(r => !RES_BY_RACE.has(r.id)) : null;
-  const last = st.done && st.done.length ? st.done[st.done.length - 1] : null;
-  const leader = st.rows && st.rows[0];
-  const greet = S.profile
-    ? `<p class="t2" style="margin:0;position:relative;z-index:1">Ahoj <b>${esc(S.profile.display_name)}</b> · <span class="pill">${ROLE_LABEL[S.profile.role]}</span></p>
-       <div class="cta">${canEdit() ? `<button class="btn primary" data-go="admin">🏁 Zapísať výsledky</button>` : ""}<button class="btn ${canEdit() ? "" : "primary"}" data-go="standings">Poradie</button><button class="btn" data-go="races">Preteky</button></div>
-       ${canEdit() ? "" : `<p class="muted" style="font-size:13px;margin:12px 0 0;position:relative;z-index:1">Na zapisovanie výsledkov ti musí admin prideliť práva.</p>`}`
-    : `<p class="t2" style="margin:0;max-width:520px;position:relative;z-index:1">Poradie, výsledky a štatistiky našej ligy. Prezerať môže každý, prihlásenie treba iba na zapisovanie výsledkov.</p>
-       <div class="cta"><button class="btn primary" data-account="login">Prihlásiť sa</button><button class="btn" data-account="signup">Vytvoriť účet</button><button class="btn" data-go="standings">Pozrieť poradie ›</button></div>`;
-  const tile = (k, body) => `<div class="card stat" style="padding:16px">${`<div class="k">${k}</div>`}${body}</div>`;
-  return `<div class="card home-hero">
-      <div class="lbl">${s ? esc(s.name) + (st.races.length ? ` · ${st.done.length}/${st.races.length} pretekov` : "") : "Vitaj"}</div>
-      <h1>${esc(name)}</h1>
-      ${greet}
+  if (!s) return emptyLeague();
+  const next = st.races.find(r => !RES_BY_RACE.has(r.id));
+  const last = st.done[st.done.length - 1];
+  const [a, b, c] = st.rows;
+  const step = (row, p) => row ? `<div class="pb p${p}" data-player="${row.pid}" style="--c:${col(row.pid)};cursor:pointer">
+      <div class="pb-who">${tag(row.pid)}<div class="pb-name">${esc(pname(row.pid))}</div><div class="pb-pts"><b class="num">${row.pts}</b> b${p > 1 ? ` <span class="muted">−${a.pts - row.pts}</span>` : ""}</div></div>
+      <div class="pb-step"><span>${p}</span></div></div>` : `<div class="pb p${p}"></div>`;
+  const remaining = st.races.length - st.done.length;
+  const sub = st.races.length ? (remaining ? `Po ${st.done.length}. kole z ${st.races.length}, ešte ${remaining} ${plural(remaining, "závod", "závody", "závodov")}` : `Sezóna je dojazdená, ${st.races.length} pretekov`) : "Zatiaľ bez kalendára";
+  return `<div class="home-head"><div><h1>${esc(s.name)}</h1><p>${sub}</p>
+      <div class="progress">${st.races.map(r => `<i class="${RES_BY_RACE.has(r.id) ? "d" : (r === next ? "n" : "")}" title="${esc(r.track)}"></i>`).join("")}</div></div></div>
+    <div class="stage">
+      <div>${st.rows.length ? `<div class="podium">${step(b, 2)}${step(a, 1)}${step(c, 3)}</div><div class="kerb podium-base"></div>` : `<div class="panel empty">Sezóna ešte nemá žiadne výsledky.</div>`}</div>
+      <div class="panel nextbox">${next
+        ? `<small>Na rade, kolo ${next.round}${next.race_date ? `, ${fmtDate(next.race_date)}` : ""}</small><div class="tr"><span class="flag">${flag(next.track)}</span>${esc(next.track)}</div>
+           <p class="mist" style="margin:6px 0 16px">${a && b ? `${esc(pname(a.pid))} vedie o ${a.pts - b.pts} ${plural(a.pts - b.pts, "bod", "body", "bodov")}. V hre je ešte ${remaining * ((s.points_scheme || DEFAULT_SCHEME)[0] + (s.fastest_lap_bonus || 0))} bodov.` : "Prvý závod sezóny."}</p>
+           ${canEdit() ? `<button class="btn go" data-edit-race="${next.id}" style="width:100%">Zapísať výsledky</button>` : `<button class="btn" data-go="races" style="width:100%">Kalendár pretekov</button>`}`
+        : `<small>Sezóna</small><div class="tr">Dojazdená</div><p class="mist" style="margin:6px 0 0">${a ? `Šampión: ${esc(pname(a.pid))}` : ""}</p>`}</div>
     </div>
-    ${s ? `<div class="home-grid">
-      ${tile(st.done.length < st.races.length ? "Líder" : "Šampión", leader ? `<div class="v" style="font-size:24px;margin-top:4px">${esc(pname(leader.pid))}</div><div class="muted num">${leader.pts} bodov${st.rows[1] ? ` · náskok ${leader.pts - st.rows[1].pts} na 2. miesto (${esc(pname(st.rows[1].pid))})` : ""}</div>` : '<div class="v">–</div>')}
-      ${tile("Ďalší závod", next ? `<div class="v" style="font-size:24px;margin-top:4px"><span class="flag">${flag(next.track)}</span> ${esc(next.track)}</div><div class="muted">Kolo ${next.round}${next.race_date ? " · " + new Date(next.race_date).toLocaleDateString("sk-SK") : ""}</div>` : '<div class="v" style="font-size:22px;margin-top:4px">Sezóna ukončená</div>')}
-      ${tile("Posledný závod", last ? `<div style="font-weight:900;font-size:18px;margin:4px 0 8px"><span class="flag">${flag(last.track)}</span> ${esc(last.track)}</div><div class="racelist">${RES_BY_RACE.get(last.id).slice(0, 3).map(x => `<div class="pr"><span class="posn p${x.position}">${x.position}</span>${esc(pname(x.player_id))}${x.fastest_lap ? ' <span class="fl"></span>' : ""}</div>`).join("")}</div>` : '<div class="v">–</div>')}
-    </div>
-    ${st.rows.length ? `<div class="row" style="justify-content:space-between;margin:26px 0 10px"><h2 class="sec" style="margin:0">Poradie · top 5</h2><button class="btn sm" data-go="standings">Celé poradie ›</button></div>
-    <div class="card tbl-wrap"><table><tbody>${st.rows.slice(0, 5).map((r, i) => `<tr data-player="${r.pid}"><td class="l" style="width:46px"><span class="posn ${i < 3 ? "p" + (i + 1) : ""}">${i + 1}</span></td><td class="l pname">${esc(pname(r.pid))}</td><td class="muted num">${r.wins} ${plural(r.wins, "výhra", "výhry", "výhier")}</td><td class="ptsbig num">${r.pts}</td></tr>`).join("")}</tbody></table></div>` : ""}` : ""}`;
+    <div class="cols">
+      <section><div class="ptitle"><h2>Poradie</h2><button class="link" data-go="standings">Celé poradie</button></div>
+        <div class="tower">${st.rows.slice(0, 8).map((r, i) => towerRow(r, i, a)).join("")}</div></section>
+      <section>${last ? `<div class="ptitle"><h2>${flag(last.track)} ${esc(last.track)}</h2><span class="side">Posledný závod, kolo ${last.round}</span></div>
+        <div class="panel" style="padding:8px">${RES_BY_RACE.get(last.id).map(x => resRow(s, x)).join("")}</div>` : ""}</section>
+    </div>`;
 }
+function emptyLeague() { return `<div class="panel empty" style="margin-top:30px">V lige zatiaľ nie je žiadna sezóna.${isAdmin() ? `<br><br><button class="btn go" data-go="admin">Vytvoriť sezónu</button>` : ""}</div>`; }
+function towerRow(r, i, lead) {
+  return `<div class="tw ${i === 0 ? "lead" : ""}" data-player="${r.pid}">${posb(i + 1)}<span class="who">${tag(r.pid)}<span class="nm">${esc(pname(r.pid))}</span></span>
+    <span class="gap num">${i ? "−" + (lead.pts - r.pts) : ""}</span><span class="pts num">${r.pts}</span></div>`;
+}
+function resRow(s, x) {
+  return `<div class="rrow">${posb(x.position, true)}<span class="nm">${tag(x.player_id)} <span style="margin-left:4px">${esc(pname(x.player_id))}</span>${x.fastest_lap ? ' <span class="fl" title="Najrýchlejšie kolo"></span>' : ""}</span><span class="pp num">+${ptsFor(s, x)}</span></div>`;
+}
+
+// ===== STANDINGS =====
 function viewStandings() {
-  const st = standings(S.seasonId);
-  if (!st.season) return emptySeason();
-  const { rows, races, done, season: s } = st;
-  const leader = rows[0], second = rows[1];
-  const next = races.find(r => !RES_BY_RACE.has(r.id));
-  const lastRace = done[done.length - 1];
-  const lastWinner = lastRace ? RES_BY_RACE.get(lastRace.id)[0] : null;
-  const pct = races.length ? Math.round(done.length / races.length * 100) : 0;
-  const remaining = races.length - done.length;
-  const maxLeft = remaining * ((s.points_scheme || DEFAULT_SCHEME)[0] + (s.fastest_lap_bonus || 0));
-
-  let heroHtml = "";
-  if (leader) {
-    const gap = second ? leader.pts - second.pts : null;
-    const clinched = second && gap > maxLeft;
-    heroHtml = `<div class="hero">
-      <div class="card leader">
-        <div class="lbl">${s.is_current && remaining ? "Líder šampionátu" : "Šampión"} · ${esc(s.name)}</div>
-        <div class="name">${esc(pname(leader.pid))}</div>
-        <div class="pts num">${leader.pts} bodov</div>
-        <div class="gap">${second ? `${clinched && remaining ? "🏆 Titul už má istý · " : ""}náskok <b class="num">${gap}</b> ${plural(gap,"bod","body","bodov")} na 2. miesto (${esc(pname(second.pid))})` : ""}</div>
-      </div>
-      <div class="statgrid">
-        <div class="card stat"><div class="k">Odjazdené</div><div class="v num">${done.length}<span class="muted" style="font-size:16px"> / ${races.length}</span></div><div class="progress"><i style="width:${pct}%"></i></div></div>
-        <div class="card stat"><div class="k">${next ? "Ďalší závod" : "Sezóna"}</div><div class="v" style="font-size:20px;margin-top:4px">${next ? `<span class="flag">${flag(next.track)}</span> ${esc(next.track)}` : "Ukončená"}</div>${next ? `<div class="muted" style="font-size:13px">Kolo ${next.round}${next.race_date ? " · " + new Date(next.race_date).toLocaleDateString("sk-SK") : ""}</div>` : ""}</div>
-        <div class="card stat"><div class="k">Posledný víťaz</div><div class="v" style="font-size:20px;margin-top:4px">${lastWinner ? esc(pname(lastWinner.player_id)) : "–"}</div>${lastRace ? `<div class="muted" style="font-size:13px">${flag(lastRace.track)} ${esc(lastRace.track)}</div>` : ""}</div>
-        <div class="card stat"><div class="k">Najviac výhier</div>${(() => { const w = [...rows].sort((a, b) => b.wins - a.wins)[0]; return w && w.wins ? `<div class="v" style="font-size:20px;margin-top:4px">${esc(pname(w.pid))}</div><div class="muted num" style="font-size:13px">${w.wins} ${plural(w.wins,"výhra","výhry","výhier")}</div>` : `<div class="v">–</div>`; })()}</div>
-      </div></div>`;
-  }
-
-  const showFl = (s.fastest_lap_bonus || 0) > 0 || rows.some(r => r.fl);
+  const st = standings(S.seasonId); if (!st.season) return emptyLeague();
+  const { rows, done } = st; const lead = rows[0];
   const showOdk = rows.some(r => r.odk);
-  const table = rows.length ? `<div class="card tbl-wrap"><table>
-    <thead><tr><th class="l" style="width:46px">#</th><th class="l">Hráč</th><th>Body</th><th class="hide-sm">Rozdiel</th><th>Výhry</th><th>Pódiá</th><th class="hide-sm">Štarty</th><th class="hide-sm">Ø pozícia</th>${showFl ? '<th title="Najrýchlejšie kolá">NK</th>' : ""}${showOdk ? "<th>Odklady</th>" : ""}</tr></thead>
-    <tbody>${rows.map((r, i) => `<tr data-player="${r.pid}">
-      <td class="l"><span class="posn ${i < 3 ? "p" + (i + 1) : ""}">${i + 1}</span></td>
-      <td class="l pname">${esc(pname(r.pid))}</td>
-      <td class="ptsbig num">${r.pts}</td>
-      <td class="hide-sm muted num">${i ? "−" + (leader.pts - r.pts) : "–"}</td>
-      <td class="num">${r.wins}</td><td class="num">${r.podiums}</td>
-      <td class="hide-sm num">${r.starts}</td><td class="hide-sm num">${fmtAvg(r.avg)}</td>
-      ${showFl ? `<td class="num">${r.fl || ""}</td>` : ""}${showOdk ? `<td class="num">${r.odk || ""}</td>` : ""}
-    </tr>`).join("")}</tbody></table></div>` : `<div class="card empty">V tejto sezóne zatiaľ nie sú žiadne výsledky.</div>`;
-
-  return `${heroHtml}
-    <h2 class="sec">Poradie jazdcov</h2>${table}
-    ${done.length > 1 ? `<h2 class="sec">Vývoj bodov</h2><div class="card chart-card"><div class="legend" id="legend"></div><div class="chart" id="chart"></div></div>` : ""}`;
+  const tower = rows.length ? `<div class="tower full">
+      <div class="hd"><span></span><span style="text-align:left">Jazdec</span><span class="x" style="text-align:left">Forma</span><span class="x">Výhry</span><span class="x">Pódiá</span><span class="x">NK</span><span class="x">${showOdk ? "Odklady" : "Ø poz."}</span><span>Strata</span><span>Body</span></div>
+      ${rows.map((r, i) => `<div class="tw ${i === 0 ? "lead" : ""}" data-player="${r.pid}">${posb(i + 1)}
+        <span class="who">${tag(r.pid)}<span class="nm">${esc(pname(r.pid))}</span></span>
+        <span class="x">${formHtml(r.form)}</span>
+        <span class="c x num">${r.wins || ""}</span><span class="c x num">${r.podiums || ""}</span><span class="c x num">${r.fl || ""}</span><span class="c x num">${showOdk ? (r.odk || "") : fmtAvg(r.avg)}</span>
+        <span class="gap num">${i ? "−" + (lead.pts - r.pts) : ""}</span><span class="pts num">${r.pts}</span></div>`).join("")}</div>` : `<div class="panel empty">Zatiaľ žiadne výsledky.</div>`;
+  return `<div class="ptitle"><h2 style="font-size:40px">Poradie jazdcov</h2><span class="side">${esc(st.season.name)}, ${done.length} z ${st.races.length} pretekov</span></div>
+    ${tower}
+    ${done.length > 1 ? `<div class="panel chart-wrap"><div class="ptitle" style="margin-bottom:8px"><h2 style="font-size:24px">Vývoj bodov</h2><span class="side">Klikni na jazdca a skry ho</span></div><div class="legend" id="legend"></div><div class="chart" id="chart"></div></div>` : ""}`;
 }
-
-// --- cumulative chart ---
 function mountChart() {
   const host = document.getElementById("chart"); if (!host) return;
   const st = standings(S.seasonId);
-  const series = st.rows.slice(0, 8).map((r, i) => ({ pid: r.pid, name: pname(r.pid), color: SERIES[i], cum: r.cum }));
-  const legend = document.getElementById("legend");
-  legend.innerHTML = series.map(s => `<button data-toggle="${s.pid}" class="${S.hidden.has(s.pid) ? "off" : ""}"><i style="background:${s.color}"></i>${esc(s.name)}</button>`).join("")
-    + (st.rows.length > 8 ? `<span class="muted" style="font-size:12px;align-self:center">top 8</span>` : "");
-  const vis = series.filter(s => !S.hidden.has(s.pid));
-  const n = st.done.length;
-  const W = Math.max(320, host.clientWidth), H = Math.min(380, Math.max(240, W * 0.45));
-  const m = { l: 40, r: vis.length && vis.length <= 4 ? 78 : 14, t: 12, b: 30 };
+  const series = st.rows.slice(0, 8).map(r => ({ pid: r.pid, name: code(r.pid), color: col(r.pid), cum: r.cum }));
+  document.getElementById("legend").innerHTML = series.map(s => `<button data-toggle="${s.pid}" class="${S.hidden.has(s.pid) ? "off" : ""}" style="--c:${s.color}"><i></i>${esc(s.name)}</button>`).join("") + (st.rows.length > 8 ? `<span class="muted" style="font-size:13px;align-self:center">prvých 8</span>` : "");
+  const vis = series.filter(s => !S.hidden.has(s.pid)); const n = st.done.length;
+  const W = Math.max(320, host.clientWidth), H = Math.min(400, Math.max(240, W * 0.42));
+  const m = { l: 40, r: vis.length && vis.length <= 5 ? 56 : 14, t: 12, b: 28 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
-  const maxY = Math.max(10, ...vis.map(s => s.cum[n - 1] || 0));
-  const step = niceStep(maxY / 4); const top = Math.ceil(maxY / step) * step;
-  const x = i => m.l + (n === 1 ? iw / 2 : i * iw / (n - 1));
-  const y = v => m.t + ih - v / top * ih;
+  const maxY = Math.max(10, ...vis.map(s => s.cum[n - 1] || 0)); const step = niceStep(maxY / 4); const top = Math.ceil(maxY / step) * step;
+  const x = i => m.l + (n === 1 ? iw / 2 : i * iw / (n - 1)); const y = v => m.t + ih - v / top * ih;
   let g = "";
-  for (let v = 0; v <= top; v += step) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="#2b2b30" stroke-width="1"/><text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="#8e8d86">${v}</text>`;
+  for (let v = 0; v <= top; v += step) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="#222b43" stroke-width="1"/><text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="#6f7892">${v}</text>`;
   const every = Math.ceil(n / Math.max(2, Math.floor(iw / 34)));
-  st.done.forEach((r, i) => { if (i % every === 0 || i === n - 1) g += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="#8e8d86">${r.round}</text>`; });
+  st.done.forEach((r, i) => { if (i % every === 0 || i === n - 1) g += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="#6f7892">${r.round}</text>`; });
   let lines = "";
-  for (const s of vis) {
-    lines += `<path d="${s.cum.map((v, i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1)).join("")}" fill="none" stroke="${s.color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
-  }
-  // end labels (only when ≤4 visible) with simple collision avoidance
-  if (vis.length && vis.length <= 4) {
+  for (const s of vis) lines += `<path d="${s.cum.map((v, i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1)).join("")}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>`;
+  if (vis.length && vis.length <= 5) {
     const labs = vis.map(s => ({ s, y: y(s.cum[n - 1]) })).sort((a, b) => a.y - b.y);
-    for (let i = 1; i < labs.length; i++) if (labs[i].y - labs[i - 1].y < 14) labs[i].y = labs[i - 1].y + 14;
-    for (const l of labs) lines += `<circle cx="${x(n - 1)}" cy="${y(l.s.cum[n - 1])}" r="4" fill="${l.s.color}" stroke="#1a1a19" stroke-width="2"/><text x="${x(n - 1) + 8}" y="${l.y + 4}" font-size="12" font-weight="700" fill="#c3c2b7">${esc(l.s.name)}</text>`;
+    for (let i = 1; i < labs.length; i++) if (labs[i].y - labs[i - 1].y < 15) labs[i].y = labs[i - 1].y + 15;
+    for (const l of labs) lines += `<circle cx="${x(n - 1)}" cy="${y(l.s.cum[n - 1])}" r="4" fill="${l.s.color}" stroke="#121929" stroke-width="2"/><text x="${x(n - 1) + 9}" y="${l.y + 4}" font-size="13" font-weight="800" font-style="italic" font-family="Saira Extra Condensed, sans-serif" fill="#eef1f8">${esc(l.s.name)}</text>`;
   }
-  host.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Vývoj bodov počas sezóny">${g}${lines}<line id="xh" y1="${m.t}" y2="${m.t + ih}" stroke="#55555f" stroke-width="1" opacity="0"/><g id="dots"></g><rect x="${m.l - 10}" y="0" width="${iw + 20}" height="${H}" fill="transparent" id="hit"/></svg><div class="tip" id="tip"></div>`;
+  host.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Vývoj bodov">${g}${lines}<line id="xh" y1="${m.t}" y2="${m.t + ih}" stroke="#4a5779" stroke-width="1" opacity="0"/><g id="dots"></g><rect x="${m.l - 10}" y="0" width="${iw + 20}" height="${H}" fill="transparent" id="hit"/></svg><div class="tip" id="tip"></div>`;
   const svg = host.querySelector("svg"), tip = host.querySelector("#tip"), xh = host.querySelector("#xh"), dots = host.querySelector("#dots");
   const move = ev => {
     const rect = svg.getBoundingClientRect(); const px = (ev.clientX - rect.left) * W / rect.width;
-    const i = Math.max(0, Math.min(n - 1, Math.round(n === 1 ? 0 : (px - m.l) / iw * (n - 1))));
-    const race = st.done[i];
+    const i = Math.max(0, Math.min(n - 1, Math.round(n === 1 ? 0 : (px - m.l) / iw * (n - 1)))); const race = st.done[i];
     xh.setAttribute("x1", x(i)); xh.setAttribute("x2", x(i)); xh.setAttribute("opacity", 1);
-    dots.innerHTML = vis.map(s => `<circle cx="${x(i)}" cy="${y(s.cum[i])}" r="4.5" fill="${s.color}" stroke="#1a1a19" stroke-width="2"/>`).join("");
-    const rowsT = [...vis].sort((a, b) => b.cum[i] - a.cum[i]);
-    tip.innerHTML = `<div class="h">${flag(race.track)} ${esc(race.track)} <span class="muted">· kolo ${race.round}</span></div>` + rowsT.map(s => `<div class="r"><span><i style="background:${s.color}"></i>${esc(s.name)}</span><b class="num">${s.cum[i]}</b></div>`).join("");
+    dots.innerHTML = vis.map(s => `<circle cx="${x(i)}" cy="${y(s.cum[i])}" r="4.5" fill="${s.color}" stroke="#121929" stroke-width="2"/>`).join("");
+    tip.innerHTML = `<div class="h">${flag(race.track)} ${esc(race.track)}, kolo ${race.round}</div>` + [...vis].sort((a, b) => b.cum[i] - a.cum[i]).map(s => `<div class="r"><span class="tag" style="--c:${s.color}">${esc(s.name)}</span><b class="num">${s.cum[i]}</b></div>`).join("");
     const left = x(i) / W * rect.width; const tw = tip.offsetWidth;
     tip.style.left = (left + 14 + tw > rect.width ? left - tw - 14 : left + 14) + "px"; tip.style.top = "8px"; tip.style.opacity = 1;
   };
@@ -579,208 +713,176 @@ function mountChart() {
 }
 function niceStep(raw) { const p = Math.pow(10, Math.floor(Math.log10(Math.max(raw, 1)))); const f = raw / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p; }
 
-// ===== Preteky =====
+// ===== RACES =====
 function viewRaces() {
-  const st = standings(S.seasonId);
-  if (!st.season) return emptySeason();
-  const s = st.season;
-  const next = st.races.find(r => !RES_BY_RACE.has(r.id));
-  const head = `<div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
-    <h2 style="font-size:24px;font-weight:900">${esc(s.name)} <span class="muted" style="font-size:16px;font-weight:600">· ${st.done.length}/${st.races.length} pretekov</span></h2>
-    <div class="row" style="gap:10px">${S.raceView === "cards" ? `<div class="strip-nav"><button data-strip="-1" title="Doľava" aria-label="Doľava">‹</button><button data-strip="1" title="Doprava" aria-label="Doprava">›</button></div>` : ""}<div class="seg"><button data-rv="cards" class="${S.raceView === "cards" ? "on" : ""}">Karty</button><button data-rv="matrix" class="${S.raceView === "matrix" ? "on" : ""}">Tabuľka</button></div></div></div>`;
-  if (!st.races.length) return head + `<div class="card empty">Sezóna nemá žiadne preteky.</div>`;
+  const st = standings(S.seasonId); if (!st.season) return emptyLeague();
+  const s = st.season; const next = st.races.find(r => !RES_BY_RACE.has(r.id));
+  const head = `<div class="ptitle" style="flex-wrap:wrap"><h2 style="font-size:40px">Preteky</h2>
+    <div style="display:flex;gap:10px;align-items:center">${S.raceView === "cards" ? `<div class="navbtns"><button data-strip="-1" aria-label="Doľava">‹</button><button data-strip="1" aria-label="Doprava">›</button></div>` : ""}
+    <div class="seg"><button data-rv="cards" class="${S.raceView === "cards" ? "on" : ""}">Karty</button><button data-rv="matrix" class="${S.raceView === "matrix" ? "on" : ""}">Tabuľka</button></div></div></div>`;
+  if (!st.races.length) return head + `<div class="panel empty">Sezóna nemá žiadne preteky.</div>`;
   if (S.raceView === "matrix") return head + matrixView(st);
-  return head + `<div class="dots">${st.races.map((r, i) => `<button data-jump="${i}" class="${RES_BY_RACE.has(r.id) ? "done" : (r === next ? "next" : "")}" title="${esc(r.track)}">${r.round}</button>`).join("")}</div>
+  return head + `<div class="lapbar">${st.races.map((r, i) => `<button data-jump="${i}" class="${RES_BY_RACE.has(r.id) ? "d" : (r === next ? "n" : "")}" title="${esc(r.track)}">${r.round}</button>`).join("")}</div>
     <div class="strip" id="strip">${st.races.map(r => {
-    const res = RES_BY_RACE.get(r.id);
-    const cls = res ? "" : (r === next ? "next" : "todo");
-    return `<div class="card race ${cls}" data-race="${r.id}">
-      <div class="rn">Kolo ${r.round}${r.race_date ? " · " + new Date(r.race_date).toLocaleDateString("sk-SK") : ""}</div>
-      <div class="tn"><span class="flag">${flag(r.track)}</span>${esc(r.track)}</div>
-      ${res ? `<div class="racelist">${res.map(x => `<div class="pr ${x.position > 3 ? "low" : ""}"><span class="posn ${x.position <= 3 ? "p" + x.position : ""}">${x.position}</span>${esc(pname(x.player_id))}${x.fastest_lap ? ' <span class="fl" title="Najrýchlejšie kolo"></span>' : ""}<span class="pp num">${ptsFor(s, x)} b</span></div>`).join("")}</div>`
-        : `<div>${r === next ? '<span class="pill live">Na rade</span>' : '<span class="pill">Nejazdené</span>'}</div>`}
-    </div>`; }).join("")}</div>
-`;
+      const res = RES_BY_RACE.get(r.id); const cls = res ? "done" : (r === next ? "next" : "todo");
+      return `<article class="board ${cls}" data-race="${r.id}">${res ? "" : `<div class="bar-n"></div>`}
+        <div class="bh"><small>Kolo ${r.round}${r.race_date ? `, ${fmtDate(r.race_date)}` : ""}</small><h3><span class="flag">${flag(r.track)}</span>${esc(r.track)}</h3></div>
+        ${res ? `<div class="rl">${res.map(x => resRow(s, x)).join("")}</div>` : `<div class="soon">${r === next ? `<span class="pill red">Na rade</span>${canEdit() ? ` <button class="btn sm go" data-edit-race="${r.id}" style="margin-left:6px">Zapísať</button>` : ""}` : "Ešte sa nejazdilo"}</div>`}
+      </article>`; }).join("")}</div>`;
 }
 function matrixView(st) {
-  const { rows, races } = st;
-  if (!rows.length) return `<div class="card empty">Zatiaľ žiadne výsledky.</div>`;
-  return `<div class="card tbl-wrap"><table class="matrix"><thead><tr><th class="l">Hráč</th>${races.map(r => `<th title="${esc(r.track)}">${r.round}<br><span class="flag" style="font-size:14px">${flag(r.track)}</span></th>`).join("")}<th>Body</th></tr></thead>
-  <tbody>${rows.map(row => `<tr><td class="l pname">${esc(pname(row.pid))}</td>${races.map(r => {
-    const x = (RES_BY_RACE.get(r.id) || []).find(q => q.player_id === row.pid);
-    if (!x) return `<td><span class="c e">·</span></td>`;
-    return `<td><span class="c ${x.position <= 3 ? "p" + x.position : ""} ${x.fastest_lap ? "f" : ""}" title="${esc(r.track)}: ${x.position}. miesto">${x.position}</span></td>`;
-  }).join("")}<td class="ptsbig num" style="padding-right:12px">${row.pts}</td></tr>`).join("")}</tbody></table></div>
-  <p class="hint">Čísla = umiestnenie. Zlatá/strieborná/bronzová = pódium${rows.some(r => r.fl) ? ", fialová bodka = najrýchlejšie kolo" : ""}.</p>`;
+  const { rows, races } = st; if (!rows.length) return `<div class="panel empty">Zatiaľ žiadne výsledky.</div>`;
+  return `<div class="panel scrollx"><table class="matrix"><thead><tr><th class="l"></th>${races.map(r => `<th title="${esc(r.track)}">${r.round}<br><span class="flag" style="font-size:14px">${flag(r.track)}</span></th>`).join("")}<th>Body</th></tr></thead>
+    <tbody>${rows.map(row => `<tr><td class="l">${tag(row.pid)}</td>${races.map(r => { const x = (RES_BY_RACE.get(r.id) || []).find(q => q.player_id === row.pid);
+      return x ? `<td><span class="c ${x.position <= 3 ? "p" + x.position : ""} ${x.fastest_lap ? "f" : ""}" title="${esc(r.track)}: ${x.position}. miesto">${x.position}</span></td>` : `<td><span class="c e">·</span></td>`; }).join("")}
+      <td><b class="disp num" style="font-size:20px;padding-left:8px">${row.pts}</b></td></tr>`).join("")}</tbody></table></div>
+    <p class="hint">Číslo je umiestnenie v závode${rows.some(r => r.fl) ? ", fialová bodka je najrýchlejšie kolo" : ""}.</p>`;
 }
 function raceModal(raceId) {
   const r = S.races.find(x => x.id === raceId); if (!r) return;
   const s = season(r.season_id); const res = RES_BY_RACE.get(r.id) || [];
-  openModal(`<div class="rn muted" style="font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase">${esc(s.name)} · Kolo ${r.round}</div>
-    <h2 style="font-size:28px;font-weight:900;margin:4px 0 14px"><span class="flag">${flag(r.track)}</span> ${esc(r.track)}</h2>
-    ${res.length ? `<table><tbody>${res.map(x => `<tr style="cursor:default"><td class="l" style="width:44px"><span class="posn ${x.position <= 3 ? "p" + x.position : ""}">${x.position}</span></td><td class="l pname">${esc(pname(x.player_id))} ${x.fastest_lap ? '<span class="fl">NK</span>' : ""}</td><td class="num ptsbig">+${ptsFor(s, x)}</td></tr>`).join("")}</tbody></table>`
-      : `<div class="empty">Tento závod ešte nebol odjazdený.</div>`}
-    <div class="row" style="margin-top:16px;justify-content:flex-end;gap:8px">${canEdit() ? `<button class="btn" data-edit-race="${r.id}">${res.length ? "Upraviť výsledky" : "Zapísať výsledky"}</button>` : ""}<button class="btn" data-close>Zavrieť</button></div>`);
+  openModal(`<div class="kerb"></div><div class="mc"><small class="muted">${esc(s.name)}, kolo ${r.round}${r.race_date ? `, ${fmtDate(r.race_date)}` : ""}</small>
+    <h2 class="disp" style="font-size:44px;margin:6px 0 14px"><span class="flag" style="font-style:normal">${flag(r.track)}</span> ${esc(r.track)}</h2>
+    ${res.length ? `<div style="display:grid;gap:2px">${res.map(x => resRow(s, x)).join("")}</div>` : `<p class="mist">Tento závod sa ešte nejazdil.</p>`}
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:18px">${canEdit() ? `<button class="btn ${res.length ? "" : "go"}" data-edit-race="${r.id}">${res.length ? "Upraviť výsledky" : "Zapísať výsledky"}</button>` : ""}<button class="btn ghost" data-close>Zavrieť</button></div></div>`);
 }
 
-// ===== Hráči =====
+// ===== DRIVERS =====
 function viewPlayers() {
   if (S.view) return playerDetail(+S.view);
   const at = allTime().filter(a => a.starts > 0 || P.get(a.pid)?.active).sort((a, b) => b.titles - a.titles || b.pts - a.pts);
-  if (!at.length) return `<div class="card empty">Zatiaľ žiadni hráči.</div>`;
-  return `<h2 style="font-size:24px;font-weight:900;margin-bottom:14px">Hráči</h2><div class="players">${at.map(a => {
-    const p = P.get(a.pid);
-    return `<div class="card pcard" data-player="${a.pid}">
-      <div class="row"><div class="avatar">${esc(initials(p.name))}</div><div><div class="pname">${esc(p.name)} ${a.titles ? `<span class="trophy" title="Tituly">${"🏆".repeat(Math.min(a.titles, 5))}</span>` : ""}</div>
-      <div class="meta">${a.seasons.length} ${plural(a.seasons.length,"sezóna","sezóny","sezón")}${p.active ? "" : " · neaktívny"}</div></div></div>
-      <div class="minis"><div class="mini"><div class="v num">${a.wins}</div><div class="k">Výhry</div></div><div class="mini"><div class="v num">${a.podiums}</div><div class="k">Pódiá</div></div><div class="mini"><div class="v num">${a.pts}</div><div class="k">Body</div></div></div>
-    </div>`; }).join("")}</div>`;
+  if (!at.length) return `<div class="panel empty">Zatiaľ žiadni jazdci.</div>`;
+  return `<div class="ptitle"><h2 style="font-size:40px">Jazdci</h2><span class="side">${at.length} ${plural(at.length, "jazdec", "jazdci", "jazdcov")} vo všetkých sezónach</span></div>
+    <div class="drivers">${at.map(a => { const p = P.get(a.pid);
+      return `<div class="dcard" data-player="${a.pid}" style="--c:${col(a.pid)}"><div class="code">${esc(code(a.pid))}</div><div class="nm">${esc(p.name)}</div>
+        <div class="meta">${a.titles ? `<span class="cups">${"🏆".repeat(Math.min(a.titles, 4))}</span> ` : ""}${a.seasons.length} ${plural(a.seasons.length, "sezóna", "sezóny", "sezón")}${p.active ? "" : ", neaktívny"}</div>
+        <div class="dstats"><div><b class="num">${a.wins}</b><span>výhry</span></div><div><b class="num">${a.podiums}</b><span>pódiá</span></div><div><b class="num">${a.pts}</b><span>body</span></div></div></div>`; }).join("")}</div>`;
 }
 function playerDetail(pid) {
-  const p = P.get(pid); if (!p) return `<div class="card empty">Hráč neexistuje.</div>`;
+  const p = P.get(pid); if (!p) return `<div class="panel empty">Jazdec neexistuje.</div>`;
   const all = allTime(); const a = all.find(x => x.pid === pid);
   const rank = key => [...all].filter(x => x.starts).sort((x, y) => y[key] - x[key]).findIndex(x => x.pid === pid) + 1;
-  // recent form (last 5 results)
-  const myRes = S.results.filter(r => r.player_id === pid).map(r => ({ r, race: S.races.find(x => x.id === r.race_id) })).filter(x => x.race)
+  const mine = S.results.filter(r => r.player_id === pid).map(r => ({ r, race: S.races.find(x => x.id === r.race_id) })).filter(x => x.race)
     .sort((x, y) => (season(x.race.season_id).sort_order - season(y.race.season_id).sort_order) || x.race.round - y.race.round);
-  const form = myRes.slice(-5);
   const others = S.players.filter(q => q.id !== pid && S.results.some(r => r.player_id === q.id));
   const opp = S.h2h && S.h2h !== pid && P.get(S.h2h) ? S.h2h : (others[0]?.id ?? null);
-  let h2hHtml = "";
+  let h2h = "";
   if (opp) {
-    let ahead = 0, behind = 0, races = 0;
-    for (const arr of RES_BY_RACE.values()) {
-      const me = arr.find(x => x.player_id === pid), ot = arr.find(x => x.player_id === opp);
-      if (me && ot) { races++; if (me.position < ot.position) ahead++; else behind++; }
-    }
-    const pa = races ? Math.round(ahead / races * 100) : 50;
-    h2hHtml = `<div class="card pad"><div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:8px"><b>Vzájomné súboje</b>
-      <select class="input" id="h2hSel" style="width:auto">${others.map(o => `<option value="${o.id}" ${o.id === opp ? "selected" : ""}>vs. ${esc(o.name)}</option>`).join("")}</select></div>
-      ${races ? `<div class="row" style="justify-content:space-between;margin-top:14px;font-weight:900;font-size:22px"><span class="num">${ahead}</span><span class="muted" style="font-size:13px;font-weight:600">${races} spoločných pretekov</span><span class="num">${behind}</span></div>
-      <div style="display:flex;height:10px;border-radius:6px;overflow:hidden;margin-top:6px;gap:2px"><i style="width:${pa}%;background:var(--red)"></i><i style="flex:1;background:var(--surface-3)"></i></div>
-      <div class="row muted" style="justify-content:space-between;font-size:13px;margin-top:4px"><span>${esc(p.name)} pred</span><span>${esc(pname(opp))} pred</span></div>` : `<p class="muted">Nikdy spolu nejazdili.</p>`}</div>`;
+    let ahead = 0, behind = 0, n = 0;
+    for (const arr of RES_BY_RACE.values()) { const me = arr.find(x => x.player_id === pid), ot = arr.find(x => x.player_id === opp); if (me && ot) { n++; me.position < ot.position ? ahead++ : behind++; } }
+    const pa = n ? ahead / n * 100 : 50;
+    h2h = `<div class="panel h2h"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><b>Vzájomné súboje</b>
+      <select class="sel" id="h2hSel">${others.map(o => `<option value="${o.id}" ${o.id === opp ? "selected" : ""}>proti ${esc(o.name)}</option>`).join("")}</select></div>
+      ${n ? `<div class="score"><b class="num" style="color:${col(pid)}">${ahead}</b><span class="muted">${n} spoločných pretekov</span><b class="num" style="color:${col(opp)}">${behind}</b></div>
+      <div class="bar"><i style="width:${pa}%;background:${col(pid)}"></i><i style="flex:1;background:${col(opp)}"></i></div>
+      <div style="display:flex;justify-content:space-between" class="muted"><span>${esc(p.name)} skončil vyššie</span><span>${esc(pname(opp))} skončil vyššie</span></div>` : `<p class="mist">Ešte spolu nejazdili.</p>`}</div>`;
   }
-  return `<button class="back" data-go="players">‹ Všetci hráči</button>
-    <div class="row" style="gap:14px;margin-bottom:16px"><div class="avatar" style="width:60px;height:60px;font-size:24px;background:var(--red)">${esc(initials(p.name))}</div>
-      <div><h1 style="font-size:32px;font-weight:900;font-style:italic">${esc(p.name)}</h1>
-      <div class="muted">${a.titles ? `<span class="trophy">🏆 ${a.titles}× šampión</span> (${a.titleNames.map(esc).join(", ")}) · ` : ""}${a.seasons.length} ${plural(a.seasons.length,"sezóna","sezóny","sezón")}</div></div></div>
-    <div class="statgrid" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">
-      ${[["Body celkovo", a.pts, rank("pts")],["Výhry", a.wins, rank("wins")],["Pódiá", a.podiums, rank("podiums")],["Najrýchl. kolá", a.fl, a.fl ? rank("fl") : null],["Štarty", a.starts, null],["Ø pozícia", fmtAvg(a.avg), null],["Úspešnosť výhier", a.starts ? Math.round(a.wins / a.starts * 100) + " %" : "–", null]]
-        .map(([k, v, rk]) => `<div class="card stat"><div class="k">${k}</div><div class="v num">${v}</div>${rk ? `<div class="muted" style="font-size:12px">${rk}. v histórii</div>` : ""}</div>`).join("")}
-    </div>
-    ${form.length ? `<h2 class="sec">Posledné preteky</h2><div class="row" style="flex-wrap:wrap;gap:8px">${form.map(f => `<div class="card" style="padding:10px 12px;display:flex;align-items:center;gap:10px"><span class="posn ${f.r.position <= 3 ? "p" + f.r.position : ""}">${f.r.position}</span><div style="font-size:13px"><b>${flag(f.race.track)} ${esc(f.race.track)}</b><div class="muted">${esc(season(f.race.season_id).name)}</div></div></div>`).join("")}</div>` : ""}
-    <h2 class="sec">Po sezónach</h2>
-    <div class="card tbl-wrap"><table><thead><tr><th class="l">Sezóna</th><th>Umiestnenie</th><th>Body</th><th>Výhry</th><th>Pódiá</th><th>NK</th><th class="hide-sm">Štarty</th><th class="hide-sm">Ø poz.</th></tr></thead>
-    <tbody>${a.seasons.map(x => `<tr data-season-go="${x.sid}"><td class="l pname">${esc(x.name)}${x.current ? ' <span class="pill live" style="font-size:11px">prebieha</span>' : ""}</td><td><span class="posn ${x.place <= 3 ? "p" + x.place : ""}">${x.place}</span></td><td class="ptsbig num">${x.pts}</td><td class="num">${x.wins}</td><td class="num">${x.podiums}</td><td class="num">${x.fl || ""}</td><td class="hide-sm num">${x.starts}</td><td class="hide-sm num">${fmtAvg(x.avg)}</td></tr>`).join("") || `<tr><td colspan="8" class="l muted">Zatiaľ žiadne výsledky</td></tr>`}</tbody></table></div>
-    <h2 class="sec">Head-to-head</h2>${h2hHtml || '<div class="card empty">Žiadni súperi.</div>'}`;
+  const kv = [["Body", a.pts, rank("pts")], ["Výhry", a.wins, rank("wins")], ["Pódiá", a.podiums, rank("podiums")], ["Najrýchl. kolá", a.fl, a.fl ? rank("fl") : 0], ["Štarty", a.starts, 0], ["Ø umiestnenie", fmtAvg(a.avg), 0]];
+  return `<button class="back" data-go="players">‹ Všetci jazdci</button>
+    <div class="dhero" style="--c:${col(pid)}"><div class="code">${esc(code(pid))}</div><h1>${esc(p.name)}</h1>
+      <p>${a.titles ? `<span class="cups">🏆</span> ${a.titles}× šampión (${a.titleNames.map(esc).join(", ")}), ` : ""}${a.seasons.length} ${plural(a.seasons.length, "sezóna", "sezóny", "sezón")}, ${a.starts} ${plural(a.starts, "štart", "štarty", "štartov")}</p></div>
+    <div class="kv">${kv.map(([k, v, r]) => `<div class="panel"><b class="num">${v}</b><span>${k}</span>${r ? `<em>${r}. v histórii ligy</em>` : ""}</div>`).join("")}</div>
+    ${mine.length ? `<div class="ptitle" style="margin-top:26px"><h2>Posledné preteky</h2></div><div style="display:flex;gap:8px;flex-wrap:wrap">${mine.slice(-6).reverse().map(f => `<div class="panel" style="padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer" data-race="${f.race.id}">${posb(f.r.position)}<div><b>${flag(f.race.track)} ${esc(f.race.track)}</b><div class="muted" style="font-size:13px">${esc(season(f.race.season_id).name)}</div></div></div>`).join("")}</div>` : ""}
+    <div class="ptitle" style="margin-top:26px"><h2>Po sezónach</h2></div>
+    <div class="panel" style="overflow-x:auto"><table class="t"><thead><tr><th class="l">Sezóna</th><th>Miesto</th><th>Body</th><th>Výhry</th><th>Pódiá</th><th>NK</th><th>Štarty</th></tr></thead>
+      <tbody>${a.seasons.map(x => `<tr class="click" data-season-go="${x.sid}"><td class="l"><b>${esc(x.name)}</b>${x.current ? ' <span class="pill red">prebieha</span>' : ""}</td><td>${posb(x.place, true)}</td><td><b class="disp num" style="font-size:20px">${x.pts}</b></td><td class="num">${x.wins}</td><td class="num">${x.podiums}</td><td class="num">${x.fl || ""}</td><td class="num">${x.starts}</td></tr>`).join("") || `<tr><td colspan="7" class="l muted">Zatiaľ bez výsledkov</td></tr>`}</tbody></table></div>
+    <div class="ptitle" style="margin-top:26px"><h2>Head-to-head</h2></div>${h2h || `<div class="panel empty">Žiadni súperi.</div>`}`;
 }
 
-// ===== Sieň slávy =====
+// ===== HALL OF FAME =====
 function viewHof() {
   const all = allTime().filter(a => a.starts);
-  const champs = S.seasons.map(s => ({ s, st: standings(s.id) })).filter(x => x.st.rows.length);
-  const top = (key, label, fmt = v => v) => {
-    const list = [...all].sort((a, b) => b[key] - a[key]).filter(a => a[key] > 0).slice(0, 5);
-    return `<div class="card pad"><div class="k muted" style="font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">${label}</div>
-      ${list.map((a, i) => `<div class="list-row" data-player="${a.pid}" style="cursor:pointer"><span class="posn ${i < 3 ? "p" + (i + 1) : ""}" style="width:24px;height:24px;font-size:12px">${i + 1}</span><span class="pname" style="flex:1;font-size:15px">${esc(pname(a.pid))}</span><b class="num">${fmt(a[key])}</b></div>`).join("") || '<div class="muted">–</div>'}</div>`;
+  const champs = S.seasons.map(s => ({ s, st: standings(s.id) })).filter(x => x.st.rows.length).reverse();
+  const board = (key, title, fmt = v => v, filter = () => true) => {
+    const list = [...all].filter(filter).sort((a, b) => (typeof key === "function" ? key(b) - key(a) : b[key] - a[key])).filter(a => (typeof key === "function" ? key(a) : a[key]) > 0).slice(0, 5);
+    return `<div class="panel lb"><h3>${title}</h3>${list.map((a, i) => `<div class="r" data-player="${a.pid}">${posb(i + 1, true)}<span>${tag(a.pid)} <span class="mist" style="margin-left:4px">${esc(pname(a.pid))}</span></span><b class="num">${fmt(typeof key === "function" ? key(a) : a[key])}</b></div>`).join("") || '<p class="muted">Zatiaľ nič</p>'}</div>`;
   };
-  return `<h2 style="font-size:24px;font-weight:900;margin-bottom:14px">Sieň slávy</h2>
-    <div class="races">${[...champs].reverse().map(({ s, st }) => {
-      const fin = isFinished(s);
-      return `<div class="card race" data-season-go="${s.id}"><div class="rn">${esc(s.name)} · ${st.done.length}/${st.races.length} pretekov</div>
-      <div class="tn">${fin ? '<span class="trophy">🏆</span>' : '<span class="pill live">prebieha</span>'} ${esc(pname(st.rows[0].pid))}</div>
-      <div class="podium">${st.rows.slice(0, 3).map((r, i) => `<div class="pr"><span class="posn p${i + 1}">${i + 1}</span>${esc(pname(r.pid))}<span class="pp num">${r.pts} b</span></div>`).join("")}</div></div>`; }).join("")}</div>
-    <h2 class="sec">Historické rebríčky</h2>
-    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
-      ${top("titles", "Tituly")}${top("wins", "Výhry")}${top("podiums", "Pódiá")}${top("pts", "Body celkovo")}${top("fl", "Najrýchlejšie kolá")}${top("starts", "Štarty")}
-      ${(() => { const list = [...all].filter(a => a.starts >= 10).sort((a, b) => b.wins / b.starts - a.wins / a.starts).filter(a => a.wins).slice(0, 5);
-        return `<div class="card pad"><div class="muted" style="font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">Úspešnosť výhier <span style="text-transform:none;letter-spacing:0">(min. 10 štartov)</span></div>${list.map((a, i) => `<div class="list-row" data-player="${a.pid}" style="cursor:pointer"><span class="posn ${i < 3 ? "p" + (i + 1) : ""}" style="width:24px;height:24px;font-size:12px">${i + 1}</span><span class="pname" style="flex:1;font-size:15px">${esc(pname(a.pid))}</span><b class="num">${Math.round(a.wins / a.starts * 100)} %</b></div>`).join("") || '<div class="muted">–</div>'}</div>`; })()}
-    </div>`;
+  return `<div class="ptitle"><h2 style="font-size:40px">Sieň slávy</h2><span class="side">${champs.length} ${plural(champs.length, "sezóna", "sezóny", "sezón")}</span></div>
+    <div class="champs">${champs.map(({ s, st }) => { const fin = isFinished(s); const w = st.rows[0];
+      return `<div class="champ ${fin ? "" : "live"}" data-season-go="${s.id}">${TROPHY}<small>${esc(s.name)}${fin ? "" : ", prebieha"}</small>
+        <h3 style="color:${col(w.pid)}">${esc(pname(w.pid))}</h3><div class="mist">${w.pts} bodov, ${w.wins} ${plural(w.wins, "výhra", "výhry", "výhier")}</div>
+        <div class="rest">${st.rows.slice(1, 3).map((r, i) => `<div>${posb(i + 2, true)}${esc(pname(r.pid))}<b class="num">${r.pts}</b></div>`).join("")}</div></div>`; }).join("")}</div>
+    <div class="ptitle" style="margin-top:30px"><h2>Historické rebríčky</h2></div>
+    <div class="boards">${board("titles", "Tituly")}${board("wins", "Výhry")}${board("podiums", "Pódiá")}${board("pts", "Body")}${board("fl", "Najrýchlejšie kolá")}
+      ${board(a => a.wins / a.starts, "Úspešnosť výhier", v => Math.round(v * 100) + " %", a => a.starts >= 10)}</div>`;
 }
 
-// ===== Admin =====
+// ===== ADMIN =====
 function viewAdmin() {
-  if (!canEdit()) return `<div class="card pad" style="max-width:460px;margin:30px auto">
-    <h2 style="font-size:22px;font-weight:900;margin-bottom:6px">Správa ligy</h2>
-    ${S.user ? `<p class="t2" style="margin-top:0">Si prihlásený ako <b>${esc(S.profile?.display_name || "")}</b>, ale zatiaľ nemáš práva na zapisovanie. Požiadaj admina, aby ti ich pridelil.</p>`
-      : `<p class="t2" style="margin-top:0">Na zapisovanie výsledkov sa musíš prihlásiť. Prezerať môže každý aj bez účtu.</p><button class="btn primary" data-account>Prihlásiť sa</button>`}</div>`;
-  const s = season(S.seasonId);
-  const races = s ? seasonRaces(s.id) : [];
+  if (!canEdit()) return `<div class="panel empty">Na správu ligy nemáš oprávnenie.</div>`;
+  const s = season(S.seasonId); const races = s ? seasonRaces(s.id) : [];
   if (!S.edit || !races.some(r => r.id === S.edit.raceId)) {
-    const next = races.find(r => !RES_BY_RACE.has(r.id)) || races[races.length - 1];
-    S.edit = next ? { raceId: next.id, order: (RES_BY_RACE.get(next.id) || []).map(x => ({ player_id: x.player_id, fl: x.fastest_lap })) } : null;
+    const nx = races.find(r => !RES_BY_RACE.has(r.id)) || races[races.length - 1];
+    S.edit = nx ? { raceId: nx.id, order: (RES_BY_RACE.get(nx.id) || []).map(x => ({ player_id: x.player_id, fl: x.fastest_lap })) } : null;
   }
-  const activePlayers = S.players.filter(p => p.active).sort((a, b) => a.name.localeCompare(b.name, "sk"));
+  const active = S.players.filter(p => p.active).sort((a, b) => a.name.localeCompare(b.name, "sk"));
   const scheme = s ? (s.points_scheme || DEFAULT_SCHEME) : DEFAULT_SCHEME;
-  const editRace = S.edit && S.races.find(r => r.id === S.edit.raceId);
+  const er = S.edit && S.races.find(r => r.id === S.edit.raceId);
   const used = new Set(S.edit?.order.map(o => o.player_id));
+  const pending = S.profiles.filter(u => u.role === "pending").length;
 
-  const resultsSec = !s ? `<p class="muted">Najprv treba vytvoriť sezónu${isAdmin() ? " (nižšie)" : " – to môže admin"}.</p>` : !races.length ? `<p class="muted">Sezóna nemá preteky – pridaj ich v sekcii Kalendár.</p>` : `
-    <label class="f">Závod<select class="input" id="raceSel">${races.map(r => `<option value="${r.id}" ${r.id === S.edit.raceId ? "selected" : ""}>${r.round}. ${esc(r.track)}${RES_BY_RACE.has(r.id) ? " ✓" : ""}</option>`).join("")}</select></label>
-    ${RES_BY_RACE.has(editRace.id) ? `<p class="hint">⚠️ Tento závod už má výsledky – uložením ich prepíšeš.</p>` : ""}
-    <p class="hint" style="margin-top:14px">Ťukaj na jazdcov <b>v poradí, v akom dojazdili</b> (prvý ťuk = 1. miesto). Poradie potom upravíš potiahnutím za ⠿ alebo šípkami.</p>
-    <div class="chips">${activePlayers.map(p => `<button class="chip ${used.has(p.id) ? "used" : ""}" data-add="${p.id}">${esc(p.name)}</button>`).join("")}</div>
-    <div class="order">${S.edit.order.map((o, i) => `<div class="orow"><span class="drag" data-drag="${i}" title="Potiahni na zmenu poradia">⠿</span><span class="posn ${i < 3 ? "p" + (i + 1) : ""}">${i + 1}</span><span class="pname">${esc(pname(o.player_id))}</span>
+  const resultsSec = !s ? `<p class="mist">Najprv treba vytvoriť sezónu.</p>` : !races.length ? `<p class="mist">Sezóna nemá preteky, pridaj ich v kalendári.</p>` : `
+    <label class="f">Závod<select class="input" id="raceSel">${races.map(r => `<option value="${r.id}" ${r.id === S.edit.raceId ? "selected" : ""}>${r.round}. ${esc(r.track)}${RES_BY_RACE.has(r.id) ? " (zapísané)" : ""}</option>`).join("")}</select></label>
+    ${RES_BY_RACE.has(er.id) ? `<p class="hint">Tento závod už má výsledky. Uložením ich prepíšeš.</p>` : ""}
+    <p class="hint" style="margin-top:14px">Ťukaj na jazdcov v poradí, v akom dojazdili. Poradie potom upravíš potiahnutím za ⠿.</p>
+    <div class="chips">${active.map(p => `<button class="chip ${used.has(p.id) ? "used" : ""}" data-add="${p.id}" style="--c:${col(p.id)}">${tag(p.id)}<span class="mist">${esc(p.name)}</span></button>`).join("")}</div>
+    <div class="order">${S.edit.order.map((o, i) => `<div class="orow" style="--c:${col(o.player_id)}"><span class="drag" data-drag="${i}" title="Potiahni">⠿</span>${posb(i + 1, true)}<span class="nm">${esc(pname(o.player_id))}</span>
       <span class="pp num">+${(scheme[i] || 0) + (o.fl ? (s.fastest_lap_bonus || 0) : 0)}</span>
-      <button class="mini-btn ${o.fl ? "on" : ""}" data-fl="${i}" title="Najrýchlejšie kolo">NK</button>
-      <button class="mini-btn" data-up="${i}" ${i ? "" : "disabled"} title="Posunúť hore">↑</button>
-      <button class="mini-btn" data-down="${i}" ${i < S.edit.order.length - 1 ? "" : "disabled"} title="Posunúť dole">↓</button>
-      <button class="mini-btn" data-rm="${i}" title="Odobrať">✕</button></div>`).join("") || '<div class="muted" style="padding:8px 0">Zatiaľ nikto…</div>'}</div>
-    <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn primary" id="saveRes" ${S.edit.order.length ? "" : "disabled"}>Uložiť výsledky</button>
-      <button class="btn" id="resetRes">Vyčistiť výber</button>
-      ${RES_BY_RACE.has(editRace.id) ? `<button class="btn danger" id="clearRes">Zmazať výsledky závodu</button>` : ""}</div>
-    <p class="hint">NK = najrýchlejšie kolo. ${(s.fastest_lap_bonus || 0) ? `Dáva +${s.fastest_lap_bonus} ${plural(s.fastest_lap_bonus,"bod","body","bodov")}.` : "Eviduje sa iba do štatistík, body nepridáva."}</p>`;
+      <button class="mb ${o.fl ? "on" : ""}" data-fl="${i}" title="Najrýchlejšie kolo">NK</button>
+      <button class="mb" data-up="${i}" ${i ? "" : "disabled"} aria-label="Hore">↑</button><button class="mb" data-down="${i}" ${i < S.edit.order.length - 1 ? "" : "disabled"} aria-label="Dole">↓</button>
+      <button class="mb" data-rm="${i}" aria-label="Odobrať">✕</button></div>`).join("") || `<p class="muted" style="margin:4px 0">Zatiaľ nikto.</p>`}</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn go" id="saveRes" ${S.edit.order.length ? "" : "disabled"}>Uložiť výsledky</button><button class="btn ghost" id="resetRes">Vyčistiť</button>
+      ${RES_BY_RACE.has(er.id) ? `<button class="btn danger" id="clearRes">Zmazať výsledky závodu</button>` : ""}</div>
+    <p class="hint">NK je najrýchlejšie kolo. ${(s.fastest_lap_bonus || 0) ? `Dáva +${s.fastest_lap_bonus} b.` : "Počíta sa iba do štatistík."}</p>`;
 
-  const calSec = !s ? "" : `${races.map(r => `<div class="list-row"><span class="muted num" style="width:26px">${r.round}.</span>
-      <input class="input" style="flex:1" value="${esc(r.track)}" data-track="${r.id}">
-      <input class="input" type="date" style="width:150px" value="${r.race_date || ""}" data-date="${r.id}" title="Dátum (nepovinné)">
-      <button class="mini-btn" data-delrace="${r.id}" title="Zmazať závod">✕</button></div>`).join("")}
-    <form class="row" id="addRaceForm" style="margin-top:12px;gap:8px"><input class="input" id="newTrack" placeholder="Nová trať, napr. Madrid" required><button class="btn" type="submit">Pridať</button></form>
-    <p class="hint">Zmeny názvu a dátumu sa uložia, keď klikneš mimo políčka.</p>`;
+  const calSec = !s ? "" : `${races.map(r => `<div class="lrow"><span class="muted num" style="width:24px">${r.round}.</span>
+      <input class="input" style="flex:1" value="${esc(r.track)}" data-track="${r.id}"><input class="input" type="date" style="width:150px" value="${r.race_date || ""}" data-date="${r.id}" title="Dátum (nepovinné)">
+      <button class="mb" data-delrace="${r.id}" aria-label="Zmazať závod">✕</button></div>`).join("")}
+    <form id="addRaceForm" style="display:flex;gap:8px;margin-top:12px"><input class="input" id="newTrack" placeholder="Nová trať" required><button class="btn" type="submit">Pridať</button></form>
+    <p class="hint">Zmena názvu alebo dátumu sa uloží, keď klikneš mimo políčka.</p>`;
 
-  const playersSec = `${S.players.slice().sort((a, b) => a.name.localeCompare(b.name, "sk")).map(p => `<div class="list-row">
-      <input class="input" style="flex:1" value="${esc(p.name)}" data-pname="${p.id}">
-      <button class="btn sm ${p.active ? "" : "danger"}" data-pactive="${p.id}">${p.active ? "Aktívny" : "Neaktívny"}</button></div>`).join("")}
-    <form class="row" id="addPlayerForm" style="margin-top:12px;gap:8px"><input class="input" id="newPlayer" placeholder="Meno nového hráča" required><button class="btn" type="submit">Pridať hráča</button></form>
-    <p class="hint">Neaktívni hráči sa neponúkajú pri zápise výsledkov, ich história ostáva.</p>`;
+  const playersSec = `${S.players.slice().sort((a, b) => a.name.localeCompare(b.name, "sk")).map(p => `<div class="lrow">${tag(p.id)}
+      <input class="input" style="flex:1" value="${esc(p.name)}" data-pname="${p.id}"><button class="btn sm ${p.active ? "" : "danger"}" data-pactive="${p.id}">${p.active ? "Aktívny" : "Neaktívny"}</button></div>`).join("")}
+    <form id="addPlayerForm" style="display:flex;gap:8px;margin-top:12px"><input class="input" id="newPlayer" placeholder="Meno nového jazdca" required><button class="btn" type="submit">Pridať</button></form>
+    <p class="hint">Neaktívni jazdci sa neponúkajú pri zápise výsledkov, ich história ostáva.</p>`;
 
-  const postSec = !s ? "" : `${activePlayers.map(p => { const c = S.post.find(x => x.season_id === s.id && x.player_id === p.id)?.count || 0;
-      return `<div class="list-row"><span class="pname" style="flex:1">${esc(p.name)}</span><button class="mini-btn" data-odk="${p.id}" data-d="-1" ${c ? "" : "disabled"}>−</button><b class="num" style="width:26px;text-align:center">${c}</b><button class="mini-btn" data-odk="${p.id}" data-d="1">+</button></div>`; }).join("")}`;
+  const postSec = !s ? "" : active.map(p => { const c = S.post.find(x => x.season_id === s.id && x.player_id === p.id)?.count || 0;
+    return `<div class="lrow">${tag(p.id)}<span style="flex:1" class="mist">${esc(p.name)}</span><button class="mb" data-odk="${p.id}" data-d="-1" ${c ? "" : "disabled"}>−</button><b class="disp num" style="width:28px;text-align:center;font-size:22px">${c}</b><button class="mb" data-odk="${p.id}" data-d="1">+</button></div>`; }).join("");
 
-  const seasonSec = `${s ? `<form id="seasonForm" class="grid" style="margin-bottom:18px">
-      <b>Nastavenia: ${esc(s.name)}</b>
+  const seasonSec = `${s ? `<form id="seasonForm" style="display:grid;gap:12px;margin-bottom:22px"><b>${esc(s.name)}</b>
       <label class="f">Názov<input class="input" id="sName" value="${esc(s.name)}" required></label>
-      <label class="f">Body za umiestnenia (oddelené čiarkou)<input class="input" id="sScheme" value="${scheme.join(", ")}" required></label>
+      <label class="f">Body za umiestnenia, oddelené čiarkou<input class="input" id="sScheme" value="${scheme.join(", ")}" required></label>
       <label class="f">Body navyše za najrýchlejšie kolo (0 = iba štatistika)<input class="input" type="number" min="0" max="10" id="sFl" value="${s.fastest_lap_bonus || 0}"></label>
-      <label class="row" style="gap:8px;font-weight:600"><input type="checkbox" id="sCur" ${s.is_current ? "checked" : ""}> Aktuálna sezóna (otvorí sa ako prvá)</label>
-      <div><button class="btn" type="submit">Uložiť nastavenia sezóny</button></div></form>` : ""}
-    <form id="newSeasonForm" class="grid"><b>Nová sezóna</b>
+      <label style="display:flex;gap:8px;align-items:center;font-weight:600"><input type="checkbox" id="sCur" ${s.is_current ? "checked" : ""}> Aktuálna sezóna</label>
+      <div><button class="btn" type="submit">Uložiť sezónu</button></div></form>` : ""}
+    <form id="newSeasonForm" style="display:grid;gap:12px"><b>Nová sezóna</b>
       <label class="f">Názov<input class="input" id="nsName" value="Sezóna ${S.seasons.length + 1}" required></label>
-      <label class="f">Kalendár tratí skopírovať z<select class="input" id="nsCopy"><option value="">— prázdny kalendár —</option>${[...S.seasons].reverse().map(x => `<option value="${x.id}" ${x.id === S.seasonId ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
-      <label class="row" style="gap:8px;font-weight:600"><input type="checkbox" id="nsCur" checked> Nastaviť ako aktuálnu</label>
-      <div><button class="btn primary" type="submit">Vytvoriť sezónu</button></div></form>`;
+      <label class="f">Kalendár skopírovať zo sezóny<select class="input" id="nsCopy"><option value="">Prázdny kalendár</option>${[...S.seasons].reverse().map(x => `<option value="${x.id}" ${x.id === S.seasonId ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
+      <label style="display:flex;gap:8px;align-items:center;font-weight:600"><input type="checkbox" id="nsCur" checked> Nastaviť ako aktuálnu</label>
+      <div><button class="btn go" type="submit">Vytvoriť sezónu</button></div></form>`;
 
-  const usersSec = `${S.profiles.map(u => `<div class="list-row"><div style="flex:1;min-width:0"><div class="pname">${esc(u.display_name)}${u.id === S.user.id ? ' <span class="muted" style="font-weight:600;font-size:13px">(ty)</span>' : ""}</div><div class="muted" style="font-size:13px;overflow:hidden;text-overflow:ellipsis">${esc(u.email || "")}</div></div>
-      ${u.id === S.user.id ? `<span class="pill">${ROLE_LABEL[u.role]}</span>` : `<select class="input" style="width:auto" data-role="${u.id}">${["viewer", "editor", "admin"].map(r => `<option value="${r}" ${r === u.role ? "selected" : ""}>${ROLE_LABEL[r]}</option>`).join("")}</select>`}</div>`).join("")}
-    <p class="hint">Kto chce zapisovať, zaregistruje sa v appke cez ikonu účtu vpravo hore. Potom sa tu objaví a dáš mu rolu <b>Zapisovateľ</b>.<br>Zapisovateľ: výsledky, kalendár, hráči, odklady. Admin navyše spravuje sezóny a role.</p>`;
-  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h2 style="font-size:24px;font-weight:900">Správa ${s ? `<span class="muted" style="font-size:16px;font-weight:600">· ${esc(s.name)}</span>` : ""}</h2><span class="pill">${ROLE_LABEL[S.profile.role]}</span></div>
-    <details class="adm card" ${s && races.length ? "open" : ""}><summary>🏁 Zapísať výsledky</summary><div class="body">${resultsSec}</div></details>
-    ${s ? `<details class="adm card"><summary>📅 Kalendár pretekov</summary><div class="body">${calSec}</div></details>` : ""}
-    <details class="adm card"><summary>👥 Hráči</summary><div class="body">${playersSec}</div></details>
-    ${s ? `<details class="adm card"><summary>⏸️ Odklady</summary><div class="body"><p class="hint" style="margin-top:0">Počet odložených pretekov v sezóne ${esc(s.name)}.</p>${postSec}</div></details>` : ""}
-    ${isAdmin() ? `<details class="adm card" ${s ? "" : "open"}><summary>🗓️ Sezóny</summary><div class="body">${seasonSec}</div></details>
-    <details class="adm card"><summary>🔐 Používatelia a role</summary><div class="body">${usersSec}</div></details>` : ""}`;
+  const usersSec = `${S.profiles.map(u => `<div class="lrow"><div style="flex:1;min-width:0"><b>${esc(u.display_name)}</b>${u.id === S.user.id ? ' <span class="muted">(ty)</span>' : ""}${u.role === "pending" ? ' <span class="pill amber">čaká</span>' : ""}
+      <div class="muted" style="font-size:13px;overflow:hidden;text-overflow:ellipsis">${esc(u.email || "")}</div></div>
+      ${u.id === S.user.id ? `<span class="pill">${ROLE_LABEL[u.role]}</span>` : u.role === "pending"
+        ? `<button class="btn sm go" data-approve="${u.id}">Schváliť</button><select class="sel" data-role="${u.id}">${["pending", "viewer", "editor", "admin"].map(r => `<option value="${r}" ${r === u.role ? "selected" : ""}>${ROLE_LABEL[r]}</option>`).join("")}</select>`
+        : `<select class="sel" data-role="${u.id}">${["pending", "viewer", "editor", "admin"].map(r => `<option value="${r}" ${r === u.role ? "selected" : ""}>${r === "pending" ? "Zablokovať" : ROLE_LABEL[r]}</option>`).join("")}</select>`}</div>`).join("")}
+    <p class="hint">Člen vidí všetko, ale nič nemení. Zapisovateľ zapisuje výsledky, kalendár, jazdcov a odklady. Admin navyše spravuje sezóny a ľudí.</p>`;
+
+  return `<div class="ptitle"><h2 style="font-size:40px">Správa ligy</h2><span class="pill">${ROLE_LABEL[S.profile.role]}</span></div>
+    ${isAdmin() && pending ? `<details class="adm panel" open><summary>Nové žiadosti <small>${pending} ${plural(pending, "človek čaká", "ľudia čakajú", "ľudí čaká")} na schválenie</small></summary><div class="body">${usersSec}</div></details>` : ""}
+    <details class="adm panel" ${s && races.length ? "open" : ""}><summary>Zapísať výsledky ${er ? `<small>${esc(er.track)}, kolo ${er.round}</small>` : ""}</summary><div class="body">${resultsSec}</div></details>
+    ${s ? `<details class="adm panel"><summary>Kalendár <small>${races.length} pretekov</small></summary><div class="body">${calSec}</div></details>` : ""}
+    <details class="adm panel"><summary>Jazdci</summary><div class="body">${playersSec}</div></details>
+    ${s ? `<details class="adm panel"><summary>Odklady <small>${esc(s.name)}</small></summary><div class="body">${postSec}</div></details>` : ""}
+    ${isAdmin() ? `<details class="adm panel" ${s ? "" : "open"}><summary>Sezóny</summary><div class="body">${seasonSec}</div></details>
+      ${pending ? "" : `<details class="adm panel"><summary>Ľudia a prístupy <small>${S.profiles.length} ${plural(S.profiles.length, "účet", "účty", "účtov")}</small></summary><div class="body">${usersSec}</div></details>`}` : ""}`;
 }
 
 // ---------- RPC ----------
 async function rpc(fn, args, okMsg) {
   const { data, error } = await sb.rpc(fn, args);
-  if (error) {
-    toast(errMsg(error), "err");
-    if (/oprávnenie|prihlásený|permission/i.test(error.message || "")) { await loadProfile(); render(); }
-    throw error;
-  }
-  await load(); await loadProfile(); render();
+  if (error) { toast(errMsg(error), "err"); if (/oprávnenie|prihlásený|permission/i.test(error.message || "")) { await loadProfile(); render(); } throw error; }
+  await Promise.all([load(), loadProfile()]); render();
   if (okMsg) toast(okMsg);
   return data;
 }
@@ -788,74 +890,72 @@ const keepOpen = () => [...document.querySelectorAll("details.adm")].map(d => d.
 const restoreOpen = st => document.querySelectorAll("details.adm").forEach((d, i) => { if (st[i] != null) d.open = st[i]; });
 async function adminDo(fn, args, msg) { const st = keepOpen(); let ok = true; try { await rpc(fn, args, msg); } catch { ok = false; } restoreOpen(st); return ok; }
 
-// ---------- modal ----------
-function openModal(html) { $modal.innerHTML = `<div class="modal-bg"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`; }
-function closeModal() { $modal.innerHTML = ""; }
-$modal.addEventListener("click", e => {
-  if (e.target.closest("[data-edit-race]")) { const id = +e.target.closest("[data-edit-race]").dataset.editRace; const r = S.races.find(x => x.id === id);
-    S.edit = { raceId: id, order: (RES_BY_RACE.get(id) || []).map(x => ({ player_id: x.player_id, fl: x.fastest_lap })) }; closeModal(); S.seasonId = r.season_id; go("admin"); return; }
-  if (e.target.classList.contains("modal-bg") || e.target.closest("[data-close]")) { closeModal(); return; }
-  const at = e.target.closest("[data-authtab]"); if (at) { S.authTab = at.dataset.authtab; accountModal(); return; }
-  if (e.target.closest("#logoutBtn")) { sb.auth.signOut().then(() => { S.user = null; loadProfile().then(() => { closeModal(); if (S.tab === "admin") go("standings"); else render(); toast("Odhlásený"); }); }); return; }
-});
-$modal.addEventListener("submit", async e => {
-  e.preventDefault(); const f = e.target; const btn = f.querySelector("button[type=submit]"); if (btn) btn.disabled = true;
+// ---------- auth ----------
+async function afterAuth(user) {
+  S.user = user; await loadProfile();
+  if (isMember() && !S.loaded) { try { await load(); } catch (e) { toast(errMsg(e), "err"); } }
+  if (!isMember()) unload();
+  render();
+}
+async function doLogout() { await sb.auth.signOut(); S.user = null; S.profile = null; unload(); closeModal(); location.hash = ""; render(); toast("Odhlásený"); }
+async function authSubmit(f) {
+  const btn = f.querySelector("button[type=submit]"); if (btn) btn.disabled = true;
   try {
     if (f.id === "loginForm") {
-      const { data, error } = await sb.auth.signInWithPassword({ email: f.email.value.trim(), password: f.password.value });
-      if (error) throw error;
-      S.user = data.user; await loadProfile(); closeModal(); render(); toast(`Ahoj ${S.profile?.display_name || ""}!`);
+      const { data, error } = await sb.auth.signInWithPassword({ email: f.email.value.trim(), password: f.password.value }); if (error) throw error;
+      await afterAuth(data.user); if (isMember()) toast(`Ahoj ${S.profile?.display_name || ""}`);
     } else if (f.id === "signupForm") {
-      const { data, error } = await sb.auth.signUp({ email: f.email.value.trim(), password: f.password.value, options: { data: { display_name: f.dname.value.trim() } } });
-      if (error) throw error;
-      if (data.session) { S.user = data.user; await loadProfile(); closeModal(); render(); toast(canEdit() ? "Účet vytvorený – si admin 👑" : "Účet vytvorený. Admin ti môže prideliť práva."); }
-      else { closeModal(); toast("Skontroluj email a potvrď registráciu"); }
+      const { data, error } = await sb.auth.signUp({ email: f.email.value.trim(), password: f.password.value, options: { data: { display_name: f.dname.value.trim() } } }); if (error) throw error;
+      if (data.session) { await afterAuth(data.user); toast(isAdmin() ? "Účet vytvorený, si admin ligy" : "Účet vytvorený"); }
+      else toast("Skontroluj email a potvrď registráciu");
     } else if (f.id === "nameForm") {
       const { error } = await sb.rpc("update_my_name", { p_name: f.dname.value }); if (error) throw error;
       await loadProfile(); accountModal(); render(); toast("Meno uložené");
     }
   } catch (err) { toast(errMsg(err), "err"); if (btn) btn.disabled = false; }
-});
-function accountModal() {
-  if (!configured) return;
-  if (S.user && S.profile) {
-    openModal(`<div class="row" style="gap:14px;margin-bottom:16px"><div class="avatar" style="background:var(--red);width:52px;height:52px;font-size:20px">${esc(initials(S.profile.display_name))}</div>
-      <div><h2 style="font-size:24px;font-weight:900">${esc(S.profile.display_name)}</h2><div class="muted">${esc(S.user.email || "")} · <span class="pill">${ROLE_LABEL[S.profile.role]}</span></div></div></div>
-      ${S.profile.role === "viewer" ? `<p class="t2">Zatiaľ máš práva iba na prezeranie. Ak máš zapisovať výsledky, povedz adminovi, nech ti dá rolu Zapisovateľ.</p>` : ""}
-      <form id="nameForm" class="row" style="gap:8px"><input class="input" name="dname" value="${esc(S.profile.display_name)}" required><button class="btn" type="submit">Zmeniť meno</button></form>
-      <div class="row" style="margin-top:18px;justify-content:space-between"><button class="btn danger" id="logoutBtn">Odhlásiť sa</button><button class="btn" data-close>Zavrieť</button></div>`);
-    return;
-  }
-  const login = S.authTab === "login";
-  openModal(`<h2 style="font-size:24px;font-weight:900;margin-bottom:4px">${login ? "Prihlásenie" : "Registrácia"}</h2>
-    <p class="t2" style="margin-top:0">Prezerať môže každý aj bez účtu. Účet potrebuješ iba na zapisovanie výsledkov, práva ti pridelí admin.</p>
-    <div class="seg tabs-in"><button data-authtab="login" class="${login ? "on" : ""}">Prihlásiť</button><button data-authtab="signup" class="${login ? "" : "on"}">Nový účet</button></div>
-    <form id="${login ? "loginForm" : "signupForm"}" class="grid">
-      ${login ? "" : `<label class="f">Meno / prezývka<input class="input" name="dname" required maxlength="40" autocomplete="nickname"></label>`}
-      <label class="f">Email<input class="input" type="email" name="email" required autocomplete="email"></label>
-      <label class="f">Heslo<input class="input" type="password" name="password" required minlength="6" autocomplete="${login ? "current-password" : "new-password"}"></label>
-      <div class="row" style="justify-content:space-between;margin-top:6px"><button class="btn" type="button" data-close>Zrušiť</button><button class="btn primary" type="submit">${login ? "Prihlásiť sa" : "Vytvoriť účet"}</button></div>
-    </form>`);
-  setTimeout(() => $modal.querySelector("input")?.focus(), 50);
 }
+function accountModal() {
+  if (!S.user || !S.profile) return;
+  openModal(`<div class="kerb"></div><div class="mc"><small class="muted">${esc(S.user.email || "")}</small>
+    <h2 class="disp" style="font-size:40px;margin:4px 0 6px">${esc(S.profile.display_name)}</h2><span class="pill">${ROLE_LABEL[S.profile.role]}</span>
+    <form id="nameForm" style="display:flex;gap:8px;margin-top:18px"><input class="input" name="dname" value="${esc(S.profile.display_name)}" required aria-label="Meno"><button class="btn" type="submit">Zmeniť meno</button></form>
+    <div style="display:flex;justify-content:space-between;margin-top:20px"><button class="btn danger" data-logout>Odhlásiť sa</button><button class="btn ghost" data-close>Zavrieť</button></div></div>`);
+}
+
+// ---------- modal ----------
+function openModal(html) { $modal.innerHTML = `<div class="modal-bg"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`; }
+function closeModal() { $modal.innerHTML = ""; }
+$modal.addEventListener("click", e => {
+  const ed = e.target.closest("[data-edit-race]"); if (ed) { editRace(+ed.dataset.editRace); return; }
+  if (e.target.classList.contains("modal-bg") || e.target.closest("[data-close]")) { closeModal(); return; }
+  if (e.target.closest("[data-race]")) { raceModal(+e.target.closest("[data-race]").dataset.race); return; }
+  if (e.target.closest("[data-logout]")) { doLogout(); return; }
+});
+$modal.addEventListener("submit", e => { e.preventDefault(); authSubmit(e.target); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+function editRace(id) {
+  const r = S.races.find(x => x.id === id); if (!r) return;
+  S.edit = { raceId: id, order: (RES_BY_RACE.get(id) || []).map(x => ({ player_id: x.player_id, fl: x.fastest_lap })) };
+  closeModal(); S.seasonId = r.season_id; go("admin");
+}
 
 // ---------- events ----------
 $app.addEventListener("click", async e => {
-  const t = e.target.closest("button, [data-player], [data-race], [data-season-go], [data-go]");
-  if (!t) return;
+  const t = e.target.closest("button, [data-player], [data-race], [data-season-go], [data-go]"); if (!t) return;
   const d = t.dataset;
+  if (d.authtab) { S.authTab = d.authtab; render(); return; }
+  if (d.logout != null) { doLogout(); return; }
+  if (d.recheck != null) { t.disabled = true; await afterAuth(S.user); if (!isMember()) toast("Ešte nie si schválený", "err"); return; }
   if (d.toggle) { const id = +d.toggle; S.hidden.has(id) ? S.hidden.delete(id) : S.hidden.add(id); mountChart(); return; }
   if (d.rv) { S.raceView = d.rv; render(); return; }
+  if (d.strip) { const el = document.getElementById("strip"); el && el.scrollBy({ left: +d.strip * Math.max(280, el.clientWidth * 0.8), behavior: "smooth" }); return; }
+  if (d.jump != null) { const el = document.getElementById("strip"); const c = el && el.children[+d.jump]; c && el.scrollTo({ left: c.offsetLeft - el.children[0].offsetLeft, behavior: "smooth" }); return; }
+  if (d.editRace) { editRace(+d.editRace); return; }
   if (d.go) { go(d.go); return; }
   if (d.seasonGo) { S.seasonId = +d.seasonGo; S.hidden.clear(); go("standings"); return; }
-  if (d.strip) { const el = document.getElementById("strip"); el && el.scrollBy({ left: +d.strip * Math.max(260, el.clientWidth * 0.8), behavior: "smooth" }); return; }
-  if (d.jump != null) { const el = document.getElementById("strip"); const c = el && el.children[+d.jump]; c && el.scrollTo({ left: c.offsetLeft - el.children[0].offsetLeft, behavior: "smooth" }); return; }
-  if (d.race) { raceModal(+d.race); return; }
+  if (d.race && t.tagName !== "BUTTON") { raceModal(+d.race); return; }
   if (d.player && t.tagName !== "BUTTON") { go("players", d.player); return; }
-  if (d.account != null) { if (d.account) S.authTab = d.account; accountModal(); return; }
   if (!canEdit()) return;
-  // admin
   const ed = S.edit;
   if (d.add) { ed.order.push({ player_id: +d.add, fl: false }); render(); return; }
   if (d.rm != null) { ed.order.splice(+d.rm, 1); render(); return; }
@@ -865,36 +965,36 @@ $app.addEventListener("click", async e => {
   if (t.id === "resetRes") { ed.order = []; render(); return; }
   if (t.id === "saveRes") {
     t.disabled = true;
-    const ok = await adminDo("save_race_results", { p_race_id: ed.raceId, p_results: ed.order.map((o, i) => ({ player_id: o.player_id, position: i + 1, fastest_lap: o.fl })) }, "Výsledky uložené ✓");
+    const ok = await adminDo("save_race_results", { p_race_id: ed.raceId, p_results: ed.order.map((o, i) => ({ player_id: o.player_id, position: i + 1, fastest_lap: o.fl })) }, "Výsledky uložené");
     if (!ok) { render(); return; }
-    const st = standings(S.seasonId); const nx = st.races.find(r => !RES_BY_RACE.has(r.id));
-    if (nx) { S.edit = { raceId: nx.id, order: [] }; render(); }
+    const nx = standings(S.seasonId).races.find(r => !RES_BY_RACE.has(r.id)); if (nx) { S.edit = { raceId: nx.id, order: [] }; render(); }
     return;
   }
   if (t.id === "clearRes") { if (confirm("Naozaj zmazať všetky výsledky tohto závodu?")) await adminDo("clear_race_results", { p_race_id: ed.raceId }, "Výsledky zmazané"); return; }
-  if (d.delrace) { const r = S.races.find(x => x.id === +d.delrace); if (confirm(`Zmazať závod ${r.track}${RES_BY_RACE.has(r.id) ? " AJ S VÝSLEDKAMI" : ""}?`)) await adminDo("delete_race", { p_race_id: r.id }, "Závod zmazaný"); return; }
+  if (d.delrace) { const r = S.races.find(x => x.id === +d.delrace); if (confirm(`Zmazať závod ${r.track}${RES_BY_RACE.has(r.id) ? " aj s výsledkami" : ""}?`)) await adminDo("delete_race", { p_race_id: r.id }, "Závod zmazaný"); return; }
   if (d.pactive) { const p = P.get(+d.pactive); await adminDo("update_player", { p_player_id: p.id, p_name: p.name, p_active: !p.active }, "Uložené"); return; }
-  if (d.odk) { const pid = +d.odk; const c = S.post.find(x => x.season_id === S.seasonId && x.player_id === pid)?.count || 0;
-    await adminDo("set_postponements", { p_season_id: S.seasonId, p_player_id: pid, p_count: c + (+d.d) }); return; }
+  if (d.odk) { const pid = +d.odk; const c = S.post.find(x => x.season_id === S.seasonId && x.player_id === pid)?.count || 0; await adminDo("set_postponements", { p_season_id: S.seasonId, p_player_id: pid, p_count: c + (+d.d) }); return; }
+  if (d.approve) { await adminDo("set_user_role", { p_user_id: d.approve, p_role: "viewer" }, "Schválené"); return; }
 });
 $app.addEventListener("change", async e => {
   const t = e.target;
   if (t.id === "raceSel") { const id = +t.value; S.edit = { raceId: id, order: (RES_BY_RACE.get(id) || []).map(x => ({ player_id: x.player_id, fl: x.fastest_lap })) }; render(); return; }
   if (t.id === "h2hSel") { S.h2h = +t.value; render(); return; }
+  if (t.dataset.role) { await adminDo("set_user_role", { p_user_id: t.dataset.role, p_role: t.value }, "Prístup zmenený"); return; }
   if (t.dataset.track || t.dataset.date) {
     const id = +(t.dataset.track || t.dataset.date); const r = S.races.find(x => x.id === id);
     const track = t.dataset.track ? t.value.trim() : r.track; const date = t.dataset.date ? (t.value || null) : r.race_date;
     if (!track) { t.value = r.track; return; }
     await adminDo("update_race", { p_race_id: id, p_track: track, p_race_date: date }, "Uložené"); return;
   }
-  if (t.dataset.role) { await adminDo("set_user_role", { p_user_id: t.dataset.role, p_role: t.value }, "Rola zmenená"); return; }
   if (t.dataset.pname) { const p = P.get(+t.dataset.pname); const name = t.value.trim(); if (!name || name === p.name) { t.value = p.name; return; }
     await adminDo("update_player", { p_player_id: p.id, p_name: name, p_active: p.active }, "Uložené"); return; }
 });
 $app.addEventListener("submit", async e => {
   e.preventDefault(); const f = e.target;
+  if (f.id === "loginForm" || f.id === "signupForm") { authSubmit(f); return; }
   if (f.id === "addRaceForm") { await adminDo("add_race", { p_season_id: S.seasonId, p_track: document.getElementById("newTrack").value }, "Závod pridaný"); return; }
-  if (f.id === "addPlayerForm") { await adminDo("add_player", { p_name: document.getElementById("newPlayer").value }, "Hráč pridaný"); return; }
+  if (f.id === "addPlayerForm") { await adminDo("add_player", { p_name: document.getElementById("newPlayer").value }, "Jazdec pridaný"); return; }
   if (f.id === "seasonForm") {
     const scheme = document.getElementById("sScheme").value.split(/[,;\s]+/).filter(Boolean).map(Number);
     if (!scheme.length || scheme.some(n => !Number.isInteger(n) || n < 0)) { toast("Body musia byť celé čísla oddelené čiarkou", "err"); return; }
@@ -902,9 +1002,7 @@ $app.addEventListener("submit", async e => {
   }
   if (f.id === "newSeasonForm") {
     const copy = document.getElementById("nsCopy").value;
-    try { const id = await rpc("create_season", { p_name: document.getElementById("nsName").value, p_copy_from_season: copy ? +copy : null, p_make_current: document.getElementById("nsCur").checked }, "Sezóna vytvorená");
-      S.seasonId = id; S.edit = null; go("admin"); } catch {}
-    return;
+    try { const id = await rpc("create_season", { p_name: document.getElementById("nsName").value, p_copy_from_season: copy ? +copy : null, p_make_current: document.getElementById("nsCur").checked }, "Sezóna vytvorená"); S.seasonId = id; S.edit = null; go("admin"); } catch {}
   }
 });
 $app.addEventListener("pointerdown", e => {
@@ -917,11 +1015,9 @@ $app.addEventListener("pointerdown", e => {
   try { h.setPointerCapture(e.pointerId); } catch {}
   const move = ev => {
     const dy = ev.clientY - startY; row.style.transform = `translateY(${dy}px)`;
-    const y = rects[from].top + rects[from].height / 2 + dy;
-    to = rects.findIndex(r => y < r.bottom); if (to === -1) to = rows.length - 1;
-    rows.forEach((r, i) => { if (i === from) return; let sh = 0;
-      if (from < to && i > from && i <= to) sh = -gap; if (from > to && i < from && i >= to) sh = gap;
-      r.style.transform = sh ? `translateY(${sh}px)` : ""; });
+    const yy = rects[from].top + rects[from].height / 2 + dy;
+    to = rects.findIndex(r => yy < r.bottom); if (to === -1) to = rows.length - 1;
+    rows.forEach((r, i) => { if (i === from) return; let sh = 0; if (from < to && i > from && i <= to) sh = -gap; if (from > to && i < from && i >= to) sh = gap; r.style.transform = sh ? `translateY(${sh}px)` : ""; });
   };
   const up = () => {
     h.removeEventListener("pointermove", move); h.removeEventListener("pointerup", up); h.removeEventListener("pointercancel", up);
@@ -933,15 +1029,14 @@ $app.addEventListener("pointerdown", e => {
 function positionStrip() {
   const el = document.getElementById("strip"); if (!el) return;
   const cards = [...el.children]; if (!cards.length) return;
-  const st = standings(S.seasonId); const nextIdx = st.races.findIndex(r => !RES_BY_RACE.has(r.id));
-  const idx = nextIdx === -1 ? cards.length - 1 : nextIdx;
+  const nextIdx = standings(S.seasonId).races.findIndex(r => !RES_BY_RACE.has(r.id));
+  const i = nextIdx === -1 ? cards.length - 1 : nextIdx; const base = cards[0].offsetLeft;
   el.style.scrollBehavior = "auto";
-  const base = cards[0].offsetLeft;
-  if (el.clientWidth < cards[0].offsetWidth * 2) el.scrollLeft = cards[Math.max(0, nextIdx === -1 ? idx : idx - 1)].offsetLeft - base;
-  else el.scrollLeft = Math.max(0, cards[idx].offsetLeft - base - el.clientWidth + cards[idx].offsetWidth + 4);
+  if (el.clientWidth < cards[0].offsetWidth * 2) el.scrollLeft = cards[Math.max(0, nextIdx === -1 ? i : i - 1)].offsetLeft - base;
+  else el.scrollLeft = Math.max(0, cards[i].offsetLeft - base - el.clientWidth + cards[i].offsetWidth + 4);
   el.style.scrollBehavior = "";
-  el.onwheel = e => { if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-    const max = el.scrollWidth - el.clientWidth; if ((e.deltaY < 0 && el.scrollLeft <= 0) || (e.deltaY > 0 && el.scrollLeft >= max - 1)) return;
+  el.onwheel = e => { if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return; const max = el.scrollWidth - el.clientWidth;
+    if ((e.deltaY < 0 && el.scrollLeft <= 0) || (e.deltaY > 0 && el.scrollLeft >= max - 1)) return;
     e.preventDefault(); el.style.scrollBehavior = "auto"; el.scrollLeft += e.deltaY; el.style.scrollBehavior = ""; };
 }
 let rz; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { if (S.tab === "standings") mountChart(); }, 150); });
@@ -951,14 +1046,16 @@ readHash();
 (async () => {
   if (!configured) { render(); return; }
   try {
-    const { data } = await sb.auth.getSession(); S.user = data.session?.user || null;
-    await Promise.all([load(), loadProfile()]); render();
+    const { data } = await sb.auth.getSession();
+    S.user = data.session?.user || null;
+    if (S.user) await afterAuth(S.user); else render();
     sb.auth.onAuthStateChange((ev, session) => {
       const u = session?.user || null; if ((u?.id || null) === (S.user?.id || null)) return;
-      S.user = u; setTimeout(() => loadProfile().then(render), 0);
+      setTimeout(() => { if (u) afterAuth(u); else { S.user = null; S.profile = null; unload(); render(); } }, 0);
     });
+  } catch (e) {
+    $app.innerHTML = `<div class="wrap"><div class="panel" style="padding:24px;max-width:560px;margin:40px auto"><h2 class="disp" style="font-size:32px">Nepodarilo sa načítať</h2><p class="mist">${esc(errMsg(e))}</p><p class="muted">Ak bol projekt v Supabase dlho neaktívny, mohol sa pozastaviť. Obnovíš ho v Supabase dashboarde.</p><button class="btn" onclick="location.reload()">Skúsiť znova</button></div></div>`;
   }
-  catch (e) { $app.innerHTML = `<div class="card pad" style="max-width:560px;margin:30px auto"><h2 style="font-size:22px;font-weight:900">Nepodarilo sa načítať dáta</h2><p class="t2">${esc(errMsg(e))}</p><p class="muted">Skontroluj config.js (URL a kľúč) a či si v Supabase spustil oba SQL súbory. Ak bol projekt dlho neaktívny, mohol sa pozastaviť – obnovíš ho v Supabase dashboarde.</p><button class="btn" onclick="location.reload()">Skúsiť znova</button></div>`; }
 })();
 </script>
 </body>
