@@ -3,359 +3,352 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0a0f1d">
+<meta name="theme-color" content="#e9ebee">
 <title>F1 Liga</title>
 <meta name="description" content="Súkromná F1 liga: poradie, výsledky pretekov a štatistiky.">
 <meta property="og:title" content="F1 Liga">
 <meta property="og:description" content="Súkromná F1 liga: poradie, výsledky pretekov a štatistiky.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230a0f1d'/><path d='M14 44 L26 20 H52 L48 28 H32 L30 32 H44 L40 40 H26 L24 44 Z' fill='%23ff2b3a'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%230d0f12'/><rect x='10' y='10' width='22' height='44' fill='%23e10600'/><rect x='36' y='10' width='18' height='20' fill='%23e9ebee'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700&family=Saira+Extra+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --night:#0a0f1d; --asphalt:#121929; --asphalt-2:#192136; --asphalt-3:#222b43; --line:#252f48; --line-2:#34405f;
-  --flood:#eef1f8; --mist:#a6aec4; --dim:#6f7892;
-  --kerb:#ff2b3a; --kerb-w:#f3f5fa;
-  --purple:#b07cff; --green:#2fe08d; --gold:#ffcd3c; --silver:#c9d1df; --bronze:#e38c4c;
-  --display:"Saira Extra Condensed","Arial Narrow",sans-serif;
-  --body:"Saira",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --r:18px;
-  --glass:rgba(24,32,56,.52); --glass-2:rgba(255,255,255,.06); --glass-b:rgba(255,255,255,.10); --glass-hi:inset 0 1px 0 rgba(255,255,255,.10);
-  --blur:blur(18px) saturate(150%);
-  color-scheme:dark;
+  --paper:#e9ebee; --card:#f6f7f9; --ink:#0d0f12; --mid:#5b6170; --soft:#8a909c; --rule:#c9cdd4; --red:#e10600;
+  --gold:#e8b71a; --silver:#a9b0bb; --bronze:#c67a3f; --purple:#7c4dff;
+  --display:"Barlow Condensed","Arial Narrow",sans-serif; --body:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--night);color:var(--flood);font-family:var(--body);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100vh;
-  background-image:
-    radial-gradient(700px 520px at 88% 4%,rgba(255,43,58,.20),transparent 62%),
-    radial-gradient(800px 600px at 6% 30%,rgba(61,110,255,.17),transparent 62%),
-    radial-gradient(700px 520px at 55% 105%,rgba(150,100,255,.13),transparent 62%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-attachment:fixed}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100vh}
 button,select,input{font:inherit;color:inherit}
 button{cursor:pointer}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--kerb);outline-offset:2px}
-.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px}
 .num{font-variant-numeric:tabular-nums}
-.disp{font-family:var(--display);font-style:italic;font-weight:800;letter-spacing:.2px;line-height:.95}
-.kerb{height:6px;background:repeating-linear-gradient(-45deg,var(--kerb) 0 12px,var(--kerb-w) 12px 24px)}
-.muted{color:var(--dim)} .mist{color:var(--mist)}
+.d{font-family:var(--display);font-weight:900;line-height:.86;letter-spacing:-.2px}
+.up{text-transform:uppercase}
+.mid{color:var(--mid)} .soft{color:var(--soft)}
 h1,h2,h3{margin:0}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001s!important;animation-delay:0s!important;transition-duration:.001s!important}}
+@media (max-width:700px){.wrap{padding:0 16px}}
 
-/* ---------- livery tag ---------- */
-.tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.6px;line-height:1}
-.tag::before{content:"";width:4px;height:16px;border-radius:2px;background:var(--c,#888);flex:none}
+/* ---------- buttons, inputs ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:10px 20px;font-weight:700;font-size:15px;border:2px solid var(--ink);background:transparent;color:var(--ink);transition:background .12s,color .12s}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn.solid{background:var(--ink);color:var(--paper)}
+.btn.solid:hover{background:#2a2e36}
+.btn.red{background:var(--red);border-color:var(--red);color:#fff}
+.btn.red:hover{background:#c40500;border-color:#c40500}
+.btn.quiet{border-color:transparent}
+.btn.quiet:hover{background:rgba(13,15,18,.07);color:var(--ink)}
+.btn.sm{padding:6px 14px;font-size:13.5px}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn:disabled:hover{background:transparent;color:var(--ink)}
+.btn.solid:disabled:hover,.btn.red:disabled:hover{background:var(--ink);color:var(--paper)}
+.input{width:100%;background:#fff;border:2px solid var(--rule);border-radius:999px;padding:11px 18px;color:var(--ink)}
+.input:focus{outline:none;border-color:var(--ink)}
+select.input{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 20px) 52%,calc(100% - 15px) 52%;background-size:5px 5px;background-repeat:no-repeat;padding-right:38px}
+label.f{display:grid;gap:6px;font-size:13.5px;font-weight:600;color:var(--mid)}
+.seg{display:inline-flex;border:2px solid var(--ink);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:none;border-radius:999px;padding:6px 16px;font-weight:700;font-size:14px;color:var(--mid)}
+.seg button.on{background:var(--ink);color:var(--paper)}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--ink);border-radius:999px;padding:2px 11px;font-size:12.5px;font-weight:700;white-space:nowrap}
+.pill.red{background:var(--red);border-color:var(--red);color:#fff}
+.pill.amber{background:var(--gold);border-color:var(--gold)}
+.sw{display:inline-block;width:12px;height:12px;background:var(--c);flex:none}
+.fl{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--purple);vertical-align:middle;margin-left:4px}
+.toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:11px 20px;border-radius:999px;z-index:80;font-weight:600;box-shadow:0 14px 40px rgba(13,15,18,.25);max-width:92vw;animation:tin .2s ease-out}
+.toast.err{background:var(--red);color:#fff}
+@keyframes tin{from{opacity:0;transform:translate(-50%,8px)}}
+.loading{display:grid;place-items:center;min-height:60vh;color:var(--mid)}
+.empty{padding:40px 20px;text-align:center;color:var(--mid)}
+.hint{font-size:13.5px;color:var(--mid);margin:8px 0}
 
 /* ---------- header ---------- */
-header.bar{position:sticky;top:0;z-index:30}
-header.bar::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(10,15,29,.55);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
-.bar-in{display:flex;align-items:center;gap:18px;height:62px}
-.mark{display:flex;align-items:center;gap:10px;text-decoration:none;flex:none}
-.mark i{width:26px;height:18px;background:var(--kerb);transform:skewX(-24deg);border-radius:2px;box-shadow:8px 0 0 -2px var(--kerb-w)}
-.mark b{font-family:var(--display);font-style:italic;font-weight:900;font-size:26px;letter-spacing:.3px}
-nav.tabs{display:flex;gap:2px;flex:1;min-width:0}
-nav.tabs button{background:none;border:1px solid transparent;padding:8px 14px;border-radius:999px;color:var(--mist);font-weight:600;font-size:15px;display:flex;align-items:center;gap:7px;white-space:nowrap;position:relative}
-nav.tabs button svg{width:18px;height:18px;opacity:.85}
-nav.tabs button:hover{color:var(--flood);background:rgba(255,255,255,.04)}
-nav.tabs button.on{color:var(--flood);background:var(--glass-2);border-color:var(--glass-b);box-shadow:var(--glass-hi)}
-nav.tabs button.on svg{color:var(--kerb);opacity:1}
+header.bar{position:sticky;top:0;z-index:30;background:var(--paper);border-bottom:2px solid var(--ink)}
+.bar-in{display:flex;align-items:center;gap:26px;height:64px}
+.mark{font-family:var(--display);font-weight:900;font-size:30px;text-transform:uppercase;text-decoration:none;letter-spacing:.3px;display:flex;align-items:center;gap:10px;flex:none}
+.mark i{width:12px;height:26px;background:var(--red)}
+nav.tabs{display:flex;gap:22px;flex:1;min-width:0;align-self:stretch}
+nav.tabs button{background:none;border:0;padding:0;font-weight:600;font-size:15px;color:var(--mid);display:flex;align-items:center;gap:7px;position:relative;white-space:nowrap}
+nav.tabs button svg{width:17px;height:17px;display:none}
+nav.tabs button:hover{color:var(--ink)}
+nav.tabs button.on{color:var(--ink)}
+nav.tabs button.on::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:5px;background:var(--ink)}
+.badge{font-style:normal;background:var(--red);color:#fff;border-radius:999px;min-width:19px;height:19px;padding:0 5px;font-size:11.5px;font-weight:800;display:inline-grid;place-items:center;line-height:1}
+@media (max-width:900px){nav.tabs button .badge{position:absolute;top:2px;right:18%}}
 .bar-r{display:flex;align-items:center;gap:8px;flex:none}
-.sel{background-color:var(--glass-2);border:1px solid var(--glass-b);border-radius:999px;padding:8px 32px 8px 15px;box-shadow:var(--glass-hi);font-weight:600;appearance:none;-webkit-appearance:none;
-  background-image:linear-gradient(45deg,transparent 50%,var(--mist) 50%),linear-gradient(135deg,var(--mist) 50%,transparent 50%);background-position:calc(100% - 15px) 52%,calc(100% - 10px) 52%;background-size:5px 5px;background-repeat:no-repeat}
-.ibtn{width:38px;height:38px;border-radius:50%;background:var(--glass-2);border:1px solid var(--glass-b);box-shadow:var(--glass-hi);display:grid;place-items:center;flex:none;color:var(--mist)}
-.ibtn:hover{color:var(--flood);border-color:var(--line-2)}
-.ibtn svg{width:18px;height:18px}
-.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:15px;background:var(--glass-2);box-shadow:var(--glass-hi);border:2px solid var(--c,var(--line-2));flex:none}
+.sel{background-color:transparent;border:2px solid var(--ink);border-radius:999px;padding:6px 32px 6px 14px;font-weight:700;appearance:none;-webkit-appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 16px) 52%,calc(100% - 11px) 52%;background-size:5px 5px;background-repeat:no-repeat}
+.ibtn{width:38px;height:38px;border-radius:50%;border:2px solid var(--ink);background:transparent;display:grid;place-items:center;flex:none}
+.ibtn:hover{background:var(--ink);color:var(--paper)}
+.ibtn svg{width:17px;height:17px}
+.avatar{width:38px;height:38px;border-radius:50%;border:0;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:16px;background:var(--c,var(--ink));color:var(--t,#fff);flex:none}
 @media (max-width:900px){
-  body.app{padding-bottom:calc(70px + env(safe-area-inset-bottom))}
-  nav.tabs{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:40;background:rgba(18,25,44,.62);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-b);border-radius:999px;padding:5px;justify-content:space-around;box-shadow:var(--glass-hi),0 18px 40px rgba(0,0,0,.45)}
-  nav.tabs button{flex-direction:column;gap:2px;font-size:10.5px;padding:7px 2px;flex:1;max-width:96px}
-  nav.tabs button svg{width:20px;height:20px}
-  body.app{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
-  .mark b{font-size:22px}
-  .sel{max-width:44vw}
+  body.app{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+  .bar-in{height:58px;gap:12px}
+  .mark{font-size:26px}
+  nav.tabs{align-self:auto;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:40;gap:0;justify-content:space-around;padding:5px;border-radius:999px;
+    background:rgba(246,247,249,.72);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border:1px solid rgba(13,15,18,.12);box-shadow:0 14px 40px rgba(13,15,18,.18)}
+  nav.tabs button{flex-direction:column;gap:2px;font-size:10.5px;padding:7px 2px;flex:1;max-width:92px;border-radius:999px}
+  nav.tabs button svg{display:block;width:20px;height:20px}
+  nav.tabs button.on{background:var(--ink);color:var(--paper)}
+  nav.tabs button.on::after{display:none}
+  .sel{max-width:40vw}
 }
 
-/* ---------- generic ---------- */
-main{padding:26px 0 48px}
+/* ---------- page head ---------- */
+main{padding:28px 0 60px}
 body.gate-on main{padding:0}
-.panel{background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-b);border-radius:var(--r);box-shadow:var(--glass-hi),0 20px 50px rgba(0,0,0,.25)}
-.ptitle{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 12px}
-.ptitle h2{font-family:var(--display);font-style:italic;font-weight:800;font-size:28px;letter-spacing:.2px}
-.ptitle .side{color:var(--dim);font-size:14px}
-.link{background:none;border:0;color:var(--mist);font-weight:600;padding:4px 0;font-size:14px;text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:4px}
-.link:hover{color:var(--flood);text-decoration-color:var(--kerb)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:10px 20px;font-weight:700;border:1px solid var(--glass-b);background:var(--glass-2);color:var(--flood);box-shadow:var(--glass-hi);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:background .15s,border-color .15s,box-shadow .15s}
-.btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
-.btn.go{background:linear-gradient(180deg,#ff4a57,#e8152a);border-color:rgba(255,140,150,.5);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 8px 24px rgba(255,43,58,.35)}
-.btn.go:hover{background:linear-gradient(180deg,#ff5c68,#f01d31);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 10px 30px rgba(255,43,58,.5)}
-.btn.ghost{background:transparent;box-shadow:none;backdrop-filter:none}
-.btn.danger{background:transparent;border-color:rgba(255,43,58,.45);color:#ff8f98}
-.btn.sm{padding:6px 14px;font-size:13px}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.input{width:100%;background:rgba(5,9,20,.45);border:1px solid var(--glass-b);border-radius:14px;padding:12px 16px;color:var(--flood)}
-.input:focus{outline:none;border-color:var(--kerb);box-shadow:0 0 0 3px rgba(255,43,58,.18)}
-label.f{display:grid;gap:6px;font-size:13px;color:var(--mist);font-weight:600}
-.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--glass-b);background:var(--glass-2);border-radius:999px;padding:3px 11px;font-size:12.5px;color:var(--mist);white-space:nowrap}
-.pill.red{border-color:rgba(255,43,58,.5);color:#ff9aa2;background:rgba(255,43,58,.08)}
-.pill.amber{border-color:rgba(255,205,60,.45);color:var(--gold);background:rgba(255,205,60,.07)}
-.flag{font-size:1.05em}
-.fl{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--purple);box-shadow:0 0 8px var(--purple);vertical-align:middle}
-.hint{font-size:13px;color:var(--dim);margin:8px 0}
-.empty{padding:40px 20px;text-align:center;color:var(--dim)}
-.toast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(14,20,38,.75);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--glass-b);padding:11px 20px 11px 16px;border-radius:999px;display:flex;align-items:center;gap:10px;z-index:80;font-weight:600;box-shadow:0 16px 40px rgba(0,0,0,.5);max-width:92vw;animation:tin .2s ease-out}
-.toast::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
-.toast.err{color:#ffb0b6}.toast.err::before{background:var(--kerb);box-shadow:0 0 10px var(--kerb)}
-@keyframes tin{from{opacity:0;transform:translate(-50%,8px)}}
-.loading{display:grid;place-items:center;min-height:60vh;color:var(--dim)}
-
-/* ---------- position badges ---------- */
-.pos{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 4px;border-radius:9px;font-family:var(--display);font-weight:800;font-size:18px;background:var(--asphalt-3);color:var(--flood)}
-.pos.p1{background:var(--gold);color:#241a00}.pos.p2{background:var(--silver);color:#151a24}.pos.p3{background:var(--bronze);color:#2a1406}
-.pos.s{min-width:24px;height:24px;font-size:15px;border-radius:6px}
-
-/* ---------- GATE (landing / pending) ---------- */
 body.gate-on header.bar{display:none}
-.gate{min-height:100vh;display:flex;flex-direction:column;position:relative;overflow:hidden}
-.gate::before{content:"";position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(60% 50% at 20% 110%,rgba(255,43,58,.22),transparent 70%),
-    radial-gradient(40% 50% at 82% 45%,rgba(255,43,58,.28),transparent 70%),
-    radial-gradient(35% 45% at 70% 70%,rgba(61,110,255,.22),transparent 70%),
-    repeating-linear-gradient(105deg,transparent 0 120px,rgba(255,255,255,.018) 120px 122px)}
-.gate>.wrap{width:100%}
-.gate-top{display:flex;align-items:center;justify-content:space-between;padding-top:22px;padding-bottom:22px}
-.gate-main{flex:1;display:grid;grid-template-columns:1.25fr .9fr;gap:56px;align-items:center;padding-top:20px;padding-bottom:60px}
-.lights{display:flex;gap:14px;margin-bottom:34px}
-.pod{width:58px;padding:9px 0;border-radius:12px;background:linear-gradient(180deg,#1b2032,#0d111d);border:1px solid #2a3149;display:grid;gap:9px;justify-items:center;box-shadow:inset 0 2px 0 rgba(255,255,255,.04),0 12px 30px rgba(0,0,0,.4)}
-.pod i{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#2b0b0f,#14060a 70%);box-shadow:inset 0 2px 6px rgba(0,0,0,.8);transition:background .08s,box-shadow .08s}
-.pod.on i{background:radial-gradient(circle at 40% 35%,#ff8a92,#ff2b3a 45%,#b8000f 80%);box-shadow:0 0 18px 4px rgba(255,43,58,.55),inset 0 -3px 6px rgba(0,0,0,.25)}
-.pod.green i{background:radial-gradient(circle at 40% 35%,#b9ffd9,#2fe08d 45%,#0b8a4e 80%);box-shadow:0 0 18px 4px rgba(47,224,141,.45)}
-.gate-title{font-family:var(--display);font-style:italic;font-weight:900;font-size:clamp(84px,12vw,176px);line-height:.82;letter-spacing:-1px;margin:0 0 22px;text-transform:none}
-.gate-sub{font-size:18px;color:var(--mist);max-width:30em;margin:0}
-.gate-meta{margin-top:26px;display:flex;gap:22px;flex-wrap:wrap;color:var(--dim);font-size:14px}
-.gate-meta span{display:flex;align-items:center;gap:8px}
-.gate-meta i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
-.gate-card{background:rgba(26,34,60,.45);border:1px solid var(--glass-b);border-radius:26px;padding:28px;box-shadow:var(--glass-hi),0 30px 80px rgba(0,0,0,.45);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%)}
-.gate-card h2{font-family:var(--display);font-style:italic;font-weight:800;font-size:34px;margin-bottom:4px}
-.gate-card .lead{color:var(--mist);margin:0 0 18px;font-size:14.5px}
-.seg{display:inline-flex;background:rgba(5,9,20,.4);border:1px solid var(--glass-b);border-radius:999px;padding:4px;gap:2px;box-shadow:var(--glass-hi)}
-.seg button{background:none;border:1px solid transparent;border-radius:999px;padding:7px 16px;font-weight:700;color:var(--dim);font-size:14px}
-.seg button.on{background:rgba(255,255,255,.1);border-color:var(--glass-b);color:var(--flood);box-shadow:var(--glass-hi)}
-.gate .kerb{height:6px}
-/* lights-out sequence */
-.gate.seq .gate-title,.gate.seq .gate-sub,.gate.seq .gate-meta,.gate.seq .gate-card{opacity:0}
-.gate.go .gate-title{animation:launch .5s cubic-bezier(.2,.9,.2,1) both}
-.gate.go .gate-sub{animation:rise .5s .12s ease-out both}
-.gate.go .gate-meta{animation:rise .5s .2s ease-out both}
-.gate.go .gate-card{animation:rise .55s .18s ease-out both}
-@keyframes launch{from{opacity:0;transform:translateX(-80px) skewX(-12deg);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@media (max-width:900px){
-  .gate-main{grid-template-columns:1fr;gap:30px;padding-top:0}
+.phead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:14px;border-bottom:2px solid var(--ink);margin-bottom:0}
+.phead h1{font-family:var(--display);font-weight:900;font-size:clamp(56px,8vw,104px);line-height:.82;text-transform:uppercase}
+.phead .side{color:var(--mid);font-weight:600;font-size:15px;text-align:right}
+.sec{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:40px 0 0;padding-bottom:10px;border-bottom:2px solid var(--ink)}
+.sec h2{font-family:var(--display);font-weight:900;font-size:36px;line-height:.9;text-transform:uppercase}
+.sec .side{color:var(--mid);font-size:14.5px;font-weight:600}
+.link{background:none;border:0;padding:0;font-weight:700;font-size:14.5px;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}
 
-  .lights{gap:8px;margin-bottom:22px}.pod{width:44px;gap:7px;padding:7px 0}.pod i{width:26px;height:26px}
-  .gate-sub{font-size:16px}
+/* ---------- position chip ---------- */
+.pos{display:inline-grid;place-items:center;width:30px;height:30px;font-family:var(--display);font-weight:900;font-size:20px;background:var(--ink);color:var(--paper);flex:none}
+.pos.p1{background:var(--gold);color:var(--ink)}.pos.p2{background:var(--silver);color:var(--ink)}.pos.p3{background:var(--bronze);color:var(--ink)}
+.pos.s{width:24px;height:24px;font-size:16px}
+
+/* ---------- GATE ---------- */
+.gate{min-height:100vh;display:grid;grid-template-columns:1.25fr 1fr}
+.gate-l{padding:40px 48px;display:flex;flex-direction:column;justify-content:space-between;border-right:2px solid var(--ink);position:relative;overflow:hidden}
+.gate-l .mark{font-size:26px}
+.gate-title{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(110px,15vw,240px);line-height:.8;letter-spacing:-2px;margin:26px 0 22px;overflow-wrap:normal;word-break:keep-all}
+.gate-sub{font-size:19px;max-width:30em;margin:0;color:var(--mid);font-weight:500}
+.gate-r{padding:40px 48px;display:flex;flex-direction:column;justify-content:center;background:var(--card)}
+.gate-r h2{font-family:var(--display);font-weight:900;font-size:56px;text-transform:uppercase;line-height:.85;margin:22px 0 8px}
+.gate-r .lead{color:var(--mid);margin:0 0 22px}
+.lights{display:flex;gap:10px;margin-top:40px}
+.pod{width:62px;padding:10px 0;background:var(--ink);display:grid;gap:10px;justify-items:center}
+.pod i{width:36px;height:36px;border-radius:50%;background:#2a1013;transition:background .08s,box-shadow .08s}
+.pod.on i{background:#ff2a1f;box-shadow:0 0 16px 3px rgba(255,42,31,.65)}
+.gate.seq .gate-title,.gate.seq .gate-sub,.gate.seq .gate-r>*{opacity:0}
+.gate.go .gate-title{animation:launch .55s cubic-bezier(.2,.9,.2,1) both}
+.gate.go .gate-sub{animation:rise .5s .1s ease-out both}
+.gate.go .gate-r>*{animation:rise .5s .15s ease-out both}
+@keyframes launch{from{opacity:0;transform:translateX(-120px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media (max-width:900px){
+  .gate{grid-template-columns:1fr}
+  .gate-l{border-right:0;border-bottom:2px solid var(--ink);padding:24px 18px 28px}
+  .gate-r{padding:28px 18px 40px}
+  .lights{gap:6px;margin-top:26px}.pod{width:46px;gap:7px;padding:7px 0}.pod i{width:26px;height:26px}
+  .gate-title{font-size:clamp(84px,26vw,140px)}
+  .gate-r h2{font-size:44px;margin-top:16px}
 }
 
-/* ---------- HOME ---------- */
-.home-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:18px;flex-wrap:wrap}
-.home-head h1{font-family:var(--display);font-style:italic;font-weight:900;font-size:56px;line-height:.9}
-.home-head p{margin:6px 0 0;color:var(--mist)}
-.progress{display:flex;gap:3px;margin-top:12px;max-width:420px}
-.progress i{flex:1;height:6px;border-radius:2px;background:var(--asphalt-3)}
-.progress i.d{background:var(--flood)}
-.progress i.n{background:var(--kerb);box-shadow:0 0 8px var(--kerb)}
-.stage{display:grid;grid-template-columns:1fr 330px;gap:18px;align-items:end}
-.podium{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:12px;align-items:end;position:relative;padding-top:10px}
-.pb{display:flex;flex-direction:column;min-width:0}
-.pb-who{padding:0 4px 12px}
-.pb-who .tag{font-size:17px}
-.pb-name{font-family:var(--display);font-style:italic;font-weight:900;font-size:40px;line-height:.95;margin:6px 0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pb-pts{font-family:var(--display);font-weight:700;font-size:20px;color:var(--mist)}
-.pb-pts b{color:var(--flood);font-size:26px}
-.pb-step{position:relative;border-radius:18px 18px 0 0;border-top:4px solid var(--c);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--glass-hi);display:flex;align-items:flex-start;justify-content:center;padding-top:8px;overflow:hidden;
-  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.02)),rgba(24,32,56,.45)}
-.pb-step span{display:inline-block;padding:0 .18em 0 .06em;font-family:var(--display);font-weight:900;font-style:italic;font-size:110px;line-height:1.05;opacity:.95;
-  background:linear-gradient(180deg,var(--m) 10%,rgba(255,255,255,.05) 120%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.pb.p1 .pb-step{height:210px;--m:var(--gold)} .pb.p2 .pb-step{height:160px;--m:var(--silver)} .pb.p3 .pb-step{height:122px;--m:var(--bronze)}
-.pb.p1 .pb-name{font-size:52px}
-.podium-base{grid-column:1/-1;height:10px;margin-top:-1px}
-.nextbox{padding:20px;position:relative;overflow:hidden}
-.nextbox::after{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--kerb);box-shadow:0 0 18px var(--kerb)}
-.nextbox small{color:var(--dim);font-weight:600}
-.nextbox .tr{font-family:var(--display);font-style:italic;font-weight:900;font-size:46px;line-height:.95;margin:8px 0 4px;display:flex;gap:10px;align-items:center}
-.nextbox .tr .flag{font-size:34px;font-style:normal}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+/* ---------- HOME POSTER ---------- */
+.poster{display:grid;grid-template-columns:1.35fr 1fr;border-bottom:2px solid var(--ink)}
+.big{position:relative;overflow:hidden;background:var(--c);color:var(--t);padding:26px 30px 28px;min-height:min(70vh,620px);display:flex;flex-direction:column;justify-content:space-between;cursor:pointer}
+.big .n{position:absolute;right:-6px;bottom:-30px;font-family:var(--display);font-weight:900;font-size:clamp(300px,36vw,520px);line-height:.75;opacity:.14;pointer-events:none}
+.big small{font-weight:600;font-size:15px;position:relative}
+.big h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(84px,11.5vw,184px);line-height:.8;letter-spacing:-1.5px;position:relative;white-space:nowrap}
+.big .pts{font-family:var(--display);font-weight:800;font-size:36px;position:relative}
+.pside{display:grid;grid-template-rows:auto 1fr;border-left:2px solid var(--ink);min-width:0}
+.p23{display:grid;grid-template-columns:1fr 1fr;border-bottom:2px solid var(--ink)}
+.p23>div{padding:20px 22px 22px;cursor:pointer;min-width:0}
+.p23>div+div{border-left:2px solid var(--ink)}
+.p23 i{display:block;width:40px;height:10px;background:var(--c);margin-bottom:14px}
+.p23 b{display:block;font-family:var(--display);font-weight:900;font-size:clamp(40px,4.4vw,62px);line-height:.85;text-transform:uppercase;white-space:nowrap}
+.p23 span{font-weight:600;color:var(--mid);font-size:15px}
+.list{padding:6px 22px 10px}
+.row{display:grid;grid-template-columns:38px 12px 1fr auto auto;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--rule);cursor:pointer}
+.row:last-child{border-bottom:0}
+.row:hover .nm{text-decoration:underline;text-underline-offset:4px}
+.row .p{font-family:var(--display);font-weight:900;font-size:24px}
+.row .nm{font-weight:600;font-size:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .g{color:var(--soft);font-weight:600;font-size:14px}
+.row b{font-family:var(--display);font-weight:900;font-size:28px;min-width:48px;text-align:right}
+.rounds{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:4px;margin-top:18px}
+.rounds i{height:34px;background:var(--ink);cursor:pointer;position:relative}
+.rounds i.nx{background:var(--red)}
+.rounds i.f{background:transparent;border:2px solid #b8bdc6}
+.rounds i:hover{outline:2px solid var(--ink);outline-offset:2px}
+.cap{display:flex;justify-content:space-between;gap:10px;margin-top:10px;font-weight:600;font-size:14.5px;color:var(--mid);flex-wrap:wrap}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:40px;border-top:2px solid var(--ink)}
+.duo>section{padding:22px 0 0}
+.duo>section+section{border-left:2px solid var(--ink);padding-left:28px}
+.duo>section:first-child{padding-right:28px}
+.duo h3{font-family:var(--display);font-weight:900;font-size:44px;text-transform:uppercase;line-height:.85;margin:6px 0 14px}
+.duo small{font-weight:600;color:var(--mid)}
+.nextblk{background:var(--ink);color:var(--paper);padding:22px 24px;margin-top:4px}
+.nextblk h3{font-size:64px;margin:6px 0 10px}
+.nextblk p{color:#b9bec8;margin:0 0 18px}
+.nextblk .btn{border-color:var(--paper);color:var(--paper)}
+.nextblk .btn.red{border-color:var(--red)}
+.nextblk .btn:hover{background:var(--paper);color:var(--ink)}
+.nextblk .btn.red:hover{background:#c40500;color:#fff}
+.rr{display:grid;grid-template-columns:30px 12px 1fr auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--rule)}
+.rr:last-child{border-bottom:0}
+.rr .nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rr .pp{font-family:var(--display);font-weight:800;font-size:20px;color:var(--mid)}
 @media (max-width:900px){
-  .stage{grid-template-columns:1fr}.cols{grid-template-columns:1fr}
-  .home-head h1{font-size:44px}
-  .pb-name{font-size:24px}.pb.p1 .pb-name{font-size:30px}.pb-who{padding:0 2px 10px}.pb-who .tag{font-size:14px}
-  .pb-pts{font-size:14px}.pb-pts b{font-size:18px}
-  .pb.p1 .pb-step{height:150px}.pb.p2 .pb-step{height:112px}.pb.p3 .pb-step{height:86px}.pb-step span{font-size:74px}
+  .poster{grid-template-columns:1fr}
+  .big{min-height:auto;padding:20px 18px 22px}
+  .big h2{font-size:clamp(68px,19vw,120px);margin:40px 0 18px}
+  .big .pts{font-size:28px}
+  .pside{border-left:0;border-top:2px solid var(--ink)}
+  .p23>div{padding:16px}
+  .list{padding:4px 16px 8px}
+  .duo{grid-template-columns:1fr}
+  .duo>section:first-child{padding-right:0}
+  .duo>section+section{border-left:0;padding-left:0;border-top:2px solid var(--ink);margin-top:28px}
+  .nextblk h3{font-size:52px}
+  .rounds{gap:2px}.rounds i{height:24px}
 }
 
-/* ---------- TIMING TOWER ---------- */
-.tower{display:grid;gap:4px}
-.tw{display:grid;grid-template-columns:42px 1fr auto auto;align-items:center;gap:12px;padding:8px 16px 8px 10px;border-radius:14px;background:rgba(24,32,56,.42);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.06);box-shadow:var(--glass-hi);cursor:pointer;position:relative}
-.tw:hover{background:rgba(40,52,86,.55);border-color:var(--glass-b)}
-.tw .who{display:flex;align-items:center;gap:12px;min-width:0}
-.tw .nm{font-weight:600;color:var(--mist);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tw .gap{font-family:var(--display);font-weight:700;font-size:17px;color:var(--dim);min-width:48px;text-align:right}
-.tw .pts{font-family:var(--display);font-weight:800;font-size:24px;min-width:52px;text-align:right}
-.tw.lead{background:linear-gradient(90deg,rgba(255,205,60,.16),rgba(24,32,56,.42) 60%)}
-.tower.full .tw{grid-template-columns:42px minmax(150px,1fr) 150px repeat(4,62px) 60px 64px}
-.tower .hd{display:grid;grid-template-columns:42px minmax(150px,1fr) 150px repeat(4,62px) 60px 64px;gap:12px;padding:0 14px 6px 10px;font-size:12.5px;color:var(--dim);font-weight:600}
-.tower .hd span,.tower.full .tw .c{text-align:right}
-.tower.full .tw .c{font-family:var(--display);font-weight:700;font-size:18px;color:var(--mist)}
-.form{display:flex;gap:3px}
-.form i{width:22px;height:22px;border-radius:5px;display:grid;place-items:center;font-style:normal;font-family:var(--display);font-weight:800;font-size:13px;background:var(--asphalt-3);color:var(--mist)}
-.form i.p1{background:var(--gold);color:#241a00}.form i.p2{background:var(--silver);color:#151a24}.form i.p3{background:var(--bronze);color:#2a1406}
-.form i.x{background:transparent;border:1px dashed var(--line-2)}
-@media (max-width:900px){
-  .tower.full .tw,.tower .hd{grid-template-columns:36px 1fr 52px 58px}
-  .tower .hd .x,.tower.full .tw .x{display:none}
-  .tw{gap:8px}
-}
-
-/* ---------- chart ---------- */
-.chart-wrap{padding:16px 16px 10px;margin-top:18px}
-.legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-.legend button{display:inline-flex;align-items:center;gap:7px;background:var(--glass-2);border:1px solid var(--glass-b);border-radius:999px;padding:4px 12px;font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.5px;color:var(--flood)}
-.legend button i{width:12px;height:4px;border-radius:2px;background:var(--c)}
-.legend button.off{opacity:.35}
+/* ---------- STANDINGS ---------- */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-size:13px;color:var(--mid);font-weight:600;text-align:right;padding:12px 10px 8px;white-space:nowrap}
+.tbl td{padding:10px;border-top:1px solid var(--rule);text-align:right;white-space:nowrap}
+.tbl th.l,.tbl td.l{text-align:left}
+.tbl tbody tr{cursor:pointer}
+.tbl tbody tr:hover td{background:rgba(13,15,18,.04)}
+.tbl .pc{font-family:var(--display);font-weight:900;font-size:30px;width:44px;text-align:left}
+.tbl .nm{font-family:var(--display);font-weight:800;font-size:26px;text-transform:uppercase;display:flex;align-items:center;gap:12px}
+.tbl .nm i{width:12px;height:28px;background:var(--c);flex:none}
+.tbl .pt{font-family:var(--display);font-weight:900;font-size:32px}
+.tbl .st{font-weight:600;font-size:16px}
+.tbl tr.lead td{border-top:2px solid var(--ink)}
+.form{display:inline-flex;gap:3px}
+.form i{width:24px;height:24px;display:grid;place-items:center;font-style:normal;font-family:var(--display);font-weight:800;font-size:15px;background:#d6d9df;color:var(--ink)}
+.form i.p1{background:var(--gold)}.form i.p2{background:var(--silver)}.form i.p3{background:var(--bronze)}
+.form i.x{background:transparent;border:1.5px dashed #b8bdc6}
+.scroll{overflow-x:auto}
+@media (max-width:900px){.hide-sm{display:none}.tbl .nm{font-size:21px}.tbl .pt{font-size:26px}.tbl .pc{font-size:24px;width:30px}.tbl td,.tbl th{padding-left:6px;padding-right:6px}}
+.chart-box{margin-top:0;padding:20px 0 6px}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.legend button{display:inline-flex;align-items:center;gap:7px;border:2px solid var(--ink);border-radius:999px;padding:4px 12px;background:transparent;font-weight:700;font-size:13.5px}
+.legend button i{width:10px;height:10px;background:var(--c)}
+.legend button.off{opacity:.3}
 .chart{position:relative}
 .chart svg{display:block;width:100%;height:auto;overflow:visible}
-.tip{position:absolute;pointer-events:none;background:#070b16;border:1px solid var(--line-2);border-radius:9px;padding:9px 11px;font-size:13px;min-width:160px;box-shadow:0 16px 40px rgba(0,0,0,.5);opacity:0;transition:opacity .1s;z-index:5}
-.tip .h{font-weight:700;margin-bottom:5px}
-.tip .r{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--paper);padding:10px 12px;font-size:13px;min-width:170px;opacity:0;transition:opacity .1s;z-index:5}
+.tip .h{font-weight:700;margin-bottom:6px}
+.tip .r{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.tip .r span{display:flex;align-items:center;gap:7px}
 
 /* ---------- RACES ---------- */
-.lapbar{display:flex;gap:3px;flex-wrap:wrap;margin:0 0 14px}
-.lapbar button{min-width:32px;height:32px;border-radius:999px;border:1px solid var(--glass-b);background:rgba(255,255,255,.03);color:var(--dim);font-family:var(--display);font-weight:800;font-size:15px;padding:0 6px}
-.lapbar button.d{background:var(--asphalt-3);color:var(--flood);border-color:var(--asphalt-3)}
-.lapbar button.n{background:var(--kerb);border-color:var(--kerb);color:#fff;box-shadow:0 0 12px rgba(255,43,58,.45)}
-.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(262px,280px);gap:12px;align-items:start;overflow-x:auto;scroll-snap-type:x proximity;scroll-behavior:smooth;padding:2px 2px 16px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
-.strip::-webkit-scrollbar{height:8px}.strip::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:8px}
-.board{scroll-snap-align:start;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--glass-hi);border:1px solid var(--glass-b);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:border-color .15s}
-.board:hover{border-color:var(--line-2)}
-.board .kerb{height:5px}
-.board .bh{padding:14px 16px 10px}
-.board .bh small{color:var(--dim);font-weight:600}
-.board .bh h3{font-family:var(--display);font-style:italic;font-weight:900;font-size:30px;line-height:1;margin-top:4px;display:flex;gap:9px;align-items:center}
-.board .bh h3 .flag{font-style:normal;font-size:22px}
-.board .rl{padding:0 10px 12px;display:grid;gap:2px}
-.rrow{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:10px;padding:5px 8px;border-radius:10px}
-.rrow:nth-child(odd){background:rgba(255,255,255,.025)}
-.rrow .nm{color:var(--mist);font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.rrow .pp{font-family:var(--display);font-weight:700;color:var(--mist);font-size:16px}
-.board.next{border-color:rgba(255,43,58,.55);box-shadow:0 0 0 1px rgba(255,43,58,.25),0 18px 50px rgba(255,43,58,.12)}
-.board.next .bar-n{height:5px;background:var(--kerb)}
-.board.todo{opacity:.55}
-.board.todo .bar-n{height:5px;background:repeating-linear-gradient(90deg,var(--line-2) 0 8px,transparent 8px 14px)}
-.board .soon{padding:4px 16px 18px;color:var(--dim)}
+.racebar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:18px 0 14px}
 .navbtns{display:flex;gap:6px}
-.navbtns button{width:38px;height:38px;border-radius:50%;background:var(--glass-2);border:1px solid var(--glass-b);box-shadow:var(--glass-hi);color:var(--mist);font-size:18px;font-weight:800}
-.navbtns button:hover{color:var(--flood);border-color:var(--line-2)}
-.matrix{border-collapse:separate;border-spacing:3px;width:max-content}
-.matrix th{font-size:11px;color:var(--dim);font-weight:600;padding:2px 0}
-.matrix td.l,.matrix th.l{text-align:left;position:sticky;left:0;background:var(--asphalt);z-index:1;padding-right:12px}
-.matrix .c{display:grid;place-items:center;width:30px;height:28px;border-radius:5px;font-family:var(--display);font-weight:800;font-size:15px;background:var(--asphalt-3);position:relative}
-.matrix .c.p1{background:var(--gold);color:#241a00}.matrix .c.p2{background:var(--silver);color:#151a24}.matrix .c.p3{background:var(--bronze);color:#2a1406}
-.matrix .c.e{background:transparent;color:var(--line-2)}
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(270px,290px);gap:14px;align-items:start;overflow-x:auto;scroll-snap-type:x proximity;scroll-behavior:smooth;padding:2px 2px 18px;scrollbar-width:thin;scrollbar-color:var(--ink) transparent}
+.ticket{scroll-snap-align:start;background:var(--card);border:2px solid var(--ink);cursor:pointer}
+.ticket .th{display:flex;align-items:flex-end;gap:14px;padding:14px 16px 12px;border-bottom:2px solid var(--ink)}
+.ticket .th .rn{font-family:var(--display);font-weight:900;font-size:64px;line-height:.75}
+.ticket .th>div{min-width:0}
+.ticket .th b{display:block;font-family:var(--display);font-weight:900;font-size:30px;line-height:.9;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ticket .th small{color:var(--mid);font-weight:600;font-size:13px}
+.ticket .tb{padding:6px 16px 10px}
+.ticket.next{background:var(--ink);color:var(--paper)}
+.ticket.next .th{border-color:#3a3f48}
+.ticket.next small{color:#b9bec8}
+.ticket.todo{background:transparent;border-style:dashed;border-color:#a3a9b3;color:var(--mid)}
+.ticket.todo .th{border-color:transparent}
+.ticket .tb .soon{padding:6px 0 8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.matrix{border-collapse:collapse}
+.matrix th{font-size:11.5px;color:var(--mid);font-weight:600;padding:6px 2px;text-align:center}
+.matrix td{padding:2px;text-align:center}
+.matrix td.l,.matrix th.l{text-align:left;position:sticky;left:0;background:var(--paper);z-index:1;padding-right:14px;white-space:nowrap;font-weight:600}
+.matrix .c{display:grid;place-items:center;width:30px;height:28px;font-family:var(--display);font-weight:800;font-size:16px;background:#d6d9df;position:relative}
+.matrix .c.p1{background:var(--gold)}.matrix .c.p2{background:var(--silver)}.matrix .c.p3{background:var(--bronze)}
+.matrix .c.e{background:transparent;color:#b8bdc6}
 .matrix .c.f::after{content:"";position:absolute;top:2px;right:2px;width:6px;height:6px;border-radius:50%;background:var(--purple)}
-.scrollx{overflow-x:auto;padding:12px}
 @media (max-width:640px){.strip{grid-auto-columns:84vw}.navbtns{display:none}}
 
 /* ---------- DRIVERS ---------- */
-.drivers{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
-.dcard{position:relative;overflow:hidden;padding:18px 18px 16px;cursor:pointer;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--glass-hi);border:1px solid var(--glass-b);border-radius:var(--r);transition:border-color .15s,transform .15s}
-.dcard:hover{border-color:var(--c);transform:translateY(-2px)}
-.dcard::before{content:"";position:absolute;right:-30px;top:-20px;width:140px;height:160px;background:var(--c);opacity:.16;transform:skewX(-22deg)}
-.dcard::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c)}
-.dcard .code{font-family:var(--display);font-style:italic;font-weight:900;font-size:64px;line-height:.85;color:transparent;-webkit-text-stroke:1.5px var(--c);letter-spacing:1px}
-.dcard .nm{font-family:var(--display);font-style:italic;font-weight:800;font-size:28px;margin-top:6px}
-.dcard .meta{color:var(--dim);font-size:13.5px;min-height:20px}
-.dstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
-.dstats b{display:block;font-family:var(--display);font-weight:800;font-size:24px;line-height:1}
-.dstats span{font-size:12px;color:var(--dim)}
-.cups{color:var(--gold);letter-spacing:2px}
-.dhero{position:relative;overflow:hidden;padding:26px;border-radius:var(--r);border:1px solid var(--glass-b);box-shadow:var(--glass-hi);background:linear-gradient(110deg,color-mix(in srgb,var(--c) 22%,var(--asphalt-2)) 0%,var(--asphalt) 55%);margin-bottom:18px}
-.dhero .code{position:absolute;right:20px;top:-14px;font-family:var(--display);font-style:italic;font-weight:900;font-size:180px;line-height:1;color:transparent;-webkit-text-stroke:2px color-mix(in srgb,var(--c) 70%,transparent);opacity:.6}
-.dhero h1{font-family:var(--display);font-style:italic;font-weight:900;font-size:64px;line-height:.9;position:relative}
-.dhero p{position:relative;color:var(--mist);margin:8px 0 0}
-.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
-.kv>div{padding:14px 16px}
-.kv b{display:block;font-family:var(--display);font-weight:800;font-size:32px;line-height:1}
-.kv span{font-size:13px;color:var(--dim)}
-.kv em{display:block;font-style:normal;font-size:12px;color:var(--mist);margin-top:4px}
-table.t{width:100%;border-collapse:collapse}
-table.t th{font-size:12.5px;color:var(--dim);font-weight:600;text-align:right;padding:10px 12px}
-table.t td{padding:10px 12px;border-top:1px solid var(--line);text-align:right}
-table.t th.l,table.t td.l{text-align:left}
-table.t tr.click{cursor:pointer}
-table.t tr.click:hover td{background:rgba(255,255,255,.03)}
-.h2h{padding:18px}
-.h2h .score{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
-.h2h .score b{font-family:var(--display);font-weight:900;font-size:40px}
-.h2h .bar{display:flex;height:10px;border-radius:5px;overflow:hidden;gap:2px;margin:6px 0}
-.back{background:none;border:0;color:var(--mist);padding:0;margin-bottom:14px;font-weight:600}
-.back:hover{color:var(--flood)}
+.drivers{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:0;border-left:2px solid var(--ink);border-top:2px solid var(--ink);margin-top:-2px}
+.dc{border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);cursor:pointer;display:flex;flex-direction:column;min-height:270px}
+.dc .top{background:var(--c);color:var(--t);padding:16px 18px 18px;flex:1;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.dc .top small{font-weight:700;font-size:13px;opacity:.85}
+.dc .top b{font-family:var(--display);font-weight:900;font-size:58px;line-height:.82;text-transform:uppercase;margin-top:24px;white-space:nowrap}
+.dc .stats{display:grid;grid-template-columns:repeat(3,1fr);background:var(--card)}
+.dc .stats div{padding:10px 14px 12px}
+.dc .stats div+div{border-left:1px solid var(--rule)}
+.dc .stats strong{display:block;font-family:var(--display);font-weight:900;font-size:28px;line-height:1}
+.dc .stats span{font-size:12.5px;color:var(--mid);font-weight:600}
+.dc:hover .top b{text-decoration:underline;text-decoration-thickness:4px;text-underline-offset:8px}
+.dhero{background:var(--c);color:var(--t);padding:26px 30px 30px;position:relative;overflow:hidden;border-bottom:2px solid var(--ink)}
+.dhero h1{font-family:var(--display);font-weight:900;font-size:clamp(84px,13vw,200px);line-height:.8;text-transform:uppercase;letter-spacing:-1.5px;margin:40px 0 16px;white-space:nowrap}
+.dhero p{margin:0;font-weight:600;font-size:17px;opacity:.9}
+.kv{display:grid;grid-template-columns:repeat(6,1fr);border-bottom:2px solid var(--ink)}
+.kv div{padding:16px 18px;border-left:2px solid var(--ink)}
+.kv div:first-child{border-left:0}
+.kv strong{display:block;font-family:var(--display);font-weight:900;font-size:46px;line-height:.9}
+.kv span{font-size:13.5px;font-weight:600;color:var(--mid)}
+.kv em{display:block;font-style:normal;font-size:12.5px;color:var(--soft);margin-top:4px}
+@media (max-width:900px){.kv{grid-template-columns:repeat(2,1fr)}.kv div{border-left:0;border-top:1px solid var(--rule)}.kv div:nth-child(even){border-left:2px solid var(--ink)}.dhero{padding:18px 18px 22px}.dhero h1{font-size:clamp(70px,22vw,120px)}}
+.recent{display:flex;gap:0;flex-wrap:wrap;border-left:2px solid var(--ink);margin-top:-2px}
+.recent>div{display:flex;align-items:center;gap:12px;padding:12px 16px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);border-top:2px solid var(--ink);margin-top:-2px;cursor:pointer;background:var(--card)}
+.recent b{display:block;font-weight:700}
+.recent small{color:var(--mid);font-weight:600}
+.h2h{padding:18px 0}
+.h2h .score{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px}
+.h2h .score strong{font-family:var(--display);font-weight:900;font-size:76px;line-height:.8}
+.h2h .bar{display:flex;height:16px;margin:10px 0 8px}
+.back{background:none;border:0;padding:0;margin-bottom:16px;font-weight:700;font-size:15px}
+.back:hover{text-decoration:underline;text-underline-offset:4px}
 
 /* ---------- HALL OF FAME ---------- */
-.champs{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.champ{position:relative;overflow:hidden;padding:20px;cursor:pointer;border-radius:var(--r);border:1px solid var(--glass-b);background:radial-gradient(120% 90% at 100% 0%,rgba(255,205,60,.14),transparent 55%),rgba(24,32,56,.5);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--glass-hi)}
-.champ.live{background:radial-gradient(120% 90% at 100% 0%,rgba(255,43,58,.16),transparent 55%),rgba(24,32,56,.5)}
-.champ svg{position:absolute;right:16px;top:16px;width:46px;height:46px;color:var(--gold);opacity:.9}
-.champ.live svg{color:var(--kerb)}
-.champ small{color:var(--dim);font-weight:600}
-.champ h3{font-family:var(--display);font-style:italic;font-weight:900;font-size:44px;line-height:.95;margin:8px 0 2px}
-.champ .rest{margin-top:12px;display:grid;gap:4px;font-size:14px;color:var(--mist)}
-.champ .rest div{display:flex;align-items:center;gap:8px}
-.champ .rest b{margin-left:auto;font-family:var(--display);font-size:16px;color:var(--mist)}
-.boards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:12px}
-.lb{padding:16px}
-.lb h3{font-family:var(--display);font-style:italic;font-weight:800;font-size:24px;margin-bottom:8px}
-.lb .r{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:6px 0;border-top:1px solid var(--line);cursor:pointer}
-.lb .r:first-of-type{border-top:0}
-.lb .r b{font-family:var(--display);font-weight:800;font-size:20px}
+.champs{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));border-left:2px solid var(--ink);margin-top:-2px}
+.champ{border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);border-top:2px solid var(--ink);margin-top:-2px;cursor:pointer;display:flex;flex-direction:column}
+.champ .top{background:var(--c);color:var(--t);padding:18px 20px 22px;min-height:230px;display:flex;flex-direction:column;justify-content:space-between}
+.champ .top small{font-weight:700;font-size:14px}
+.champ .top b{display:block;font-family:var(--display);font-weight:900;font-size:72px;line-height:.8;text-transform:uppercase;white-space:nowrap}
+.champ .top span{font-weight:600;font-size:15px;opacity:.9;margin-top:10px}
+.champ .rest{background:var(--card);padding:6px 20px 10px}
+.boards{display:grid;grid-template-columns:repeat(3,1fr);border-left:2px solid var(--ink);margin-top:-2px}
+.lb{border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);border-top:2px solid var(--ink);margin-top:-2px;padding:16px 20px 12px}
+.lb h3{font-family:var(--display);font-weight:900;font-size:30px;text-transform:uppercase;margin-bottom:6px}
+.lb .rr{cursor:pointer}
+@media (max-width:900px){.boards{grid-template-columns:1fr}}
 
 /* ---------- ADMIN ---------- */
-details.adm{margin-bottom:10px}
-details.adm>summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;align-items:center;gap:12px;font-family:var(--display);font-style:italic;font-weight:800;font-size:24px}
+details.adm{border-bottom:2px solid var(--ink)}
+details.adm>summary{list-style:none;cursor:pointer;padding:18px 0;display:flex;align-items:baseline;gap:14px}
 details.adm>summary::-webkit-details-marker{display:none}
-details.adm>summary small{font-family:var(--body);font-style:normal;font-weight:500;font-size:13px;color:var(--dim)}
-details.adm>summary::after{content:"";width:9px;height:9px;border-right:2px solid var(--dim);border-bottom:2px solid var(--dim);transform:rotate(-45deg);margin-left:auto;transition:transform .15s}
-details.adm[open]>summary::after{transform:rotate(45deg)}
-details.adm .body{padding:0 18px 18px}
+details.adm>summary b{font-family:var(--display);font-weight:900;font-size:34px;text-transform:uppercase;line-height:.9}
+details.adm>summary small{color:var(--mid);font-weight:600}
+details.adm>summary::after{content:"+";margin-left:auto;font-family:var(--display);font-weight:900;font-size:34px;line-height:.6}
+details.adm[open]>summary::after{content:"−"}
+details.adm .body{padding:0 0 24px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{display:inline-flex;align-items:center;gap:8px;background:var(--glass-2);border:1px solid var(--glass-b);border-radius:999px;padding:8px 16px 8px 12px;font-weight:600;box-shadow:var(--glass-hi)}
-.chip:hover{border-color:var(--c)}
-.chip.used{opacity:.28;pointer-events:none}
-.order{display:grid;gap:6px;margin:14px 0}
-.orow{display:flex;align-items:center;gap:10px;background:var(--glass-2);border:1px solid var(--glass-b);border-left:4px solid var(--c);border-radius:999px;box-shadow:var(--glass-hi);padding:6px 8px;transition:transform .15s ease}
-.orow.dragging{transition:none;position:relative;z-index:3;box-shadow:0 14px 30px rgba(0,0,0,.5);border-color:var(--flood)}
-.orow .nm{flex:1;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.orow .pp{color:var(--mist);font-family:var(--display);font-weight:700;font-size:17px;min-width:40px;text-align:right}
-.drag{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;color:var(--dim);font-size:18px;padding:4px 2px}
-.mb{background:rgba(255,255,255,.06);border:1px solid var(--glass-b);border-radius:999px;min-width:32px;height:32px;padding:0 8px;display:grid;place-items:center;font-weight:800;color:var(--mist)}
-.mb.on{background:var(--purple);color:#fff;box-shadow:0 0 12px rgba(176,124,255,.6)}
+.chip{display:inline-flex;align-items:center;gap:9px;border:2px solid var(--ink);border-radius:999px;padding:7px 16px 7px 12px;font-weight:700;background:#fff}
+.chip:hover{background:var(--ink);color:var(--paper)}
+.chip.used{opacity:.25;pointer-events:none}
+.order{display:grid;gap:6px;margin:16px 0;max-width:640px}
+.orow{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:5px 6px 5px 12px;transition:transform .15s ease}
+.orow.dragging{transition:none;position:relative;z-index:3;box-shadow:0 14px 30px rgba(13,15,18,.22)}
+.orow .nm{flex:1;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.orow .pp{font-family:var(--display);font-weight:800;font-size:20px;color:var(--mid);min-width:40px;text-align:right}
+.drag{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;color:var(--mid);font-size:18px;padding:2px}
+.mb{background:transparent;border:2px solid var(--rule);border-radius:999px;min-width:34px;height:34px;padding:0 9px;font-weight:800;color:var(--ink);display:grid;place-items:center}
+.mb:hover{border-color:var(--ink)}
+.mb.on{background:var(--purple);border-color:var(--purple);color:#fff}
 .mb:disabled{opacity:.25}
-.lrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.lrow{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--rule);flex-wrap:wrap}
 .lrow:first-child{border-top:0}
+.swatches{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.swatches button{width:34px;height:34px;border-radius:50%;border:3px solid transparent;background:var(--c);box-shadow:inset 0 0 0 1px rgba(13,15,18,.15)}
+.swatches button.on{border-color:var(--ink);box-shadow:inset 0 0 0 3px var(--paper)}
+.swatches input[type=color]{width:38px;height:38px;border:2px solid var(--ink);border-radius:50%;padding:0;background:none;cursor:pointer}
+.dot{width:22px;height:22px;border-radius:50%;background:var(--c);border:2px solid var(--ink);flex:none;cursor:pointer;padding:0}
 @media (max-width:640px){.orow [data-up],.orow [data-down]{display:none}}
 
 /* ---------- modal ---------- */
-.modal-bg{position:fixed;inset:0;background:rgba(3,6,14,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:60;display:flex;align-items:flex-end;justify-content:center;animation:fade .15s}
-.modal{background:rgba(22,30,52,.72);backdrop-filter:blur(26px) saturate(160%);-webkit-backdrop-filter:blur(26px) saturate(160%);box-shadow:var(--glass-hi),0 30px 80px rgba(0,0,0,.5);border:1px solid var(--glass-b);border-radius:26px 26px 0 0;width:100%;max-width:540px;max-height:88vh;overflow:auto;animation:up .22s ease-out}
-.modal .kerb{height:6px}
-.modal .mc{padding:22px}
-@media (min-width:640px){.modal-bg{align-items:center}.modal{border-radius:26px}}
+.modal-bg{position:fixed;inset:0;background:rgba(13,15,18,.45);z-index:60;display:flex;align-items:flex-end;justify-content:center;animation:fade .15s}
+.modal{background:var(--card);width:100%;max-width:560px;max-height:90vh;overflow:auto;border-top:6px solid var(--c,var(--ink));animation:up .22s ease-out}
+.modal .mc{padding:22px 24px 24px}
+.modal h2{font-family:var(--display);font-weight:900;font-size:54px;line-height:.85;text-transform:uppercase;margin:8px 0 14px}
+@media (min-width:640px){.modal-bg{align-items:center}.modal{border:2px solid var(--ink);border-top:8px solid var(--c,var(--ink))}}
 @keyframes fade{from{opacity:0}}@keyframes up{from{transform:translateY(24px);opacity:0}}
 </style>
 <script src="config.js"></script>
@@ -363,15 +356,14 @@ details.adm .body{padding:0 18px 18px}
 <body>
 <header class="bar" id="bar">
   <div class="wrap bar-in">
-    <a class="mark" href="#/home" aria-label="Domov"><i></i><b id="leagueName">F1 Liga</b></a>
+    <a class="mark" href="#/home" aria-label="Domov"><i></i><span id="leagueName">F1 Liga</span></a>
     <nav class="tabs" id="tabs"></nav>
     <div class="bar-r">
       <select id="seasonSel" class="sel" aria-label="Sezóna"></select>
-      <button class="ibtn" id="refreshBtn" title="Obnoviť dáta" aria-label="Obnoviť dáta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button>
+      <button class="ibtn" id="refreshBtn" title="Obnoviť dáta" aria-label="Obnoviť dáta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button>
       <button class="avatar" id="accountBtn" title="Účet" aria-label="Účet"></button>
     </div>
   </div>
-  <div class="kerb" style="height:4px"></div>
 </header>
 <main id="app"><div class="loading">Načítavam…</div></main>
 <div id="modalRoot"></div>
@@ -384,7 +376,7 @@ const LEAGUE = CFG.leagueName || "F1 Liga";
 const $app = document.getElementById("app");
 const $modal = document.getElementById("modalRoot");
 const DEFAULT_SCHEME = [25,18,15,12,10,8,6,4,2,1];
-const LIVERY = ["#3d8bff","#ff8a1f","#18c9a0","#f5d442","#ff5fa8","#6fd0ff","#a6e33a","#ff4d4d","#9d8cff","#e9edf5","#7ef0c4","#c08552","#5b67e0","#e05cff"];
+const PALETTE = ["#ff8000","#3671c6","#27f4d2","#e8002d","#229971","#ff87bc","#64c4ff","#ffd400","#6c3fd1","#52e252","#b6542f","#1e41ff","#b6babd","#0d0f12","#00a19c","#ff5a00"];
 document.getElementById("leagueName").textContent = LEAGUE;
 document.title = LEAGUE;
 
@@ -395,11 +387,8 @@ const flag = t => { const k = (t || "").toLowerCase(); for (const [n, f] of Obje
 const fmtAvg = v => v == null ? "–" : v.toFixed(1).replace(".", ",");
 const plural = (n, one, few, many) => n === 1 ? one : (n >= 2 && n <= 4 ? few : many);
 const fmtDate = d => d ? new Date(d).toLocaleDateString("sk-SK", { day: "numeric", month: "numeric" }) : "";
-const TROPHY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a4 4 0 0 1-4 4M7 5H4v2a4 4 0 0 0 4 4"/></svg>';
-function toast(msg, kind = "ok") {
-  const t = document.createElement("div"); t.className = "toast " + kind; t.textContent = msg;
-  document.body.appendChild(t); setTimeout(() => t.remove(), kind === "err" ? 4500 : 2600);
-}
+const textOn = hex => { const n = parseInt((hex || "#000000").slice(1), 16); const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); const L = .2126 * r + .7152 * g + .0722 * b; return L > .32 ? "#0d0f12" : "#ffffff"; };
+function toast(msg, kind = "ok") { const t = document.createElement("div"); t.className = "toast " + kind; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), kind === "err" ? 4500 : 2600); }
 const errMsg = e => {
   const m = (e && (e.message || e.error_description)) || String(e);
   if (/Invalid login credentials/i.test(m)) return "Nesprávny email alebo heslo";
@@ -407,10 +396,11 @@ const errMsg = e => {
   if (/Password should be at least/i.test(m)) return "Heslo musí mať aspoň 6 znakov";
   if (/Email not confirmed/i.test(m)) return "Email ešte nie je potvrdený";
   if (/Unable to validate email|invalid format/i.test(m)) return "Neplatný email";
+  if (/players_color_check/.test(m)) return "Neplatná farba";
   if (/permission denied/i.test(m)) return "Na toto nemáš prístup";
   if (/results_race_id_player_id_key/.test(m)) return "Jeden jazdec je v závode dvakrát";
   if (/results_race_id_position_key/.test(m)) return "Dve rovnaké pozície v závode";
-  if (/players_name_key/.test(m)) return "Hráč s týmto menom už existuje";
+  if (/players_name_key/.test(m)) return "Jazdec s týmto menom už existuje";
   if (/Failed to fetch|NetworkError|Load failed/i.test(m)) return "Nepodarilo sa spojiť so serverom";
   return m;
 };
@@ -438,14 +428,13 @@ async function fetchAll(table, cols, order = "id") {
   const out = [];
   for (let from = 0; ; from += 1000) {
     const { data, error } = await sb.from(table).select(cols).order(order).range(from, from + 999);
-    if (error) throw error;
-    out.push(...data); if (data.length < 1000) break;
+    if (error) throw error; out.push(...data); if (data.length < 1000) break;
   }
   return out;
 }
 async function load() {
   const [players, seasons, races, results, post] = await Promise.all([
-    fetchAll("players", "id,name,active"),
+    fetchAll("players", "id,name,active,color"),
     fetchAll("seasons", "id,name,sort_order,points_scheme,fastest_lap_bonus,is_current"),
     fetchAll("races", "id,season_id,round,track,race_date"),
     fetchAll("results", "id,race_id,player_id,position,fastest_lap"),
@@ -459,27 +448,17 @@ async function load() {
 function unload() { Object.assign(S, { players: [], seasons: [], races: [], results: [], post: [], loaded: false, edit: null }); idx(); }
 
 // ---------- derived ----------
-let P = new Map(), RES_BY_RACE = new Map(), COLOR = new Map(), CODE = new Map();
+let P = new Map(), RES_BY_RACE = new Map();
 function idx() {
   P = new Map(S.players.map(p => [p.id, p]));
   RES_BY_RACE = new Map();
   for (const r of S.results) { if (!RES_BY_RACE.has(r.race_id)) RES_BY_RACE.set(r.race_id, []); RES_BY_RACE.get(r.race_id).push(r); }
   for (const a of RES_BY_RACE.values()) a.sort((x, y) => x.position - y.position);
-  COLOR = new Map(); CODE = new Map();
-  const ps = [...S.players].sort((a, b) => a.id - b.id); const used = new Set();
-  const norm = n => n.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^A-Za-z]/g, "").toUpperCase();
-  ps.forEach((p, i) => {
-    COLOR.set(p.id, LIVERY[i % LIVERY.length]);
-    const n = norm(p.name).padEnd(5, "X");
-    const c = [[0,1,2],[0,2,3],[0,1,3],[0,2,4],[0,3,4],[0,1,4]].map(ix => ix.map(k => n[k]).join("")).find(x => !used.has(x)) || (n.slice(0, 2) + (p.id % 10));
-    used.add(c); CODE.set(p.id, c);
-  });
 }
 const season = id => S.seasons.find(s => s.id === id);
 const pname = id => P.get(id)?.name ?? "?";
-const col = id => COLOR.get(id) || "#888";
-const code = id => CODE.get(id) || "???";
-const tag = id => `<span class="tag" style="--c:${col(id)}">${esc(code(id))}</span>`;
+const col = id => { const p = P.get(id); if (p?.color) return p.color; const ids = [...P.keys()].sort((a, b) => a - b); return PALETTE[Math.max(0, ids.indexOf(id)) % PALETTE.length]; };
+const cvars = id => `--c:${col(id)};--t:${textOn(col(id))}`;
 const posb = (p, small) => `<span class="pos ${p <= 3 ? "p" + p : ""} ${small ? "s" : ""}">${p}</span>`;
 const ptsFor = (s, r) => ((s.points_scheme || DEFAULT_SCHEME)[r.position - 1] || 0) + (r.fastest_lap ? (s.fastest_lap_bonus || 0) : 0);
 const seasonRaces = sid => S.races.filter(r => r.season_id === sid).sort((a, b) => a.round - b.round);
@@ -537,12 +516,12 @@ window.addEventListener("hashchange", () => {
 
 // ---------- shell ----------
 const ICONS = {
-  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>',
-  standings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h11M4 18h7"/></svg>',
-  races: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22V4"/><path d="M5 4h4v4H5zM13 4h4v4h-4zM9 8h4v4H9zM17 8h2v4h-2zM5 12h4v4H5zM13 12h4v4h-4z"/></svg>',
-  players: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 8 0 0 1 16 0v3H4z"/><path d="M4 13h16"/><path d="M12 7V4"/></svg>',
-  hof: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a4 4 0 0 1-4 4M7 5H4v2a4 4 0 0 0 4 4"/></svg>',
-  admin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>',
+  standings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h11M4 18h7"/></svg>',
+  races: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22V4"/><path d="M5 4h14l-3 4 3 4H5"/></svg>',
+  players: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>',
+  hof: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/></svg>',
+  admin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
 };
 const TABS = [["home","Domov"],["standings","Poradie"],["races","Preteky"],["players","Jazdci"],["hof","Sieň slávy"],["admin","Správa"]];
 function renderShell() {
@@ -550,8 +529,9 @@ function renderShell() {
   document.body.classList.toggle("gate-on", !member);
   document.body.classList.toggle("app", member);
   if (!member) return;
+  const waiting = isAdmin() ? S.profiles.filter(u => u.role === "pending").length : 0;
   document.getElementById("tabs").innerHTML = TABS.filter(([k]) => k !== "admin" || canEdit()).map(([k, l]) =>
-    `<button data-tab="${k}" class="${S.tab === k ? "on" : ""}">${ICONS[k]}<span>${l}</span></button>`).join("");
+    `<button data-tab="${k}" class="${S.tab === k ? "on" : ""}">${ICONS[k]}<span>${l}</span>${k === "admin" && waiting ? `<em class="badge" title="Čakajúce žiadosti">${waiting}</em>` : ""}</button>`).join("");
   const sel = document.getElementById("seasonSel");
   sel.innerHTML = [...S.seasons].reverse().map(s => `<option value="${s.id}" ${s.id === S.seasonId ? "selected" : ""}>${esc(s.name)}</option>`).join("");
   sel.style.display = S.seasons.length && !["hof", "players"].includes(S.tab) ? "" : "none";
@@ -559,8 +539,8 @@ function renderShell() {
   const me = S.profile?.display_name || "?";
   ab.textContent = me.trim().slice(0, 2).toUpperCase();
   ab.title = `${me} (${ROLE_LABEL[S.profile.role]})`;
-  const mine = S.players.find(p => p.name.toLowerCase() === me.toLowerCase());
-  ab.style.setProperty("--c", mine ? col(mine.id) : "var(--kerb)");
+  const c = S.profile?.player_id && P.get(S.profile.player_id) ? col(S.profile.player_id) : "#0d0f12";
+  ab.style.setProperty("--c", c); ab.style.setProperty("--t", textOn(c));
 }
 document.getElementById("tabs").addEventListener("click", e => { const b = e.target.closest("[data-tab]"); if (b) go(b.dataset.tab); });
 document.getElementById("seasonSel").addEventListener("change", e => { S.seasonId = +e.target.value; S.hidden.clear(); go(S.tab, null); });
@@ -569,55 +549,49 @@ document.getElementById("accountBtn").addEventListener("click", () => accountMod
 
 function render() {
   renderShell();
-  if (!configured) { $app.innerHTML = `<div class="wrap"><div class="panel" style="padding:24px;max-width:560px;margin:40px auto"><h2 class="disp" style="font-size:32px">Chýba nastavenie</h2><p class="mist">Vyplň v súbore config.js adresu a kľúč zo Supabase.</p></div></div>`; return; }
-  if (!S.user) { $app.innerHTML = gateView(false); runLights(); return; }
-  if (!isMember()) { $app.innerHTML = gateView(true); runLights(true); return; }
+  if (!configured) { $app.innerHTML = `<div class="wrap"><p class="empty">Chýba nastavenie v config.js.</p></div>`; return; }
+  if (!S.user) { $app.innerHTML = gateView(false); runLights(); fitText(); return; }
+  if (!isMember()) { $app.innerHTML = gateView(true); fitText(); return; }
   if (!S.loaded) { $app.innerHTML = `<div class="loading">Načítavam…</div>`; return; }
   const views = { home: viewHome, standings: viewStandings, races: viewRaces, players: viewPlayers, hof: viewHof, admin: viewAdmin };
   $app.innerHTML = `<div class="wrap">${(views[S.tab] || viewHome)()}</div>`;
   if (S.tab === "standings") mountChart();
   if (S.tab === "races") positionStrip();
+  fitText();
 }
 
 // ===== GATE =====
 function gateView(pending) {
-  const lights = `<div class="lights" aria-hidden="true">${[0,1,2,3,4].map(i => `<div class="pod${pending ? " on" : ""}" data-pod="${i}"><i></i><i></i></div>`).join("")}</div>`;
-  const left = pending
-    ? `${lights}<h1 class="gate-title">Čakáš na zelenú</h1>
-       <p class="gate-sub">Ahoj ${esc(S.profile?.display_name || "")}, tvoj účet je vytvorený. Kým ťa admin ligy neschváli, poradie a výsledky neuvidíš.</p>`
-    : `${lights}<h1 class="gate-title">${esc(LEAGUE)}</h1>
-       <p class="gate-sub">Súkromná liga. Poradie, výsledky a štatistiky vidia iba schválení členovia.</p>`;
+  const lights = `<div class="lights" aria-hidden="true">${[0,1,2,3,4].map(i => `<div class="pod${pending ? " on" : ""}"><i></i><i></i></div>`).join("")}</div>`;
   const login = S.authTab !== "signup";
-  const card = pending
-    ? `<div class="gate-card"><h2>Čaká na schválenie</h2>
-        <p class="lead">Napíš adminovi, že si sa zaregistroval. Keď ťa schváli, klikni na tlačidlo nižšie.</p>
-        <div style="display:grid;gap:10px"><button class="btn go" data-recheck>Skontrolovať znova</button><button class="btn ghost" data-logout>Odhlásiť sa</button></div></div>`
-    : `<div class="gate-card">
-        <div class="seg" style="margin-bottom:18px"><button data-authtab="login" class="${login ? "on" : ""}">Prihlásenie</button><button data-authtab="signup" class="${login ? "" : "on"}">Nový účet</button></div>
-        <h2>${login ? "Vitaj späť" : "Pridaj sa do ligy"}</h2>
+  const left = `<div><span class="mark"><i></i>${esc(LEAGUE)}</span>${lights}</div>
+    <div><h1 class="gate-title">${pending ? "Čakáš na zelenú" : esc(LEAGUE)}</h1>
+    <p class="gate-sub">${pending ? `Ahoj ${esc(S.profile?.display_name || "")}, účet máš vytvorený. Kým ťa admin ligy neschváli, poradie a výsledky neuvidíš.` : "Súkromná liga. Poradie, výsledky a štatistiky vidia iba schválení členovia."}</p></div>`;
+  const right = pending
+    ? `<div><h2>Čaká na schválenie</h2><p class="lead">Napíš adminovi, že si sa zaregistroval. Keď ťa schváli, klikni na tlačidlo.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn solid" data-recheck>Skontrolovať znova</button><button class="btn" data-logout>Odhlásiť sa</button></div></div>`
+    : `<div><div class="seg"><button data-authtab="login" class="${login ? "on" : ""}">Prihlásenie</button><button data-authtab="signup" class="${login ? "" : "on"}">Nový účet</button></div>
+        <h2>${login ? "Vitaj späť" : "Pridaj sa"}</h2>
         <p class="lead">${login ? "Prihlás sa emailom a heslom." : "Po registrácii ťa ešte musí schváliť admin ligy."}</p>
-        <form id="${login ? "loginForm" : "signupForm"}" style="display:grid;gap:12px">
+        <form id="${login ? "loginForm" : "signupForm"}" style="display:grid;gap:14px;max-width:440px">
           ${login ? "" : `<label class="f">Meno alebo prezývka<input class="input" name="dname" required maxlength="40" autocomplete="nickname"></label>`}
           <label class="f">Email<input class="input" type="email" name="email" required autocomplete="email"></label>
           <label class="f">Heslo<input class="input" type="password" name="password" required minlength="6" autocomplete="${login ? "current-password" : "new-password"}"></label>
-          <button class="btn go" type="submit" style="margin-top:6px;padding:12px">${login ? "Prihlásiť sa" : "Vytvoriť účet"}</button>
+          <div><button class="btn solid" type="submit" style="padding:12px 28px">${login ? "Prihlásiť sa" : "Vytvoriť účet"}</button></div>
         </form></div>`;
-  return `<section class="gate" id="gate"><div class="kerb"></div>
-    <div class="wrap gate-top"><span class="mark"><i></i><b>${esc(LEAGUE)}</b></span></div>
-    <div class="wrap gate-main"><div>${left}</div>${card}</div></section>`;
+  return `<section class="gate" id="gate"><div class="gate-l">${left}</div><div class="gate-r">${right}</div></section>`;
 }
 let lightsTimer = [];
-function runLights(pending) {
+function runLights() {
   lightsTimer.forEach(clearTimeout); lightsTimer = [];
-  const gate = document.getElementById("gate"); if (!gate || pending) return;
+  const gate = document.getElementById("gate"); if (!gate) return;
   const pods = [...gate.querySelectorAll(".pod")];
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let seen = false; try { seen = sessionStorage.getItem("f1lights") === "1"; } catch {}
-  if (reduce || seen) return;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches || seen) return;
   try { sessionStorage.setItem("f1lights", "1"); } catch {}
   gate.classList.add("seq");
-  pods.forEach((p, i) => lightsTimer.push(setTimeout(() => p.classList.add("on"), 350 + i * 420)));
-  lightsTimer.push(setTimeout(() => { pods.forEach(p => p.classList.remove("on")); gate.classList.remove("seq"); gate.classList.add("go"); }, 350 + 5 * 420 + 650));
+  pods.forEach((p, i) => lightsTimer.push(setTimeout(() => p.classList.add("on"), 300 + i * 420)));
+  lightsTimer.push(setTimeout(() => { pods.forEach(p => p.classList.remove("on")); gate.classList.remove("seq"); gate.classList.add("go"); }, 300 + 5 * 420 + 650));
 }
 
 // ===== HOME =====
@@ -627,83 +601,78 @@ function viewHome() {
   const next = st.races.find(r => !RES_BY_RACE.has(r.id));
   const last = st.done[st.done.length - 1];
   const [a, b, c] = st.rows;
-  const step = (row, p) => row ? `<div class="pb p${p}" data-player="${row.pid}" style="--c:${col(row.pid)};cursor:pointer">
-      <div class="pb-who">${tag(row.pid)}<div class="pb-name">${esc(pname(row.pid))}</div><div class="pb-pts"><b class="num">${row.pts}</b> b${p > 1 ? ` <span class="muted">−${a.pts - row.pts}</span>` : ""}</div></div>
-      <div class="pb-step"><span>${p}</span></div></div>` : `<div class="pb p${p}"></div>`;
   const remaining = st.races.length - st.done.length;
-  const sub = st.races.length ? (remaining ? `Po ${st.done.length}. kole z ${st.races.length}, ešte ${remaining} ${plural(remaining, "závod", "závody", "závodov")}` : `Sezóna je dojazdená, ${st.races.length} pretekov`) : "Zatiaľ bez kalendára";
-  return `<div class="home-head"><div><h1>${esc(s.name)}</h1><p>${sub}</p>
-      <div class="progress">${st.races.map(r => `<i class="${RES_BY_RACE.has(r.id) ? "d" : (r === next ? "n" : "")}" title="${esc(r.track)}"></i>`).join("")}</div></div></div>
-    <div class="stage">
-      <div>${st.rows.length ? `<div class="podium">${step(b, 2)}${step(a, 1)}${step(c, 3)}</div><div class="kerb podium-base"></div>` : `<div class="panel empty">Sezóna ešte nemá žiadne výsledky.</div>`}</div>
-      <div class="panel nextbox">${next
-        ? `<small>Na rade, kolo ${next.round}${next.race_date ? `, ${fmtDate(next.race_date)}` : ""}</small><div class="tr"><span class="flag">${flag(next.track)}</span>${esc(next.track)}</div>
-           <p class="mist" style="margin:6px 0 16px">${a && b ? `${esc(pname(a.pid))} vedie o ${a.pts - b.pts} ${plural(a.pts - b.pts, "bod", "body", "bodov")}. V hre je ešte ${remaining * ((s.points_scheme || DEFAULT_SCHEME)[0] + (s.fastest_lap_bonus || 0))} bodov.` : "Prvý závod sezóny."}</p>
-           ${canEdit() ? `<button class="btn go" data-edit-race="${next.id}" style="width:100%">Zapísať výsledky</button>` : `<button class="btn" data-go="races" style="width:100%">Kalendár pretekov</button>`}`
-        : `<small>Sezóna</small><div class="tr">Dojazdená</div><p class="mist" style="margin:6px 0 0">${a ? `Šampión: ${esc(pname(a.pid))}` : ""}</p>`}</div>
+  const inPlay = remaining * ((s.points_scheme || DEFAULT_SCHEME)[0] + (s.fastest_lap_bonus || 0));
+  const head = `<div class="phead"><h1>${esc(s.name)}</h1><div class="side">${st.races.length ? (remaining ? `Po ${st.done.length}. kole z ${st.races.length}` : `Dojazdená, ${st.races.length} pretekov`) : "Bez kalendára"}</div></div>`;
+  if (!a) return head + `<div class="empty">Sezóna ešte nemá žiadne výsledky.</div>`;
+  const cell = (r, p) => r ? `<div data-player="${r.pid}" style="${cvars(r.pid)}"><i></i><b>${esc(pname(r.pid))}</b><span>${p}. miesto, ${r.pts} b, −${a.pts - r.pts}</span></div>` : `<div></div>`;
+  return `${head}
+    <div class="poster">
+      <div class="big" data-player="${a.pid}" style="${cvars(a.pid)}"><div class="n">1</div>
+        <small>${remaining ? "Líder šampionátu" : "Šampión sezóny"}</small>
+        <h2>${esc(pname(a.pid))}</h2>
+        <div class="pts">${a.pts} bodov, ${a.wins} ${plural(a.wins, "výhra", "výhry", "výhier")}</div></div>
+      <div class="pside">
+        <div class="p23">${cell(b, 2)}${cell(c, 3)}</div>
+        <div class="list">${st.rows.slice(3, 9).map((r, i) => `<div class="row" data-player="${r.pid}" style="${cvars(r.pid)}"><span class="p">${i + 4}</span><span class="sw"></span><span class="nm">${esc(pname(r.pid))}</span><span class="g num">−${a.pts - r.pts}</span><b class="num">${r.pts}</b></div>`).join("")}
+          ${st.rows.length > 9 ? `<div style="padding-top:8px"><button class="link" data-go="standings">Celé poradie</button></div>` : ""}</div>
+      </div>
     </div>
-    <div class="cols">
-      <section><div class="ptitle"><h2>Poradie</h2><button class="link" data-go="standings">Celé poradie</button></div>
-        <div class="tower">${st.rows.slice(0, 8).map((r, i) => towerRow(r, i, a)).join("")}</div></section>
-      <section>${last ? `<div class="ptitle"><h2>${flag(last.track)} ${esc(last.track)}</h2><span class="side">Posledný závod, kolo ${last.round}</span></div>
-        <div class="panel" style="padding:8px">${RES_BY_RACE.get(last.id).map(x => resRow(s, x)).join("")}</div>` : ""}</section>
+    <div class="rounds" style="--n:${st.races.length}">${st.races.map(r => `<i class="${RES_BY_RACE.has(r.id) ? "" : (r === next ? "nx" : "f")}" data-race="${r.id}" title="${r.round}. ${esc(r.track)}"></i>`).join("")}</div>
+    <div class="cap"><span>Odjazdené ${st.done.length} z ${st.races.length}</span><span>${next ? `Ďalej ${flag(next.track)} ${esc(next.track)}, kolo ${next.round}` : "Sezóna je dojazdená"}</span></div>
+    <div class="duo">
+      <section>${next ? `<small>Na rade</small><div class="nextblk"><small style="color:#b9bec8">Kolo ${next.round}${next.race_date ? `, ${fmtDate(next.race_date)}` : ""}</small><h3>${flag(next.track)} ${esc(next.track)}</h3>
+          <p>${b ? `${esc(pname(a.pid))} vedie o ${a.pts - b.pts} ${plural(a.pts - b.pts, "bod", "body", "bodov")}, v hre je ešte ${inPlay} bodov.` : ""}</p>
+          ${canEdit() ? `<button class="btn red" data-edit-race="${next.id}">Zapísať výsledky</button>` : `<button class="btn" data-go="races">Kalendár</button>`}</div>`
+        : `<small>Sezóna</small><h3>Dojazdená</h3><p class="mid">Šampión: ${esc(pname(a.pid))}</p>`}</section>
+      <section>${last ? `<small>Posledný závod, kolo ${last.round}</small><h3>${flag(last.track)} ${esc(last.track)}</h3>
+        <div>${RES_BY_RACE.get(last.id).map(x => resRow(s, x)).join("")}</div>` : ""}</section>
     </div>`;
 }
-function emptyLeague() { return `<div class="panel empty" style="margin-top:30px">V lige zatiaľ nie je žiadna sezóna.${isAdmin() ? `<br><br><button class="btn go" data-go="admin">Vytvoriť sezónu</button>` : ""}</div>`; }
-function towerRow(r, i, lead) {
-  return `<div class="tw ${i === 0 ? "lead" : ""}" data-player="${r.pid}">${posb(i + 1)}<span class="who">${tag(r.pid)}<span class="nm">${esc(pname(r.pid))}</span></span>
-    <span class="gap num">${i ? "−" + (lead.pts - r.pts) : ""}</span><span class="pts num">${r.pts}</span></div>`;
-}
-function resRow(s, x) {
-  return `<div class="rrow">${posb(x.position, true)}<span class="nm">${tag(x.player_id)} <span style="margin-left:4px">${esc(pname(x.player_id))}</span>${x.fastest_lap ? ' <span class="fl" title="Najrýchlejšie kolo"></span>' : ""}</span><span class="pp num">+${ptsFor(s, x)}</span></div>`;
-}
+function emptyLeague() { return `<div class="empty">V lige zatiaľ nie je žiadna sezóna.${isAdmin() ? `<br><br><button class="btn solid" data-go="admin">Vytvoriť sezónu</button>` : ""}</div>`; }
+function resRow(s, x) { return `<div class="rr" style="${cvars(x.player_id)}">${posb(x.position, true)}<span class="sw"></span><span class="nm">${esc(pname(x.player_id))}${x.fastest_lap ? '<span class="fl" title="Najrýchlejšie kolo"></span>' : ""}</span><span class="pp num">+${ptsFor(s, x)}</span></div>`; }
 
 // ===== STANDINGS =====
 function viewStandings() {
   const st = standings(S.seasonId); if (!st.season) return emptyLeague();
-  const { rows, done } = st; const lead = rows[0];
-  const showOdk = rows.some(r => r.odk);
-  const tower = rows.length ? `<div class="tower full">
-      <div class="hd"><span></span><span style="text-align:left">Jazdec</span><span class="x" style="text-align:left">Forma</span><span class="x">Výhry</span><span class="x">Pódiá</span><span class="x">NK</span><span class="x">${showOdk ? "Odklady" : "Ø poz."}</span><span>Strata</span><span>Body</span></div>
-      ${rows.map((r, i) => `<div class="tw ${i === 0 ? "lead" : ""}" data-player="${r.pid}">${posb(i + 1)}
-        <span class="who">${tag(r.pid)}<span class="nm">${esc(pname(r.pid))}</span></span>
-        <span class="x">${formHtml(r.form)}</span>
-        <span class="c x num">${r.wins || ""}</span><span class="c x num">${r.podiums || ""}</span><span class="c x num">${r.fl || ""}</span><span class="c x num">${showOdk ? (r.odk || "") : fmtAvg(r.avg)}</span>
-        <span class="gap num">${i ? "−" + (lead.pts - r.pts) : ""}</span><span class="pts num">${r.pts}</span></div>`).join("")}</div>` : `<div class="panel empty">Zatiaľ žiadne výsledky.</div>`;
-  return `<div class="ptitle"><h2 style="font-size:40px">Poradie jazdcov</h2><span class="side">${esc(st.season.name)}, ${done.length} z ${st.races.length} pretekov</span></div>
-    ${tower}
-    ${done.length > 1 ? `<div class="panel chart-wrap"><div class="ptitle" style="margin-bottom:8px"><h2 style="font-size:24px">Vývoj bodov</h2><span class="side">Klikni na jazdca a skry ho</span></div><div class="legend" id="legend"></div><div class="chart" id="chart"></div></div>` : ""}`;
+  const { rows, done } = st; const lead = rows[0]; const showOdk = rows.some(r => r.odk);
+  return `<div class="phead"><h1>Poradie</h1><div class="side">${esc(st.season.name)}<br>${done.length} z ${st.races.length} pretekov</div></div>
+    ${rows.length ? `<div class="scroll"><table class="tbl"><thead><tr><th class="l"></th><th class="l">Jazdec</th><th class="l hide-sm">Forma</th><th class="hide-sm">Výhry</th><th class="hide-sm">Pódiá</th><th class="hide-sm">NK</th><th class="hide-sm">${showOdk ? "Odklady" : "Ø miesto"}</th><th class="hide-sm">Strata</th><th>Body</th></tr></thead>
+      <tbody>${rows.map((r, i) => `<tr class="${i === 0 ? "lead" : ""}" data-player="${r.pid}" style="${cvars(r.pid)}"><td class="pc">${i + 1}</td><td class="l"><span class="nm"><i></i>${esc(pname(r.pid))}</span></td>
+        <td class="l hide-sm">${formHtml(r.form)}</td><td class="st hide-sm num">${r.wins || ""}</td><td class="st hide-sm num">${r.podiums || ""}</td><td class="st hide-sm num">${r.fl || ""}</td><td class="st hide-sm num">${showOdk ? (r.odk || "") : fmtAvg(r.avg)}</td>
+        <td class="st hide-sm num mid">${i ? "−" + (lead.pts - r.pts) : ""}</td><td class="pt num">${r.pts}</td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">Zatiaľ žiadne výsledky.</div>`}
+    ${done.length > 1 ? `<div class="sec"><h2>Vývoj bodov</h2><span class="side">Klikni na meno a skry ho</span></div><div class="chart-box"><div class="legend" id="legend"></div><div class="chart" id="chart"></div></div>` : ""}`;
 }
 function mountChart() {
   const host = document.getElementById("chart"); if (!host) return;
   const st = standings(S.seasonId);
-  const series = st.rows.slice(0, 8).map(r => ({ pid: r.pid, name: code(r.pid), color: col(r.pid), cum: r.cum }));
-  document.getElementById("legend").innerHTML = series.map(s => `<button data-toggle="${s.pid}" class="${S.hidden.has(s.pid) ? "off" : ""}" style="--c:${s.color}"><i></i>${esc(s.name)}</button>`).join("") + (st.rows.length > 8 ? `<span class="muted" style="font-size:13px;align-self:center">prvých 8</span>` : "");
+  const series = st.rows.slice(0, 8).map(r => ({ pid: r.pid, name: pname(r.pid), color: col(r.pid), cum: r.cum }));
+  document.getElementById("legend").innerHTML = series.map(s => `<button data-toggle="${s.pid}" class="${S.hidden.has(s.pid) ? "off" : ""}" style="--c:${s.color}"><i></i>${esc(s.name)}</button>`).join("");
   const vis = series.filter(s => !S.hidden.has(s.pid)); const n = st.done.length;
-  const W = Math.max(320, host.clientWidth), H = Math.min(400, Math.max(240, W * 0.42));
-  const m = { l: 40, r: vis.length && vis.length <= 5 ? 56 : 14, t: 12, b: 28 };
+  const W = Math.max(320, host.clientWidth), H = Math.min(420, Math.max(250, W * 0.42));
+  const m = { l: 40, r: vis.length && vis.length <= 5 ? 76 : 14, t: 12, b: 28 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
   const maxY = Math.max(10, ...vis.map(s => s.cum[n - 1] || 0)); const step = niceStep(maxY / 4); const top = Math.ceil(maxY / step) * step;
   const x = i => m.l + (n === 1 ? iw / 2 : i * iw / (n - 1)); const y = v => m.t + ih - v / top * ih;
   let g = "";
-  for (let v = 0; v <= top; v += step) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="#222b43" stroke-width="1"/><text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="#6f7892">${v}</text>`;
+  for (let v = 0; v <= top; v += step) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="${v ? "#d3d7dd" : "#0d0f12"}" stroke-width="${v ? 1 : 2}"/><text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="#5b6170">${v}</text>`;
   const every = Math.ceil(n / Math.max(2, Math.floor(iw / 34)));
-  st.done.forEach((r, i) => { if (i % every === 0 || i === n - 1) g += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="#6f7892">${r.round}</text>`; });
+  st.done.forEach((r, i) => { if (i % every === 0 || i === n - 1) g += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="#5b6170">${r.round}</text>`; });
   let lines = "";
-  for (const s of vis) lines += `<path d="${s.cum.map((v, i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1)).join("")}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>`;
+  for (const s of vis) lines += `<path d="${s.cum.map((v, i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1)).join("")}" fill="none" stroke="${s.color}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
   if (vis.length && vis.length <= 5) {
     const labs = vis.map(s => ({ s, y: y(s.cum[n - 1]) })).sort((a, b) => a.y - b.y);
     for (let i = 1; i < labs.length; i++) if (labs[i].y - labs[i - 1].y < 15) labs[i].y = labs[i - 1].y + 15;
-    for (const l of labs) lines += `<circle cx="${x(n - 1)}" cy="${y(l.s.cum[n - 1])}" r="4" fill="${l.s.color}" stroke="#121929" stroke-width="2"/><text x="${x(n - 1) + 9}" y="${l.y + 4}" font-size="13" font-weight="800" font-style="italic" font-family="Saira Extra Condensed, sans-serif" fill="#eef1f8">${esc(l.s.name)}</text>`;
+    for (const l of labs) lines += `<circle cx="${x(n - 1)}" cy="${y(l.s.cum[n - 1])}" r="4.5" fill="${l.s.color}" stroke="#e9ebee" stroke-width="2"/><text x="${x(n - 1) + 9}" y="${l.y + 4}" font-size="13" font-weight="700" fill="#0d0f12">${esc(l.s.name)}</text>`;
   }
-  host.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Vývoj bodov">${g}${lines}<line id="xh" y1="${m.t}" y2="${m.t + ih}" stroke="#4a5779" stroke-width="1" opacity="0"/><g id="dots"></g><rect x="${m.l - 10}" y="0" width="${iw + 20}" height="${H}" fill="transparent" id="hit"/></svg><div class="tip" id="tip"></div>`;
+  host.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Vývoj bodov">${g}${lines}<line id="xh" y1="${m.t}" y2="${m.t + ih}" stroke="#0d0f12" stroke-width="1" opacity="0"/><g id="dots"></g><rect x="${m.l - 10}" y="0" width="${iw + 20}" height="${H}" fill="transparent" id="hit"/></svg><div class="tip" id="tip"></div>`;
   const svg = host.querySelector("svg"), tip = host.querySelector("#tip"), xh = host.querySelector("#xh"), dots = host.querySelector("#dots");
   const move = ev => {
     const rect = svg.getBoundingClientRect(); const px = (ev.clientX - rect.left) * W / rect.width;
     const i = Math.max(0, Math.min(n - 1, Math.round(n === 1 ? 0 : (px - m.l) / iw * (n - 1)))); const race = st.done[i];
     xh.setAttribute("x1", x(i)); xh.setAttribute("x2", x(i)); xh.setAttribute("opacity", 1);
-    dots.innerHTML = vis.map(s => `<circle cx="${x(i)}" cy="${y(s.cum[i])}" r="4.5" fill="${s.color}" stroke="#121929" stroke-width="2"/>`).join("");
-    tip.innerHTML = `<div class="h">${flag(race.track)} ${esc(race.track)}, kolo ${race.round}</div>` + [...vis].sort((a, b) => b.cum[i] - a.cum[i]).map(s => `<div class="r"><span class="tag" style="--c:${s.color}">${esc(s.name)}</span><b class="num">${s.cum[i]}</b></div>`).join("");
+    dots.innerHTML = vis.map(s => `<circle cx="${x(i)}" cy="${y(s.cum[i])}" r="5" fill="${s.color}" stroke="#e9ebee" stroke-width="2"/>`).join("");
+    tip.innerHTML = `<div class="h">${flag(race.track)} ${esc(race.track)}, kolo ${race.round}</div>` + [...vis].sort((a, b) => b.cum[i] - a.cum[i]).map(s => `<div class="r"><span><i class="sw" style="--c:${s.color}"></i>${esc(s.name)}</span><b class="num">${s.cum[i]}</b></div>`).join("");
     const left = x(i) / W * rect.width; const tw = tip.offsetWidth;
     tip.style.left = (left + 14 + tw > rect.width ? left - tw - 14 : left + 14) + "px"; tip.style.top = "8px"; tip.style.opacity = 1;
   };
@@ -711,82 +680,86 @@ function mountChart() {
   hit.addEventListener("pointermove", move); hit.addEventListener("pointerdown", move);
   hit.addEventListener("pointerleave", () => { tip.style.opacity = 0; xh.setAttribute("opacity", 0); dots.innerHTML = ""; });
 }
+function fitText() {
+  document.querySelectorAll(".big h2,.p23 b,.dc .top b,.dhero h1,.champ .top b,.gate-title").forEach(el => {
+    el.style.fontSize = ""; let fs = parseFloat(getComputedStyle(el).fontSize); const box = el.parentElement;
+    const avail = box.clientWidth - parseFloat(getComputedStyle(box).paddingLeft) - parseFloat(getComputedStyle(box).paddingRight);
+    let guard = 0; while (el.scrollWidth > avail && fs > 18 && guard++ < 200) { fs -= 2; el.style.fontSize = fs + "px"; }
+  });
+}
 function niceStep(raw) { const p = Math.pow(10, Math.floor(Math.log10(Math.max(raw, 1)))); const f = raw / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p; }
 
 // ===== RACES =====
 function viewRaces() {
   const st = standings(S.seasonId); if (!st.season) return emptyLeague();
   const s = st.season; const next = st.races.find(r => !RES_BY_RACE.has(r.id));
-  const head = `<div class="ptitle" style="flex-wrap:wrap"><h2 style="font-size:40px">Preteky</h2>
-    <div style="display:flex;gap:10px;align-items:center">${S.raceView === "cards" ? `<div class="navbtns"><button data-strip="-1" aria-label="Doľava">‹</button><button data-strip="1" aria-label="Doprava">›</button></div>` : ""}
-    <div class="seg"><button data-rv="cards" class="${S.raceView === "cards" ? "on" : ""}">Karty</button><button data-rv="matrix" class="${S.raceView === "matrix" ? "on" : ""}">Tabuľka</button></div></div></div>`;
-  if (!st.races.length) return head + `<div class="panel empty">Sezóna nemá žiadne preteky.</div>`;
+  const head = `<div class="phead"><h1>Preteky</h1><div class="side">${esc(s.name)}<br>${st.done.length} z ${st.races.length} odjazdených</div></div>
+    <div class="racebar"><div class="seg"><button data-rv="cards" class="${S.raceView === "cards" ? "on" : ""}">Karty</button><button data-rv="matrix" class="${S.raceView === "matrix" ? "on" : ""}">Tabuľka</button></div>
+      ${S.raceView === "cards" ? `<div class="navbtns"><button class="ibtn" data-strip="-1" aria-label="Doľava">‹</button><button class="ibtn" data-strip="1" aria-label="Doprava">›</button></div>` : ""}</div>`;
+  if (!st.races.length) return head + `<div class="empty">Sezóna nemá žiadne preteky.</div>`;
   if (S.raceView === "matrix") return head + matrixView(st);
-  return head + `<div class="lapbar">${st.races.map((r, i) => `<button data-jump="${i}" class="${RES_BY_RACE.has(r.id) ? "d" : (r === next ? "n" : "")}" title="${esc(r.track)}">${r.round}</button>`).join("")}</div>
+  return head + `<div class="rounds" style="--n:${st.races.length};margin:0 0 16px">${st.races.map((r, i) => `<i class="${RES_BY_RACE.has(r.id) ? "" : (r === next ? "nx" : "f")}" data-jump="${i}" title="${r.round}. ${esc(r.track)}"></i>`).join("")}</div>
     <div class="strip" id="strip">${st.races.map(r => {
-      const res = RES_BY_RACE.get(r.id); const cls = res ? "done" : (r === next ? "next" : "todo");
-      return `<article class="board ${cls}" data-race="${r.id}">${res ? "" : `<div class="bar-n"></div>`}
-        <div class="bh"><small>Kolo ${r.round}${r.race_date ? `, ${fmtDate(r.race_date)}` : ""}</small><h3><span class="flag">${flag(r.track)}</span>${esc(r.track)}</h3></div>
-        ${res ? `<div class="rl">${res.map(x => resRow(s, x)).join("")}</div>` : `<div class="soon">${r === next ? `<span class="pill red">Na rade</span>${canEdit() ? ` <button class="btn sm go" data-edit-race="${r.id}" style="margin-left:6px">Zapísať</button>` : ""}` : "Ešte sa nejazdilo"}</div>`}
-      </article>`; }).join("")}</div>`;
+      const res = RES_BY_RACE.get(r.id); const cls = res ? "" : (r === next ? "next" : "todo");
+      return `<article class="ticket ${cls}" data-race="${r.id}"><div class="th"><span class="rn">${r.round}</span><div><small>${r.race_date ? fmtDate(r.race_date) : `Kolo ${r.round}`}</small><b>${flag(r.track)} ${esc(r.track)}</b></div></div>
+        <div class="tb">${res ? res.map(x => resRow(s, x)).join("") : `<div class="soon">${r === next ? `<span class="pill red">Na rade</span>${canEdit() ? `<button class="btn sm red" data-edit-race="${r.id}">Zapísať</button>` : ""}` : "Ešte sa nejazdilo"}</div>`}</div></article>`; }).join("")}</div>`;
 }
 function matrixView(st) {
-  const { rows, races } = st; if (!rows.length) return `<div class="panel empty">Zatiaľ žiadne výsledky.</div>`;
-  return `<div class="panel scrollx"><table class="matrix"><thead><tr><th class="l"></th>${races.map(r => `<th title="${esc(r.track)}">${r.round}<br><span class="flag" style="font-size:14px">${flag(r.track)}</span></th>`).join("")}<th>Body</th></tr></thead>
-    <tbody>${rows.map(row => `<tr><td class="l">${tag(row.pid)}</td>${races.map(r => { const x = (RES_BY_RACE.get(r.id) || []).find(q => q.player_id === row.pid);
+  const { rows, races } = st; if (!rows.length) return `<div class="empty">Zatiaľ žiadne výsledky.</div>`;
+  return `<div class="scroll"><table class="matrix"><thead><tr><th class="l"></th>${races.map(r => `<th title="${esc(r.track)}">${r.round}<br><span style="font-size:14px">${flag(r.track)}</span></th>`).join("")}<th>Body</th></tr></thead>
+    <tbody>${rows.map(row => `<tr><td class="l"><span class="sw" style="--c:${col(row.pid)};margin-right:8px"></span>${esc(pname(row.pid))}</td>${races.map(r => { const x = (RES_BY_RACE.get(r.id) || []).find(q => q.player_id === row.pid);
       return x ? `<td><span class="c ${x.position <= 3 ? "p" + x.position : ""} ${x.fastest_lap ? "f" : ""}" title="${esc(r.track)}: ${x.position}. miesto">${x.position}</span></td>` : `<td><span class="c e">·</span></td>`; }).join("")}
-      <td><b class="disp num" style="font-size:20px;padding-left:8px">${row.pts}</b></td></tr>`).join("")}</tbody></table></div>
+      <td><b class="d num" style="font-size:24px;padding-left:10px">${row.pts}</b></td></tr>`).join("")}</tbody></table></div>
     <p class="hint">Číslo je umiestnenie v závode${rows.some(r => r.fl) ? ", fialová bodka je najrýchlejšie kolo" : ""}.</p>`;
 }
 function raceModal(raceId) {
   const r = S.races.find(x => x.id === raceId); if (!r) return;
   const s = season(r.season_id); const res = RES_BY_RACE.get(r.id) || [];
-  openModal(`<div class="kerb"></div><div class="mc"><small class="muted">${esc(s.name)}, kolo ${r.round}${r.race_date ? `, ${fmtDate(r.race_date)}` : ""}</small>
-    <h2 class="disp" style="font-size:44px;margin:6px 0 14px"><span class="flag" style="font-style:normal">${flag(r.track)}</span> ${esc(r.track)}</h2>
-    ${res.length ? `<div style="display:grid;gap:2px">${res.map(x => resRow(s, x)).join("")}</div>` : `<p class="mist">Tento závod sa ešte nejazdil.</p>`}
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:18px">${canEdit() ? `<button class="btn ${res.length ? "" : "go"}" data-edit-race="${r.id}">${res.length ? "Upraviť výsledky" : "Zapísať výsledky"}</button>` : ""}<button class="btn ghost" data-close>Zavrieť</button></div></div>`);
+  const w = res[0];
+  openModal(`<div class="mc"><small class="mid" style="font-weight:600">${esc(s.name)}, kolo ${r.round}${r.race_date ? `, ${fmtDate(r.race_date)}` : ""}</small>
+    <h2>${flag(r.track)} ${esc(r.track)}</h2>
+    ${res.length ? res.map(x => resRow(s, x)).join("") : `<p class="mid">Tento závod sa ešte nejazdil.</p>`}
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:20px">${canEdit() ? `<button class="btn ${res.length ? "" : "red"}" data-edit-race="${r.id}">${res.length ? "Upraviť výsledky" : "Zapísať výsledky"}</button>` : ""}<button class="btn solid" data-close>Zavrieť</button></div></div>`, w ? col(w.player_id) : null);
 }
 
 // ===== DRIVERS =====
 function viewPlayers() {
   if (S.view) return playerDetail(+S.view);
   const at = allTime().filter(a => a.starts > 0 || P.get(a.pid)?.active).sort((a, b) => b.titles - a.titles || b.pts - a.pts);
-  if (!at.length) return `<div class="panel empty">Zatiaľ žiadni jazdci.</div>`;
-  return `<div class="ptitle"><h2 style="font-size:40px">Jazdci</h2><span class="side">${at.length} ${plural(at.length, "jazdec", "jazdci", "jazdcov")} vo všetkých sezónach</span></div>
-    <div class="drivers">${at.map(a => { const p = P.get(a.pid);
-      return `<div class="dcard" data-player="${a.pid}" style="--c:${col(a.pid)}"><div class="code">${esc(code(a.pid))}</div><div class="nm">${esc(p.name)}</div>
-        <div class="meta">${a.titles ? `<span class="cups">${"🏆".repeat(Math.min(a.titles, 4))}</span> ` : ""}${a.seasons.length} ${plural(a.seasons.length, "sezóna", "sezóny", "sezón")}${p.active ? "" : ", neaktívny"}</div>
-        <div class="dstats"><div><b class="num">${a.wins}</b><span>výhry</span></div><div><b class="num">${a.podiums}</b><span>pódiá</span></div><div><b class="num">${a.pts}</b><span>body</span></div></div></div>`; }).join("")}</div>`;
+  return `<div class="phead"><h1>Jazdci</h1><div class="side">${at.length} ${plural(at.length, "jazdec", "jazdci", "jazdcov")}<br>všetky sezóny</div></div>
+    ${at.length ? `<div class="drivers" style="margin-top:24px">${at.map(a => { const p = P.get(a.pid);
+      return `<div class="dc" data-player="${a.pid}" style="${cvars(a.pid)}"><div class="top"><small>${a.titles ? `${a.titles}× šampión` : `${a.seasons.length} ${plural(a.seasons.length, "sezóna", "sezóny", "sezón")}`}${p.active ? "" : ", neaktívny"}</small><b>${esc(p.name)}</b></div>
+        <div class="stats"><div><strong class="num">${a.wins}</strong><span>výhry</span></div><div><strong class="num">${a.podiums}</strong><span>pódiá</span></div><div><strong class="num">${a.pts}</strong><span>body</span></div></div></div>`; }).join("")}</div>` : `<div class="empty">Zatiaľ žiadni jazdci.</div>`}`;
 }
 function playerDetail(pid) {
-  const p = P.get(pid); if (!p) return `<div class="panel empty">Jazdec neexistuje.</div>`;
+  const p = P.get(pid); if (!p) return `<div class="empty">Jazdec neexistuje.</div>`;
   const all = allTime(); const a = all.find(x => x.pid === pid);
   const rank = key => [...all].filter(x => x.starts).sort((x, y) => y[key] - x[key]).findIndex(x => x.pid === pid) + 1;
   const mine = S.results.filter(r => r.player_id === pid).map(r => ({ r, race: S.races.find(x => x.id === r.race_id) })).filter(x => x.race)
     .sort((x, y) => (season(x.race.season_id).sort_order - season(y.race.season_id).sort_order) || x.race.round - y.race.round);
   const others = S.players.filter(q => q.id !== pid && S.results.some(r => r.player_id === q.id));
   const opp = S.h2h && S.h2h !== pid && P.get(S.h2h) ? S.h2h : (others[0]?.id ?? null);
+  const isMine = S.profile?.player_id === pid;
   let h2h = "";
   if (opp) {
     let ahead = 0, behind = 0, n = 0;
     for (const arr of RES_BY_RACE.values()) { const me = arr.find(x => x.player_id === pid), ot = arr.find(x => x.player_id === opp); if (me && ot) { n++; me.position < ot.position ? ahead++ : behind++; } }
     const pa = n ? ahead / n * 100 : 50;
-    h2h = `<div class="panel h2h"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><b>Vzájomné súboje</b>
-      <select class="sel" id="h2hSel">${others.map(o => `<option value="${o.id}" ${o.id === opp ? "selected" : ""}>proti ${esc(o.name)}</option>`).join("")}</select></div>
-      ${n ? `<div class="score"><b class="num" style="color:${col(pid)}">${ahead}</b><span class="muted">${n} spoločných pretekov</span><b class="num" style="color:${col(opp)}">${behind}</b></div>
-      <div class="bar"><i style="width:${pa}%;background:${col(pid)}"></i><i style="flex:1;background:${col(opp)}"></i></div>
-      <div style="display:flex;justify-content:space-between" class="muted"><span>${esc(p.name)} skončil vyššie</span><span>${esc(pname(opp))} skončil vyššie</span></div>` : `<p class="mist">Ešte spolu nejazdili.</p>`}</div>`;
+    h2h = `<div class="h2h"><select class="input" id="h2hSel" style="max-width:320px">${others.map(o => `<option value="${o.id}" ${o.id === opp ? "selected" : ""}>proti ${esc(o.name)}</option>`).join("")}</select>
+      ${n ? `<div class="score"><div><strong class="num">${ahead}</strong><div class="mid" style="font-weight:600">${esc(p.name)} vyššie</div></div><span class="mid" style="font-weight:600">${n} spoločných pretekov</span><div style="text-align:right"><strong class="num">${behind}</strong><div class="mid" style="font-weight:600">${esc(pname(opp))} vyššie</div></div></div>
+      <div class="bar"><i style="width:${pa}%;background:${col(pid)}"></i><i style="flex:1;background:${col(opp)}"></i></div>` : `<p class="mid">Ešte spolu nejazdili.</p>`}</div>`;
   }
-  const kv = [["Body", a.pts, rank("pts")], ["Výhry", a.wins, rank("wins")], ["Pódiá", a.podiums, rank("podiums")], ["Najrýchl. kolá", a.fl, a.fl ? rank("fl") : 0], ["Štarty", a.starts, 0], ["Ø umiestnenie", fmtAvg(a.avg), 0]];
+  const kv = [["Body", a.pts, rank("pts")], ["Výhry", a.wins, rank("wins")], ["Pódiá", a.podiums, rank("podiums")], ["Najrýchl. kolá", a.fl, a.fl ? rank("fl") : 0], ["Štarty", a.starts, 0], ["Ø miesto", fmtAvg(a.avg), 0]];
   return `<button class="back" data-go="players">‹ Všetci jazdci</button>
-    <div class="dhero" style="--c:${col(pid)}"><div class="code">${esc(code(pid))}</div><h1>${esc(p.name)}</h1>
-      <p>${a.titles ? `<span class="cups">🏆</span> ${a.titles}× šampión (${a.titleNames.map(esc).join(", ")}), ` : ""}${a.seasons.length} ${plural(a.seasons.length, "sezóna", "sezóny", "sezón")}, ${a.starts} ${plural(a.starts, "štart", "štarty", "štartov")}</p></div>
-    <div class="kv">${kv.map(([k, v, r]) => `<div class="panel"><b class="num">${v}</b><span>${k}</span>${r ? `<em>${r}. v histórii ligy</em>` : ""}</div>`).join("")}</div>
-    ${mine.length ? `<div class="ptitle" style="margin-top:26px"><h2>Posledné preteky</h2></div><div style="display:flex;gap:8px;flex-wrap:wrap">${mine.slice(-6).reverse().map(f => `<div class="panel" style="padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer" data-race="${f.race.id}">${posb(f.r.position)}<div><b>${flag(f.race.track)} ${esc(f.race.track)}</b><div class="muted" style="font-size:13px">${esc(season(f.race.season_id).name)}</div></div></div>`).join("")}</div>` : ""}
-    <div class="ptitle" style="margin-top:26px"><h2>Po sezónach</h2></div>
-    <div class="panel" style="overflow-x:auto"><table class="t"><thead><tr><th class="l">Sezóna</th><th>Miesto</th><th>Body</th><th>Výhry</th><th>Pódiá</th><th>NK</th><th>Štarty</th></tr></thead>
-      <tbody>${a.seasons.map(x => `<tr class="click" data-season-go="${x.sid}"><td class="l"><b>${esc(x.name)}</b>${x.current ? ' <span class="pill red">prebieha</span>' : ""}</td><td>${posb(x.place, true)}</td><td><b class="disp num" style="font-size:20px">${x.pts}</b></td><td class="num">${x.wins}</td><td class="num">${x.podiums}</td><td class="num">${x.fl || ""}</td><td class="num">${x.starts}</td></tr>`).join("") || `<tr><td colspan="7" class="l muted">Zatiaľ bez výsledkov</td></tr>`}</tbody></table></div>
-    <div class="ptitle" style="margin-top:26px"><h2>Head-to-head</h2></div>${h2h || `<div class="panel empty">Žiadni súperi.</div>`}`;
+    <div class="dhero" style="${cvars(pid)}"><small style="font-weight:700">${a.titles ? `${a.titles}× šampión (${a.titleNames.map(esc).join(", ")})` : "Jazdec ligy"}</small><h1>${esc(p.name)}</h1>
+      <p>${a.seasons.length} ${plural(a.seasons.length, "sezóna", "sezóny", "sezón")}, ${a.starts} ${plural(a.starts, "štart", "štarty", "štartov")}</p>
+      ${isMine || canEdit() ? `<div style="margin-top:18px"><button class="btn sm" style="border-color:currentColor;color:inherit" data-color="${pid}">Zmeniť farbu</button></div>` : ""}</div>
+    <div class="kv">${kv.map(([k, v, r]) => `<div><strong class="num">${v}</strong><span>${k}</span>${r ? `<em>${r}. v histórii</em>` : ""}</div>`).join("")}</div>
+    ${mine.length ? `<div class="sec"><h2>Posledné preteky</h2></div><div class="recent" style="margin-top:14px">${mine.slice(-6).reverse().map(f => `<div data-race="${f.race.id}">${posb(f.r.position)}<span><b>${flag(f.race.track)} ${esc(f.race.track)}</b><small>${esc(season(f.race.season_id).name)}</small></span></div>`).join("")}</div>` : ""}
+    <div class="sec"><h2>Po sezónach</h2></div>
+    <div class="scroll"><table class="tbl"><thead><tr><th class="l">Sezóna</th><th>Miesto</th><th>Body</th><th>Výhry</th><th>Pódiá</th><th>NK</th><th>Štarty</th></tr></thead>
+      <tbody>${a.seasons.map(x => `<tr data-season-go="${x.sid}"><td class="l"><b>${esc(x.name)}</b>${x.current ? ' <span class="pill red">prebieha</span>' : ""}</td><td>${posb(x.place, true)}</td><td class="pt num">${x.pts}</td><td class="st num">${x.wins}</td><td class="st num">${x.podiums}</td><td class="st num">${x.fl || ""}</td><td class="st num">${x.starts}</td></tr>`).join("") || `<tr><td colspan="7" class="l mid">Zatiaľ bez výsledkov</td></tr>`}</tbody></table></div>
+    <div class="sec"><h2>Head-to-head</h2></div>${h2h || `<div class="empty">Žiadni súperi.</div>`}`;
 }
 
 // ===== HALL OF FAME =====
@@ -794,22 +767,22 @@ function viewHof() {
   const all = allTime().filter(a => a.starts);
   const champs = S.seasons.map(s => ({ s, st: standings(s.id) })).filter(x => x.st.rows.length).reverse();
   const board = (key, title, fmt = v => v, filter = () => true) => {
-    const list = [...all].filter(filter).sort((a, b) => (typeof key === "function" ? key(b) - key(a) : b[key] - a[key])).filter(a => (typeof key === "function" ? key(a) : a[key]) > 0).slice(0, 5);
-    return `<div class="panel lb"><h3>${title}</h3>${list.map((a, i) => `<div class="r" data-player="${a.pid}">${posb(i + 1, true)}<span>${tag(a.pid)} <span class="mist" style="margin-left:4px">${esc(pname(a.pid))}</span></span><b class="num">${fmt(typeof key === "function" ? key(a) : a[key])}</b></div>`).join("") || '<p class="muted">Zatiaľ nič</p>'}</div>`;
+    const val = a => typeof key === "function" ? key(a) : a[key];
+    const list = [...all].filter(filter).sort((a, b) => val(b) - val(a)).filter(a => val(a) > 0).slice(0, 5);
+    return `<div class="lb"><h3>${title}</h3>${list.map((a, i) => `<div class="rr" data-player="${a.pid}" style="${cvars(a.pid)}">${posb(i + 1, true)}<span class="sw"></span><span class="nm">${esc(pname(a.pid))}</span><span class="pp num">${fmt(val(a))}</span></div>`).join("") || '<p class="mid">Zatiaľ nič</p>'}</div>`;
   };
-  return `<div class="ptitle"><h2 style="font-size:40px">Sieň slávy</h2><span class="side">${champs.length} ${plural(champs.length, "sezóna", "sezóny", "sezón")}</span></div>
-    <div class="champs">${champs.map(({ s, st }) => { const fin = isFinished(s); const w = st.rows[0];
-      return `<div class="champ ${fin ? "" : "live"}" data-season-go="${s.id}">${TROPHY}<small>${esc(s.name)}${fin ? "" : ", prebieha"}</small>
-        <h3 style="color:${col(w.pid)}">${esc(pname(w.pid))}</h3><div class="mist">${w.pts} bodov, ${w.wins} ${plural(w.wins, "výhra", "výhry", "výhier")}</div>
-        <div class="rest">${st.rows.slice(1, 3).map((r, i) => `<div>${posb(i + 2, true)}${esc(pname(r.pid))}<b class="num">${r.pts}</b></div>`).join("")}</div></div>`; }).join("")}</div>
-    <div class="ptitle" style="margin-top:30px"><h2>Historické rebríčky</h2></div>
-    <div class="boards">${board("titles", "Tituly")}${board("wins", "Výhry")}${board("podiums", "Pódiá")}${board("pts", "Body")}${board("fl", "Najrýchlejšie kolá")}
-      ${board(a => a.wins / a.starts, "Úspešnosť výhier", v => Math.round(v * 100) + " %", a => a.starts >= 10)}</div>`;
+  return `<div class="phead"><h1>Sieň slávy</h1><div class="side">${champs.length} ${plural(champs.length, "sezóna", "sezóny", "sezón")}</div></div>
+    <div class="champs" style="margin-top:24px">${champs.map(({ s, st }) => { const fin = isFinished(s); const w = st.rows[0];
+      return `<div class="champ" data-season-go="${s.id}" style="${cvars(w.pid)}"><div class="top"><small>${esc(s.name)}${fin ? ", šampión" : ", zatiaľ vedie"}</small><div><b>${esc(pname(w.pid))}</b><div><span>${w.pts} bodov, ${w.wins} ${plural(w.wins, "výhra", "výhry", "výhier")}</span></div></div></div>
+        <div class="rest">${st.rows.slice(1, 3).map((r, i) => `<div class="rr" style="${cvars(r.pid)}">${posb(i + 2, true)}<span class="sw"></span><span class="nm">${esc(pname(r.pid))}</span><span class="pp num">${r.pts}</span></div>`).join("")}</div></div>`; }).join("")}</div>
+    <div class="sec"><h2>Historické rebríčky</h2></div>
+    <div class="boards" style="margin-top:14px">${board("titles", "Tituly")}${board("wins", "Výhry")}${board("podiums", "Pódiá")}${board("pts", "Body")}${board("fl", "Najrýchlejšie kolá")}
+      ${board(a => a.wins / a.starts, "Úspešnosť", v => Math.round(v * 100) + " %", a => a.starts >= 10)}</div>`;
 }
 
 // ===== ADMIN =====
 function viewAdmin() {
-  if (!canEdit()) return `<div class="panel empty">Na správu ligy nemáš oprávnenie.</div>`;
+  if (!canEdit()) return `<div class="empty">Na správu ligy nemáš oprávnenie.</div>`;
   const s = season(S.seasonId); const races = s ? seasonRaces(s.id) : [];
   if (!S.edit || !races.some(r => r.id === S.edit.raceId)) {
     const nx = races.find(r => !RES_BY_RACE.has(r.id)) || races[races.length - 1];
@@ -821,61 +794,62 @@ function viewAdmin() {
   const used = new Set(S.edit?.order.map(o => o.player_id));
   const pending = S.profiles.filter(u => u.role === "pending").length;
 
-  const resultsSec = !s ? `<p class="mist">Najprv treba vytvoriť sezónu.</p>` : !races.length ? `<p class="mist">Sezóna nemá preteky, pridaj ich v kalendári.</p>` : `
-    <label class="f">Závod<select class="input" id="raceSel">${races.map(r => `<option value="${r.id}" ${r.id === S.edit.raceId ? "selected" : ""}>${r.round}. ${esc(r.track)}${RES_BY_RACE.has(r.id) ? " (zapísané)" : ""}</option>`).join("")}</select></label>
+  const resultsSec = !s ? `<p class="mid">Najprv treba vytvoriť sezónu.</p>` : !races.length ? `<p class="mid">Sezóna nemá preteky, pridaj ich v kalendári.</p>` : `
+    <label class="f" style="max-width:420px">Závod<select class="input" id="raceSel">${races.map(r => `<option value="${r.id}" ${r.id === S.edit.raceId ? "selected" : ""}>${r.round}. ${esc(r.track)}${RES_BY_RACE.has(r.id) ? " (zapísané)" : ""}</option>`).join("")}</select></label>
     ${RES_BY_RACE.has(er.id) ? `<p class="hint">Tento závod už má výsledky. Uložením ich prepíšeš.</p>` : ""}
     <p class="hint" style="margin-top:14px">Ťukaj na jazdcov v poradí, v akom dojazdili. Poradie potom upravíš potiahnutím za ⠿.</p>
-    <div class="chips">${active.map(p => `<button class="chip ${used.has(p.id) ? "used" : ""}" data-add="${p.id}" style="--c:${col(p.id)}">${tag(p.id)}<span class="mist">${esc(p.name)}</span></button>`).join("")}</div>
-    <div class="order">${S.edit.order.map((o, i) => `<div class="orow" style="--c:${col(o.player_id)}"><span class="drag" data-drag="${i}" title="Potiahni">⠿</span>${posb(i + 1, true)}<span class="nm">${esc(pname(o.player_id))}</span>
+    <div class="chips">${active.map(p => `<button class="chip ${used.has(p.id) ? "used" : ""}" data-add="${p.id}" style="--c:${col(p.id)}"><span class="sw"></span>${esc(p.name)}</button>`).join("")}</div>
+    <div class="order">${S.edit.order.map((o, i) => `<div class="orow" style="--c:${col(o.player_id)}"><span class="drag" data-drag="${i}" title="Potiahni">⠿</span>${posb(i + 1, true)}<span class="nm"><span class="sw"></span>${esc(pname(o.player_id))}</span>
       <span class="pp num">+${(scheme[i] || 0) + (o.fl ? (s.fastest_lap_bonus || 0) : 0)}</span>
       <button class="mb ${o.fl ? "on" : ""}" data-fl="${i}" title="Najrýchlejšie kolo">NK</button>
       <button class="mb" data-up="${i}" ${i ? "" : "disabled"} aria-label="Hore">↑</button><button class="mb" data-down="${i}" ${i < S.edit.order.length - 1 ? "" : "disabled"} aria-label="Dole">↓</button>
-      <button class="mb" data-rm="${i}" aria-label="Odobrať">✕</button></div>`).join("") || `<p class="muted" style="margin:4px 0">Zatiaľ nikto.</p>`}</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn go" id="saveRes" ${S.edit.order.length ? "" : "disabled"}>Uložiť výsledky</button><button class="btn ghost" id="resetRes">Vyčistiť</button>
-      ${RES_BY_RACE.has(er.id) ? `<button class="btn danger" id="clearRes">Zmazať výsledky závodu</button>` : ""}</div>
+      <button class="mb" data-rm="${i}" aria-label="Odobrať">✕</button></div>`).join("") || `<p class="mid" style="margin:4px 0">Zatiaľ nikto.</p>`}</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn red" id="saveRes" ${S.edit.order.length ? "" : "disabled"}>Uložiť výsledky</button><button class="btn quiet" id="resetRes">Vyčistiť</button>
+      ${RES_BY_RACE.has(er.id) ? `<button class="btn" id="clearRes">Zmazať výsledky závodu</button>` : ""}</div>
     <p class="hint">NK je najrýchlejšie kolo. ${(s.fastest_lap_bonus || 0) ? `Dáva +${s.fastest_lap_bonus} b.` : "Počíta sa iba do štatistík."}</p>`;
 
-  const calSec = !s ? "" : `${races.map(r => `<div class="lrow"><span class="muted num" style="width:24px">${r.round}.</span>
-      <input class="input" style="flex:1" value="${esc(r.track)}" data-track="${r.id}"><input class="input" type="date" style="width:150px" value="${r.race_date || ""}" data-date="${r.id}" title="Dátum (nepovinné)">
+  const calSec = !s ? "" : `${races.map(r => `<div class="lrow"><span class="d" style="font-size:24px;width:32px">${r.round}</span>
+      <input class="input" style="flex:1;min-width:160px" value="${esc(r.track)}" data-track="${r.id}"><input class="input" type="date" style="width:170px" value="${r.race_date || ""}" data-date="${r.id}" title="Dátum (nepovinné)">
       <button class="mb" data-delrace="${r.id}" aria-label="Zmazať závod">✕</button></div>`).join("")}
-    <form id="addRaceForm" style="display:flex;gap:8px;margin-top:12px"><input class="input" id="newTrack" placeholder="Nová trať" required><button class="btn" type="submit">Pridať</button></form>
+    <form id="addRaceForm" style="display:flex;gap:8px;margin-top:12px;max-width:520px"><input class="input" id="newTrack" placeholder="Nová trať" required><button class="btn solid" type="submit">Pridať</button></form>
     <p class="hint">Zmena názvu alebo dátumu sa uloží, keď klikneš mimo políčka.</p>`;
 
-  const playersSec = `${S.players.slice().sort((a, b) => a.name.localeCompare(b.name, "sk")).map(p => `<div class="lrow">${tag(p.id)}
-      <input class="input" style="flex:1" value="${esc(p.name)}" data-pname="${p.id}"><button class="btn sm ${p.active ? "" : "danger"}" data-pactive="${p.id}">${p.active ? "Aktívny" : "Neaktívny"}</button></div>`).join("")}
-    <form id="addPlayerForm" style="display:flex;gap:8px;margin-top:12px"><input class="input" id="newPlayer" placeholder="Meno nového jazdca" required><button class="btn" type="submit">Pridať</button></form>
-    <p class="hint">Neaktívni jazdci sa neponúkajú pri zápise výsledkov, ich história ostáva.</p>`;
+  const playersSec = `${S.players.slice().sort((a, b) => a.name.localeCompare(b.name, "sk")).map(p => `<div class="lrow"><button class="dot" style="--c:${col(p.id)}" data-color="${p.id}" title="Zmeniť farbu" aria-label="Zmeniť farbu"></button>
+      <input class="input" style="flex:1;min-width:160px;max-width:360px" value="${esc(p.name)}" data-pname="${p.id}"><button class="btn sm ${p.active ? "" : "solid"}" data-pactive="${p.id}">${p.active ? "Aktívny" : "Neaktívny"}</button></div>`).join("")}
+    <form id="addPlayerForm" style="display:flex;gap:8px;margin-top:12px;max-width:520px"><input class="input" id="newPlayer" placeholder="Meno nového jazdca" required><button class="btn solid" type="submit">Pridať</button></form>
+    <p class="hint">Neaktívni jazdci sa neponúkajú pri zápise výsledkov, ich história ostáva. Klikni na farebný krúžok a zmeníš farbu.</p>`;
 
   const postSec = !s ? "" : active.map(p => { const c = S.post.find(x => x.season_id === s.id && x.player_id === p.id)?.count || 0;
-    return `<div class="lrow">${tag(p.id)}<span style="flex:1" class="mist">${esc(p.name)}</span><button class="mb" data-odk="${p.id}" data-d="-1" ${c ? "" : "disabled"}>−</button><b class="disp num" style="width:28px;text-align:center;font-size:22px">${c}</b><button class="mb" data-odk="${p.id}" data-d="1">+</button></div>`; }).join("");
+    return `<div class="lrow"><span class="sw" style="--c:${col(p.id)}"></span><span style="flex:1;font-weight:600">${esc(p.name)}</span><button class="mb" data-odk="${p.id}" data-d="-1" ${c ? "" : "disabled"}>−</button><b class="d num" style="width:30px;text-align:center;font-size:26px">${c}</b><button class="mb" data-odk="${p.id}" data-d="1">+</button></div>`; }).join("");
 
-  const seasonSec = `${s ? `<form id="seasonForm" style="display:grid;gap:12px;margin-bottom:22px"><b>${esc(s.name)}</b>
+  const seasonSec = `${s ? `<form id="seasonForm" style="display:grid;gap:12px;margin-bottom:24px;max-width:520px"><b>${esc(s.name)}</b>
       <label class="f">Názov<input class="input" id="sName" value="${esc(s.name)}" required></label>
       <label class="f">Body za umiestnenia, oddelené čiarkou<input class="input" id="sScheme" value="${scheme.join(", ")}" required></label>
       <label class="f">Body navyše za najrýchlejšie kolo (0 = iba štatistika)<input class="input" type="number" min="0" max="10" id="sFl" value="${s.fastest_lap_bonus || 0}"></label>
       <label style="display:flex;gap:8px;align-items:center;font-weight:600"><input type="checkbox" id="sCur" ${s.is_current ? "checked" : ""}> Aktuálna sezóna</label>
-      <div><button class="btn" type="submit">Uložiť sezónu</button></div></form>` : ""}
-    <form id="newSeasonForm" style="display:grid;gap:12px"><b>Nová sezóna</b>
+      <div><button class="btn solid" type="submit">Uložiť sezónu</button></div></form>` : ""}
+    <form id="newSeasonForm" style="display:grid;gap:12px;max-width:520px"><b>Nová sezóna</b>
       <label class="f">Názov<input class="input" id="nsName" value="Sezóna ${S.seasons.length + 1}" required></label>
       <label class="f">Kalendár skopírovať zo sezóny<select class="input" id="nsCopy"><option value="">Prázdny kalendár</option>${[...S.seasons].reverse().map(x => `<option value="${x.id}" ${x.id === S.seasonId ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
       <label style="display:flex;gap:8px;align-items:center;font-weight:600"><input type="checkbox" id="nsCur" checked> Nastaviť ako aktuálnu</label>
-      <div><button class="btn go" type="submit">Vytvoriť sezónu</button></div></form>`;
+      <div><button class="btn red" type="submit">Vytvoriť sezónu</button></div></form>`;
 
-  const usersSec = `${S.profiles.map(u => `<div class="lrow"><div style="flex:1;min-width:0"><b>${esc(u.display_name)}</b>${u.id === S.user.id ? ' <span class="muted">(ty)</span>' : ""}${u.role === "pending" ? ' <span class="pill amber">čaká</span>' : ""}
-      <div class="muted" style="font-size:13px;overflow:hidden;text-overflow:ellipsis">${esc(u.email || "")}</div></div>
-      ${u.id === S.user.id ? `<span class="pill">${ROLE_LABEL[u.role]}</span>` : u.role === "pending"
-        ? `<button class="btn sm go" data-approve="${u.id}">Schváliť</button><select class="sel" data-role="${u.id}">${["pending", "viewer", "editor", "admin"].map(r => `<option value="${r}" ${r === u.role ? "selected" : ""}>${ROLE_LABEL[r]}</option>`).join("")}</select>`
-        : `<select class="sel" data-role="${u.id}">${["pending", "viewer", "editor", "admin"].map(r => `<option value="${r}" ${r === u.role ? "selected" : ""}>${r === "pending" ? "Zablokovať" : ROLE_LABEL[r]}</option>`).join("")}</select>`}</div>`).join("")}
-    <p class="hint">Člen vidí všetko, ale nič nemení. Zapisovateľ zapisuje výsledky, kalendár, jazdcov a odklady. Admin navyše spravuje sezóny a ľudí.</p>`;
+  const playerOpts = (sel) => `<option value="">Bez jazdca</option>` + S.players.slice().sort((a, b) => a.name.localeCompare(b.name, "sk")).map(p => `<option value="${p.id}" ${p.id === sel ? "selected" : ""}>${esc(p.name)}</option>`).join("");
+  const usersSec = `${S.profiles.map(u => `<div class="lrow"><div style="flex:1;min-width:180px"><b>${esc(u.display_name)}</b>${u.id === S.user.id ? ' <span class="mid">(ty)</span>' : ""}${u.role === "pending" ? ' <span class="pill amber">čaká</span>' : ""}
+      <div class="mid" style="font-size:13.5px">${esc(u.email || "")}</div></div>
+      <label class="f" style="min-width:150px">Jazdec<select class="input" data-uplayer="${u.id}">${playerOpts(u.player_id)}</select></label>
+      ${u.id === S.user.id ? `<span class="pill">${ROLE_LABEL[u.role]}</span>` : `<label class="f" style="min-width:150px">Prístup<select class="input" data-role="${u.id}">${["pending", "viewer", "editor", "admin"].map(r => `<option value="${r}" ${r === u.role ? "selected" : ""}>${r === "pending" ? (u.role === "pending" ? "Čaká" : "Zablokovať") : ROLE_LABEL[r]}</option>`).join("")}</select></label>`}
+      ${u.role === "pending" ? `<button class="btn sm red" data-approve="${u.id}">Schváliť</button>` : ""}</div>`).join("")}
+    <p class="hint">Jazdec prepája účet s menom v poradí, potom si človek vie sám zmeniť farbu. Člen vidí všetko, ale nič nemení. Zapisovateľ zapisuje výsledky, kalendár, jazdcov a odklady. Admin navyše spravuje sezóny a ľudí.</p>`;
 
-  return `<div class="ptitle"><h2 style="font-size:40px">Správa ligy</h2><span class="pill">${ROLE_LABEL[S.profile.role]}</span></div>
-    ${isAdmin() && pending ? `<details class="adm panel" open><summary>Nové žiadosti <small>${pending} ${plural(pending, "človek čaká", "ľudia čakajú", "ľudí čaká")} na schválenie</small></summary><div class="body">${usersSec}</div></details>` : ""}
-    <details class="adm panel" ${s && races.length ? "open" : ""}><summary>Zapísať výsledky ${er ? `<small>${esc(er.track)}, kolo ${er.round}</small>` : ""}</summary><div class="body">${resultsSec}</div></details>
-    ${s ? `<details class="adm panel"><summary>Kalendár <small>${races.length} pretekov</small></summary><div class="body">${calSec}</div></details>` : ""}
-    <details class="adm panel"><summary>Jazdci</summary><div class="body">${playersSec}</div></details>
-    ${s ? `<details class="adm panel"><summary>Odklady <small>${esc(s.name)}</small></summary><div class="body">${postSec}</div></details>` : ""}
-    ${isAdmin() ? `<details class="adm panel" ${s ? "" : "open"}><summary>Sezóny</summary><div class="body">${seasonSec}</div></details>
-      ${pending ? "" : `<details class="adm panel"><summary>Ľudia a prístupy <small>${S.profiles.length} ${plural(S.profiles.length, "účet", "účty", "účtov")}</small></summary><div class="body">${usersSec}</div></details>`}` : ""}`;
+  return `<div class="phead"><h1>Správa</h1><div class="side">${ROLE_LABEL[S.profile.role]}${s ? `<br>${esc(s.name)}` : ""}</div></div>
+    ${isAdmin() && pending ? `<details class="adm" open><summary><b>Nové žiadosti</b><small>${pending} ${plural(pending, "človek čaká", "ľudia čakajú", "ľudí čaká")}</small></summary><div class="body">${usersSec}</div></details>` : ""}
+    <details class="adm" ${s && races.length ? "open" : ""}><summary><b>Zapísať výsledky</b>${er ? `<small>${esc(er.track)}, kolo ${er.round}</small>` : ""}</summary><div class="body">${resultsSec}</div></details>
+    ${s ? `<details class="adm"><summary><b>Kalendár</b><small>${races.length} pretekov</small></summary><div class="body">${calSec}</div></details>` : ""}
+    <details class="adm"><summary><b>Jazdci</b><small>mená, farby</small></summary><div class="body">${playersSec}</div></details>
+    ${s ? `<details class="adm"><summary><b>Odklady</b><small>${esc(s.name)}</small></summary><div class="body">${postSec}</div></details>` : ""}
+    ${isAdmin() ? `<details class="adm" ${s ? "" : "open"}><summary><b>Sezóny</b></summary><div class="body">${seasonSec}</div></details>
+      ${pending ? "" : `<details class="adm"><summary><b>Ľudia a prístupy</b><small>${S.profiles.length} ${plural(S.profiles.length, "účet", "účty", "účtov")}</small></summary><div class="body">${usersSec}</div></details>`}` : ""}`;
 }
 
 // ---------- RPC ----------
@@ -889,6 +863,30 @@ async function rpc(fn, args, okMsg) {
 const keepOpen = () => [...document.querySelectorAll("details.adm")].map(d => d.open);
 const restoreOpen = st => document.querySelectorAll("details.adm").forEach((d, i) => { if (st[i] != null) d.open = st[i]; });
 async function adminDo(fn, args, msg) { const st = keepOpen(); let ok = true; try { await rpc(fn, args, msg); } catch { ok = false; } restoreOpen(st); return ok; }
+
+// ---------- color picker ----------
+function colorModal(pid) {
+  const cur = col(pid); const mine = S.profile?.player_id === pid;
+  openModal(`<div class="mc"><small class="mid" style="font-weight:600">${mine ? "Tvoja farba" : "Farba jazdca"}</small><h2>${esc(pname(pid))}</h2>
+    <div id="cprev" style="height:90px;background:${cur};color:${textOn(cur)};display:flex;align-items:flex-end;padding:12px 16px;margin-bottom:16px"><b class="d up" style="font-size:44px">${esc(pname(pid))}</b></div>
+    <div class="swatches">${PALETTE.map(c => `<button data-pick="${c}" class="${c.toLowerCase() === cur.toLowerCase() ? "on" : ""}" style="--c:${c}" aria-label="${c}"></button>`).join("")}
+      <input type="color" id="cfree" value="${cur}" aria-label="Vlastná farba"></div>
+    <p class="hint">Vyber z palety alebo klikni na posledný krúžok a namiešaj si vlastnú.</p>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button class="btn quiet" data-close>Zrušiť</button><button class="btn solid" data-savecolor="${pid}" data-val="${cur}">Uložiť farbu</button></div></div>`, cur);
+}
+function setPreview(c) {
+  const pv = document.getElementById("cprev"); if (!pv) return;
+  pv.style.background = c; pv.style.color = textOn(c);
+  $modal.querySelector(".modal").style.setProperty("--c", c);
+  $modal.querySelectorAll("[data-pick]").forEach(b => b.classList.toggle("on", b.dataset.pick.toLowerCase() === c.toLowerCase()));
+  $modal.querySelector("[data-savecolor]").dataset.val = c;
+}
+async function saveColor(pid, c) {
+  const mine = S.profile?.player_id === pid;
+  const { error } = mine ? await sb.rpc("set_my_color", { p_color: c }) : await sb.rpc("set_player_color", { p_player_id: pid, p_color: c });
+  if (error) { toast(errMsg(error), "err"); return; }
+  closeModal(); await load(); render(); toast("Farba uložená");
+}
 
 // ---------- auth ----------
 async function afterAuth(user) {
@@ -916,21 +914,27 @@ async function authSubmit(f) {
 }
 function accountModal() {
   if (!S.user || !S.profile) return;
-  openModal(`<div class="kerb"></div><div class="mc"><small class="muted">${esc(S.user.email || "")}</small>
-    <h2 class="disp" style="font-size:40px;margin:4px 0 6px">${esc(S.profile.display_name)}</h2><span class="pill">${ROLE_LABEL[S.profile.role]}</span>
-    <form id="nameForm" style="display:flex;gap:8px;margin-top:18px"><input class="input" name="dname" value="${esc(S.profile.display_name)}" required aria-label="Meno"><button class="btn" type="submit">Zmeniť meno</button></form>
-    <div style="display:flex;justify-content:space-between;margin-top:20px"><button class="btn danger" data-logout>Odhlásiť sa</button><button class="btn ghost" data-close>Zavrieť</button></div></div>`);
+  const pid = S.profile.player_id && P.get(S.profile.player_id) ? S.profile.player_id : null;
+  openModal(`<div class="mc"><small class="mid" style="font-weight:600">${esc(S.user.email || "")}</small><h2>${esc(S.profile.display_name)}</h2>
+    <span class="pill">${ROLE_LABEL[S.profile.role]}</span> ${pid ? `<span class="pill"><span class="sw" style="--c:${col(pid)}"></span>jazdec ${esc(pname(pid))}</span>` : ""}
+    <form id="nameForm" style="display:flex;gap:8px;margin-top:20px"><input class="input" name="dname" value="${esc(S.profile.display_name)}" required aria-label="Meno"><button class="btn" type="submit">Uložiť meno</button></form>
+    ${pid ? `<div style="margin-top:14px"><button class="btn" data-color="${pid}"><span class="sw" style="--c:${col(pid)}"></span>Zmeniť moju farbu</button></div>` : `<p class="hint">Farbu si zmeníš, keď ťa admin priradí k jazdcovi.</p>`}
+    <div style="display:flex;justify-content:space-between;margin-top:24px"><button class="btn quiet" data-logout>Odhlásiť sa</button><button class="btn solid" data-close>Zavrieť</button></div></div>`, pid ? col(pid) : null);
 }
 
 // ---------- modal ----------
-function openModal(html) { $modal.innerHTML = `<div class="modal-bg"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`; }
+function openModal(html, color) { $modal.innerHTML = `<div class="modal-bg"><div class="modal" role="dialog" aria-modal="true" ${color ? `style="--c:${color}"` : ""}>${html}</div></div>`; }
 function closeModal() { $modal.innerHTML = ""; }
 $modal.addEventListener("click", e => {
-  const ed = e.target.closest("[data-edit-race]"); if (ed) { editRace(+ed.dataset.editRace); return; }
-  if (e.target.classList.contains("modal-bg") || e.target.closest("[data-close]")) { closeModal(); return; }
-  if (e.target.closest("[data-race]")) { raceModal(+e.target.closest("[data-race]").dataset.race); return; }
-  if (e.target.closest("[data-logout]")) { doLogout(); return; }
+  const t = e.target;
+  const ed = t.closest("[data-edit-race]"); if (ed) { editRace(+ed.dataset.editRace); return; }
+  if (t.classList.contains("modal-bg") || t.closest("[data-close]")) { closeModal(); return; }
+  if (t.closest("[data-logout]")) { doLogout(); return; }
+  const pk = t.closest("[data-pick]"); if (pk) { setPreview(pk.dataset.pick); return; }
+  const sc = t.closest("[data-savecolor]"); if (sc) { saveColor(+sc.dataset.savecolor, sc.dataset.val); return; }
+  const cc = t.closest("[data-color]"); if (cc) { colorModal(+cc.dataset.color); return; }
 });
+$modal.addEventListener("input", e => { if (e.target.id === "cfree") setPreview(e.target.value); });
 $modal.addEventListener("submit", e => { e.preventDefault(); authSubmit(e.target); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
 function editRace(id) {
@@ -941,14 +945,15 @@ function editRace(id) {
 
 // ---------- events ----------
 $app.addEventListener("click", async e => {
-  const t = e.target.closest("button, [data-player], [data-race], [data-season-go], [data-go]"); if (!t) return;
+  const t = e.target.closest("button, [data-player], [data-race], [data-season-go], [data-go], [data-jump]"); if (!t) return;
   const d = t.dataset;
   if (d.authtab) { S.authTab = d.authtab; render(); return; }
   if (d.logout != null) { doLogout(); return; }
   if (d.recheck != null) { t.disabled = true; await afterAuth(S.user); if (!isMember()) toast("Ešte nie si schválený", "err"); return; }
+  if (d.color) { colorModal(+d.color); return; }
   if (d.toggle) { const id = +d.toggle; S.hidden.has(id) ? S.hidden.delete(id) : S.hidden.add(id); mountChart(); return; }
   if (d.rv) { S.raceView = d.rv; render(); return; }
-  if (d.strip) { const el = document.getElementById("strip"); el && el.scrollBy({ left: +d.strip * Math.max(280, el.clientWidth * 0.8), behavior: "smooth" }); return; }
+  if (d.strip) { const el = document.getElementById("strip"); el && el.scrollBy({ left: +d.strip * Math.max(290, el.clientWidth * 0.8), behavior: "smooth" }); return; }
   if (d.jump != null) { const el = document.getElementById("strip"); const c = el && el.children[+d.jump]; c && el.scrollTo({ left: c.offsetLeft - el.children[0].offsetLeft, behavior: "smooth" }); return; }
   if (d.editRace) { editRace(+d.editRace); return; }
   if (d.go) { go(d.go); return; }
@@ -981,6 +986,7 @@ $app.addEventListener("change", async e => {
   if (t.id === "raceSel") { const id = +t.value; S.edit = { raceId: id, order: (RES_BY_RACE.get(id) || []).map(x => ({ player_id: x.player_id, fl: x.fastest_lap })) }; render(); return; }
   if (t.id === "h2hSel") { S.h2h = +t.value; render(); return; }
   if (t.dataset.role) { await adminDo("set_user_role", { p_user_id: t.dataset.role, p_role: t.value }, "Prístup zmenený"); return; }
+  if (t.dataset.uplayer) { await adminDo("set_user_player", { p_user_id: t.dataset.uplayer, p_player_id: t.value ? +t.value : null }, "Jazdec priradený"); return; }
   if (t.dataset.track || t.dataset.date) {
     const id = +(t.dataset.track || t.dataset.date); const r = S.races.find(x => x.id === id);
     const track = t.dataset.track ? t.value.trim() : r.track; const date = t.dataset.date ? (t.value || null) : r.race_date;
@@ -1039,7 +1045,8 @@ function positionStrip() {
     if ((e.deltaY < 0 && el.scrollLeft <= 0) || (e.deltaY > 0 && el.scrollLeft >= max - 1)) return;
     e.preventDefault(); el.style.scrollBehavior = "auto"; el.scrollLeft += e.deltaY; el.style.scrollBehavior = ""; };
 }
-let rz; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { if (S.tab === "standings") mountChart(); }, 150); });
+let rz; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { if (S.tab === "standings") mountChart(); fitText(); }, 150); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => fitText());
 
 // ---------- start ----------
 readHash();
@@ -1054,7 +1061,7 @@ readHash();
       setTimeout(() => { if (u) afterAuth(u); else { S.user = null; S.profile = null; unload(); render(); } }, 0);
     });
   } catch (e) {
-    $app.innerHTML = `<div class="wrap"><div class="panel" style="padding:24px;max-width:560px;margin:40px auto"><h2 class="disp" style="font-size:32px">Nepodarilo sa načítať</h2><p class="mist">${esc(errMsg(e))}</p><p class="muted">Ak bol projekt v Supabase dlho neaktívny, mohol sa pozastaviť. Obnovíš ho v Supabase dashboarde.</p><button class="btn" onclick="location.reload()">Skúsiť znova</button></div></div>`;
+    $app.innerHTML = `<div class="wrap"><div class="empty"><h2 class="d up" style="font-size:48px">Nepodarilo sa načítať</h2><p>${esc(errMsg(e))}</p><p>Ak bol projekt v Supabase dlho neaktívny, mohol sa pozastaviť. Obnovíš ho v Supabase dashboarde.</p><button class="btn solid" onclick="location.reload()">Skúsiť znova</button></div></div>`;
   }
 })();
 </script>
