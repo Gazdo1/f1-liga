@@ -25,7 +25,7 @@ supabase/02_data.sql   – dáta prenesené z pôvodného Excelu
 ```
 
 ## Databáza
-Databáza už beží v Supabase projekte „F1 tabulka“ a `web/config.js` je naň nastavený. Postup nižšie je iba pre prípad, že by si ju niekedy zakladal znova.
+Databáza už beží v Supabase projekte „F1 tabulka“ a `config.js` je naň nastavený. Postup nižšie je iba pre prípad, že by si ju niekedy zakladal znova.
 
 ## Inštalácia od nuly
 1. Supabase: SQL Editor → spusti `01_schema.sql` a potom `02_data.sql`. (`03_migracia_z_pin.sql` je iba pre staršiu verziu s PIN-om.)
