@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f0f13">
+<title>F1 Liga</title>
+<meta name="description" content="Poradie, výsledky pretekov a štatistiky našej F1 ligy.">
+<meta property="og:title" content="F1 Liga">
+<meta property="og:description" content="Poradie, výsledky pretekov a štatistiky našej F1 ligy.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23e10600'/><text x='32' y='43' font-size='30' font-family='Arial' font-weight='900' fill='white' text-anchor='middle' font-style='italic'>F1</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,400;0,600;0,700;0,900;1,900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f0f13; --surface:#1a1a19; --surface-2:#232328; --surface-3:#2d2d33; --line:#303036;
+  --text:#f0efec; --text-2:#c3c2b7; --muted:#8e8d86;
+  --red:#e10600; --red-soft:rgba(225,6,0,.14);
+  --gold:#e6b422; --silver:#b9bec6; --bronze:#c27a43; --purple:#a855f7;
+  --good:#0ca30c; --critical:#d03b3b;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
+  --r:14px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Titillium Web",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+
+/* header */
+header.top{position:sticky;top:0;z-index:20;background:rgba(15,15,19,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar{display:flex;align-items:center;gap:12px;height:60px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-style:italic;font-size:20px;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.logo .mark{background:var(--red);color:#fff;border-radius:8px;padding:2px 8px;font-size:16px;flex:none}
+.spacer{flex:1}
+.season-select{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px 32px 8px 12px;font-weight:700;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--text-2) 50%),linear-gradient(135deg,var(--text-2) 50%,transparent 50%);background-position:calc(100% - 16px) 52%,calc(100% - 11px) 52%;background-size:5px 5px;background-repeat:no-repeat;max-width:46vw}
+.icon-btn{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;width:40px;height:40px;display:grid;place-items:center;flex:none}
+.icon-btn svg{width:18px;height:18px}
+
+nav.tabs{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(20,20,24,.97);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom)}
+nav.tabs button{flex:1;max-width:150px;background:none;border:0;padding:9px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--muted);font-size:12px;font-weight:600;position:relative}
+nav.tabs button svg{width:22px;height:22px}
+nav.tabs button.on{color:var(--text)}
+nav.tabs button.on::before{content:"";position:absolute;top:0;left:30%;right:30%;height:3px;border-radius:0 0 3px 3px;background:var(--red)}
+@media (min-width:860px){
+  body{padding-bottom:0}
+  nav.tabs{position:sticky;top:60px;bottom:auto;border-top:0;border-bottom:1px solid var(--line);background:rgba(15,15,19,.92);justify-content:flex-start;padding:0 calc((100vw - 1100px)/2 + 8px)}
+  nav.tabs button{flex:none;flex-direction:row;gap:8px;font-size:15px;padding:12px 16px;max-width:none}
+  nav.tabs button svg{width:18px;height:18px}
+  nav.tabs button.on::before{top:auto;bottom:0;left:12px;right:12px;border-radius:3px 3px 0 0}
+}
+
+main.wrap{padding:18px 16px 30px}
+h1,h2,h3{margin:0;line-height:1.15}
+h2.sec{font-size:13px;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);font-weight:700;margin:26px 0 10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.pad{padding:16px}
+.muted{color:var(--muted)} .t2{color:var(--text-2)}
+.row{display:flex;align-items:center;gap:10px}
+.grid{display:grid;gap:12px}
+.num{font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;color:var(--text-2);white-space:nowrap}
+.pill.live{background:var(--red-soft);border-color:rgba(225,6,0,.4);color:#ff8b85}
+.fl{display:inline-flex;align-items:center;gap:4px;color:#d4b0ff;font-size:12px;font-weight:700}
+.fl::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--purple)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:12px}
+@media (max-width:720px){.hero{grid-template-columns:1fr}}
+.home-hero{position:relative;overflow:hidden;padding:28px 24px;background:radial-gradient(120% 140% at 100% 0%,rgba(225,6,0,.28) 0%,rgba(225,6,0,.06) 40%,transparent 70%),var(--surface);margin-bottom:12px}
+.home-hero::after{content:"";position:absolute;right:-60px;bottom:-70px;width:260px;height:260px;border-radius:50%;border:34px solid rgba(225,6,0,.10)}
+.home-hero h1{font-size:44px;font-weight:900;font-style:italic;letter-spacing:-.5px;margin:6px 0 6px}
+.home-hero .lbl{font-size:12px;text-transform:uppercase;letter-spacing:1.4px;color:#ff8b85;font-weight:700}
+.home-hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;position:relative;z-index:1}
+.home-hero .btn{padding:11px 18px;font-size:15px}
+.home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:820px){.home-grid{grid-template-columns:1fr}.home-hero h1{font-size:34px}}
+.leader{position:relative;overflow:hidden;padding:20px;background:linear-gradient(135deg,#2a0b0a 0%,var(--surface) 60%)}
+.leader::after{content:"";position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;border:28px solid rgba(225,6,0,.12)}
+.leader .lbl{font-size:12px;text-transform:uppercase;letter-spacing:1.4px;color:#ff8b85;font-weight:700}
+.leader .name{font-size:38px;font-weight:900;font-style:italic;margin:6px 0 2px}
+.leader .pts{font-size:22px;font-weight:700}
+.leader .gap{margin-top:12px;color:var(--text-2)}
+.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{padding:14px 16px}
+.stat .v{font-size:26px;font-weight:900}
+.stat .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.progress{height:6px;border-radius:6px;background:var(--surface-3);overflow:hidden;margin-top:8px}
+.progress>i{display:block;height:100%;background:var(--red);border-radius:6px}
+
+/* table */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse}
+th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700;text-align:right;padding:10px 10px;white-space:nowrap}
+td{padding:11px 10px;border-top:1px solid var(--line);text-align:right;white-space:nowrap}
+th.l,td.l{text-align:left}
+tbody tr{cursor:pointer;transition:background .12s}
+tbody tr:hover{background:var(--surface-2)}
+.posn{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:900;background:var(--surface-3);font-size:14px}
+.p1{background:var(--gold);color:#1a1300}.p2{background:var(--silver);color:#15171a}.p3{background:var(--bronze);color:#1c0f04}
+.pname{font-weight:700;font-size:16px}
+.ptsbig{font-weight:900;font-size:18px}
+.hide-sm{}
+@media (max-width:640px){.hide-sm{display:none}.orow [data-up],.orow [data-down]{display:none}.orow{padding:6px}.orow .pname{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}td,th{padding-left:7px;padding-right:7px}.logo{font-size:17px}.logo #leagueName{max-width:34vw;overflow:hidden;text-overflow:ellipsis}.season-select{max-width:38vw}}
+
+/* chart */
+.chart-card{padding:14px 14px 8px}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.legend button{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px;color:var(--text-2)}
+.legend button i{width:10px;height:10px;border-radius:3px;display:block}
+.legend button.off{opacity:.4}
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.tip{position:absolute;pointer-events:none;background:#0b0b0e;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;min-width:150px;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;transition:opacity .1s;z-index:5}
+.tip .h{font-weight:700;margin-bottom:4px}
+.tip .r{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.tip .r i{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:6px}
+
+/* races */
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.seg button{background:none;border:0;border-radius:8px;padding:6px 12px;font-weight:700;color:var(--muted);font-size:14px}
+.seg button.on{background:var(--surface-3);color:var(--text)}
+.races{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px;align-items:start}
+.strip-wrap{position:relative}
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,270px);gap:10px;align-items:start;overflow-x:auto;scroll-snap-type:x proximity;scroll-behavior:smooth;padding:2px 2px 14px;scrollbar-width:thin;scrollbar-color:#3c3c44 transparent;-webkit-overflow-scrolling:touch}
+.strip::-webkit-scrollbar{height:8px}.strip::-webkit-scrollbar-thumb{background:#3c3c44;border-radius:8px}
+.strip>.race{scroll-snap-align:start}
+.strip-nav{display:flex;gap:6px}
+.strip-nav button{width:38px;height:34px;border-radius:9px;background:var(--surface-2);border:1px solid var(--line);font-size:18px;font-weight:900;color:var(--text-2);display:grid;place-items:center}
+.strip-nav button:hover{border-color:#55555f;color:var(--text)}
+.dots{display:flex;gap:4px;flex-wrap:wrap;margin:0 0 12px}
+.dots button{width:22px;height:22px;border-radius:6px;border:0;background:var(--surface-2);color:var(--muted);font-size:10px;font-weight:700;padding:0}
+.dots button.done{background:var(--surface-3);color:var(--text-2)}
+.dots button.next{background:var(--red);color:#fff}
+@media (max-width:640px){.strip{grid-auto-columns:82vw}.strip-nav{display:none}}
+.race{padding:14px;cursor:pointer;transition:border-color .12s,transform .12s;position:relative}
+.race:hover{border-color:#4a4a52}
+.race .rn{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.race .tn{font-size:19px;font-weight:900;margin:2px 0 10px;display:flex;align-items:center;gap:8px}
+.race.next{border-color:rgba(225,6,0,.6);background:linear-gradient(180deg,rgba(225,6,0,.08),var(--surface))}
+.race.todo .tn{color:var(--text-2)}
+.podium{display:grid;gap:5px}
+.podium .pr{display:flex;align-items:center;gap:8px;font-size:14px}
+.podium .pr .posn{width:22px;height:22px;font-size:12px;border-radius:6px}
+.podium .pr .pp{margin-left:auto;color:var(--muted);font-size:13px}
+
+.matrix td,.matrix th{padding:6px 4px;text-align:center;border-top:1px solid var(--line)}
+.matrix th{font-size:10px;letter-spacing:.5px}
+.matrix td.l,.matrix th.l{text-align:left;padding-left:10px;position:sticky;left:0;background:var(--surface);z-index:1}
+.matrix .c{display:inline-grid;place-items:center;width:28px;height:26px;border-radius:6px;font-weight:700;font-size:13px;background:var(--surface-2);position:relative}
+.matrix .c.p1{background:var(--gold)}.matrix .c.p2{background:var(--silver)}.matrix .c.p3{background:var(--bronze)}
+.matrix .c.e{background:none;color:#4a4a52}
+.matrix .c.f::after{content:"";position:absolute;top:2px;right:2px;width:5px;height:5px;border-radius:50%;background:var(--purple)}
+.matrix tbody tr{cursor:default}
+
+/* players */
+.players{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.pcard{padding:16px;cursor:pointer}
+.pcard:hover{border-color:#4a4a52}
+.avatar{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:900;font-style:italic;font-size:18px;background:var(--surface-3);flex:none}
+.pcard .meta{font-size:13px;color:var(--muted)}
+.minis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.mini .v{font-weight:900;font-size:18px}
+.mini .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.back{background:none;border:0;color:var(--text-2);padding:0;margin-bottom:12px;display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.trophy{color:var(--gold)}
+
+/* forms / admin */
+.btn{background:var(--surface-3);border:1px solid #3c3c44;border-radius:10px;padding:9px 14px;font-weight:700;display:inline-flex;align-items:center;gap:6px;justify-content:center}
+.btn:hover{border-color:#55555f}
+.btn.primary{background:var(--red);border-color:var(--red);color:#fff}
+.btn.primary:hover{background:#f21810}
+.btn.danger{background:transparent;border-color:rgba(208,59,59,.5);color:#ff8a8a}
+.btn.sm{padding:5px 10px;font-size:13px;border-radius:8px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.input,select.input{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%}
+.input:focus{outline:2px solid rgba(225,6,0,.5);outline-offset:0;border-color:transparent}
+label.f{display:grid;gap:5px;font-size:13px;color:var(--text-2);font-weight:600}
+details.adm{margin-bottom:10px}
+details.adm>summary{list-style:none;cursor:pointer;padding:16px;font-weight:700;font-size:17px;display:flex;align-items:center;gap:10px}
+details.adm>summary::-webkit-details-marker{display:none}
+details.adm>summary::after{content:"›";margin-left:auto;font-size:22px;color:var(--muted);transition:transform .15s}
+details.adm[open]>summary::after{transform:rotate(90deg)}
+details.adm .body{padding:0 16px 16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-weight:700}
+.chip:hover{border-color:#55555f}
+.chip.used{opacity:.3;pointer-events:none}
+.order{display:grid;gap:6px;margin:12px 0}
+.orow{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:6px 8px}
+.orow .pname{flex:1}
+.orow .pp{color:var(--muted);font-size:13px;min-width:44px;text-align:right}
+.drag{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;color:var(--muted);font-size:18px;line-height:1;padding:6px 4px;flex:none}
+.drag:active{cursor:grabbing}
+.orow{transition:transform .15s ease}
+.orow.dragging{transition:none;position:relative;z-index:3;box-shadow:0 10px 24px rgba(0,0,0,.5);border-color:#55555f;background:var(--surface-3)}
+.acct{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-style:italic;background:var(--red);color:#fff;border:0;flex:none}
+.tabs-in{display:flex;gap:4px;margin-bottom:14px}
+.racelist{display:grid;gap:4px}
+.racelist .pr{display:flex;align-items:center;gap:8px;font-size:14px;padding:2px 0}
+.racelist .pr .posn{width:22px;height:22px;font-size:12px;border-radius:6px}
+.racelist .pr .pp{margin-left:auto;color:var(--muted);font-size:13px}
+.racelist .pr.low{color:var(--text-2)}
+.mini-btn{background:var(--surface-3);border:0;border-radius:7px;width:30px;height:30px;display:grid;place-items:center;font-weight:900;color:var(--text-2)}
+.mini-btn.on{background:var(--purple);color:#fff}
+.mini-btn:disabled{opacity:.3}
+.list-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line)}
+.list-row:first-child{border-top:0}
+.empty{padding:40px 20px;text-align:center;color:var(--muted)}
+.hint{font-size:13px;color:var(--muted);margin:6px 0 10px}
+
+/* modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:50;display:flex;align-items:flex-end;justify-content:center;animation:fade .15s}
+.modal{background:var(--surface);border:1px solid var(--line);border-radius:18px 18px 0 0;width:100%;max-width:560px;max-height:88vh;overflow:auto;padding:20px;animation:up .2s ease-out}
+@media (min-width:640px){.modal-bg{align-items:center}.modal{border-radius:18px}}
+@keyframes fade{from{opacity:0}}@keyframes up{from{transform:translateY(30px);opacity:0}}
+.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#0b0b0e;border:1px solid var(--line);padding:10px 16px;border-radius:12px;z-index:60;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:90vw}
+.toast.err{border-color:rgba(208,59,59,.7);color:#ff9a9a}
+.toast.ok{border-color:rgba(12,163,12,.6)}
+.loading{display:grid;place-items:center;min-height:50vh;color:var(--muted)}
+.spin{width:34px;height:34px;border:3px solid var(--surface-3);border-top-color:var(--red);border-radius:50%;animation:sp 0.8s linear infinite;margin:0 auto 12px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.flag{font-size:1.05em}
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+<header class="top"><div class="wrap topbar">
+  <div class="logo"><span class="mark">F1</span><span id="leagueName">F1 Liga</span></div>
+  <div class="spacer"></div>
+  <select id="seasonSel" class="season-select" aria-label="Sezóna"></select>
+  <button class="icon-btn" id="refreshBtn" title="Obnoviť dáta" aria-label="Obnoviť dáta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button>
+  <button class="icon-btn" id="accountBtn" title="Účet" aria-label="Účet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></button>
+</div></header>
+<nav class="tabs" id="tabs"></nav>
+<main class="wrap" id="app"><div class="loading"><div><div class="spin"></div>Načítavam…</div></div></main>
+<div id="modalRoot"></div>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const CFG = window.F1_CONFIG || {};
+const $app = document.getElementById("app");
+const $modal = document.getElementById("modalRoot");
+const SERIES = ["--s1","--s2","--s3","--s4","--s5","--s6","--s7","--s8"].map(v => getComputedStyle(document.documentElement).getPropertyValue(v).trim());
+const DEFAULT_SCHEME = [25,18,15,12,10,8,6,4,2,1];
+
+document.getElementById("leagueName").textContent = CFG.leagueName || "F1 Liga";
+document.title = CFG.leagueName || "F1 Liga";
+
+// ---------- helpers ----------
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const FLAGS = {bahrain:"🇧🇭",jeddah:"🇸🇦","saudi":"🇸🇦",australia:"🇦🇺",melbourne:"🇦🇺",suzuka:"🇯🇵",japan:"🇯🇵",china:"🇨🇳",shanghai:"🇨🇳",miami:"🇺🇸",imola:"🇮🇹",monaco:"🇲🇨",canada:"🇨🇦",montreal:"🇨🇦",barcelona:"🇪🇸",spain:"🇪🇸",madrid:"🇪🇸","red bull":"🇦🇹",austria:"🇦🇹",silverstone:"🇬🇧",hungaroring:"🇭🇺",hungary:"🇭🇺",spa:"🇧🇪",zandvoort:"🇳🇱",monza:"🇮🇹",baku:"🇦🇿",singapore:"🇸🇬",usa:"🇺🇸",austin:"🇺🇸",mexico:"🇲🇽",interlagos:"🇧🇷",brazil:"🇧🇷","las vegas":"🇺🇸",qatar:"🇶🇦","abu dhabi":"🇦🇪",portugal:"🇵🇹",portimao:"🇵🇹",paul:"🇫🇷",france:"🇫🇷"};
+const flag = t => { const k = (t||"").toLowerCase(); for (const [n,f] of Object.entries(FLAGS)) if (k.includes(n)) return f; return "🏁"; };
+const initials = n => (n||"?").trim().slice(0,2).toUpperCase();
+const fmtAvg = v => v == null ? "–" : v.toFixed(1).replace(".", ",");
+const plural = (n, one, few, many) => n === 1 ? one : (n >= 2 && n <= 4 ? few : many);
+function toast(msg, kind = "ok") {
+  const t = document.createElement("div"); t.className = "toast " + kind; t.textContent = msg;
+  document.body.appendChild(t); setTimeout(() => t.remove(), kind === "err" ? 4200 : 2400);
+}
+const errMsg = e => {
+  const m = (e && (e.message || e.error_description)) || String(e);
+  if (/Invalid login credentials/i.test(m)) return "Nesprávny email alebo heslo";
+  if (/already registered|already been registered/i.test(m)) return "Tento email už je zaregistrovaný";
+  if (/Password should be at least/i.test(m)) return "Heslo musí mať aspoň 6 znakov";
+  if (/Email not confirmed/i.test(m)) return "Email ešte nie je potvrdený";
+  if (/Unable to validate email|invalid format/i.test(m)) return "Neplatný email";
+  if (/permission denied for function/i.test(m)) return "Musíš byť prihlásený";
+  if (/results_race_id_player_id_key/.test(m)) return "Jeden jazdec je v závode dvakrát";
+  if (/results_race_id_position_key/.test(m)) return "Dve rovnaké pozície v závode";
+  if (/players_name_key/.test(m)) return "Hráč s týmto menom už existuje";
+  if (/violates foreign key/.test(m) && /players/.test(m)) return "Hráč má zapísané výsledky – nedá sa zmazať, iba deaktivovať";
+  if (/Failed to fetch|NetworkError/i.test(m)) return "Nepodarilo sa spojiť so serverom";
+  return m;
+};
+
+// ---------- state ----------
+const S = {
+  players: [], seasons: [], races: [], results: [], post: [],
+  seasonId: null, tab: "home", view: null,
+  raceView: "cards", hidden: new Set(), h2h: null,
+  user: null, profile: null, profiles: [], authTab: "login",
+  edit: null, loaded: false,
+};
+
+let sb = null;
+const configured = CFG.supabaseUrl && CFG.supabaseKey && !/SEM_VLOZ/.test(CFG.supabaseUrl + CFG.supabaseKey);
+if (configured) sb = createClient(CFG.supabaseUrl, CFG.supabaseKey);
+const ROLE_LABEL = { viewer: "Divák", editor: "Zapisovateľ", admin: "Admin" };
+const canEdit = () => ["editor", "admin"].includes(S.profile?.role);
+const isAdmin = () => S.profile?.role === "admin";
+async function loadProfile() {
+  if (!S.user) { S.profile = null; S.profiles = []; return; }
+  const { data, error } = await sb.rpc("my_profile");
+  S.profile = error ? null : data;
+  if (isAdmin()) { const r = await sb.rpc("list_profiles"); S.profiles = r.data || []; } else S.profiles = [];
+}
+
+async function fetchAll(table, cols, order = "id") {
+  const out = []; const size = 1000;
+  for (let from = 0; ; from += size) {
+    const { data, error } = await sb.from(table).select(cols).order(order).range(from, from + size - 1);
+    if (error) throw error;
+    out.push(...data);
+    if (data.length < size) break;
+  }
+  return out;
+}
+
+async function load() {
+  const [players, seasons, races, results, post] = await Promise.all([
+    fetchAll("players", "id,name,active"),
+    fetchAll("seasons", "id,name,sort_order,points_scheme,fastest_lap_bonus,is_current"),
+    fetchAll("races", "id,season_id,round,track,race_date"),
+    fetchAll("results", "id,race_id,player_id,position,fastest_lap"),
+    fetchAll("postponements", "season_id,player_id,count", "season_id"),
+  ]);
+  Object.assign(S, { players, seasons, races, results, post, loaded: true });
+  S.seasons.sort((a, b) => a.sort_order - b.sort_order || a.id - b.id);
+  if (!S.seasonId || !S.seasons.some(s => s.id === S.seasonId)) {
+    S.seasonId = (S.seasons.find(s => s.is_current) || S.seasons[S.seasons.length - 1] || {}).id ?? null;
+  }
+  idx();
+}
+
+// ---------- derived data ----------
+let P = new Map(), RES_BY_RACE = new Map();
+function idx() {
+  P = new Map(S.players.map(p => [p.id, p]));
+  RES_BY_RACE = new Map();
+  for (const r of S.results) {
+    if (!RES_BY_RACE.has(r.race_id)) RES_BY_RACE.set(r.race_id, []);
+    RES_BY_RACE.get(r.race_id).push(r);
+  }
+  for (const arr of RES_BY_RACE.values()) arr.sort((a, b) => a.position - b.position);
+}
+const season = id => S.seasons.find(s => s.id === id);
+const pname = id => P.get(id)?.name ?? "?";
+const ptsFor = (s, r) => ((s.points_scheme || DEFAULT_SCHEME)[r.position - 1] || 0) + (r.fastest_lap ? (s.fastest_lap_bonus || 0) : 0);
+const seasonRaces = sid => S.races.filter(r => r.season_id === sid).sort((a, b) => a.round - b.round);
+
+function standings(sid) {
+  const s = season(sid); if (!s) return { rows: [], races: [], done: [] };
+  const races = seasonRaces(sid);
+  const done = races.filter(r => RES_BY_RACE.has(r.id));
+  const map = new Map();
+  const get = pid => {
+    if (!map.has(pid)) map.set(pid, { pid, pts: 0, wins: 0, podiums: 0, starts: 0, posSum: 0, best: null, fl: 0, counts: Array(31).fill(0), odk: 0, cum: [] });
+    return map.get(pid);
+  };
+  for (const race of done) for (const r of RES_BY_RACE.get(race.id)) {
+    const o = get(r.player_id);
+    o.pts += ptsFor(s, r); o.starts++; o.posSum += r.position; o.counts[r.position]++;
+    if (r.position === 1) o.wins++;
+    if (r.position <= 3) o.podiums++;
+    if (r.fastest_lap) o.fl++;
+    o.best = o.best == null ? r.position : Math.min(o.best, r.position);
+  }
+  for (const pp of S.post.filter(x => x.season_id === sid && x.count > 0)) get(pp.player_id).odk = pp.count;
+  // cumulative per finished race
+  for (const o of map.values()) {
+    let acc = 0;
+    o.cum = done.map(race => { const r = RES_BY_RACE.get(race.id).find(x => x.player_id === o.pid); if (r) acc += ptsFor(s, r); return acc; });
+  }
+  const rows = [...map.values()].map(o => ({ ...o, avg: o.starts ? o.posSum / o.starts : null }));
+  rows.sort((a, b) => b.pts - a.pts || cmpCounts(a, b) || pname(a.pid).localeCompare(pname(b.pid), "sk"));
+  return { rows, races, done, season: s };
+}
+function cmpCounts(a, b) { for (let i = 1; i <= 30; i++) if (a.counts[i] !== b.counts[i]) return b.counts[i] - a.counts[i]; return 0; }
+function isFinished(s) { const races = seasonRaces(s.id); return !s.is_current && races.length > 0 && races.some(r => RES_BY_RACE.has(r.id)); }
+
+function allTime() {
+  const map = new Map();
+  for (const p of S.players) map.set(p.id, { pid: p.id, pts: 0, wins: 0, podiums: 0, starts: 0, posSum: 0, fl: 0, titles: 0, titleNames: [], seasons: [] });
+  for (const s of S.seasons) {
+    const st = standings(s.id);
+    st.rows.forEach((row, i) => {
+      const o = map.get(row.pid); if (!o) return;
+      o.pts += row.pts; o.wins += row.wins; o.podiums += row.podiums; o.starts += row.starts; o.posSum += row.posSum; o.fl += row.fl;
+      o.seasons.push({ sid: s.id, name: s.name, place: i + 1, pts: row.pts, wins: row.wins, podiums: row.podiums, fl: row.fl, starts: row.starts, avg: row.avg, finished: isFinished(s), current: s.is_current });
+      if (i === 0 && isFinished(s)) { o.titles++; o.titleNames.push(s.name); }
+    });
+  }
+  return [...map.values()].map(o => ({ ...o, avg: o.starts ? o.posSum / o.starts : null }));
+}
+
+// ---------- routing ----------
+function readHash() {
+  const [tab, sid, extra] = location.hash.replace(/^#\/?/, "").split("/");
+  if (tab) S.tab = tab;
+  if (sid && !isNaN(+sid)) S.seasonId = +sid;
+  S.view = extra ? decodeURIComponent(extra) : null;
+}
+function go(tab, view = null, sid = S.seasonId) {
+  const h = `#/${tab}/${sid ?? ""}${view != null ? "/" + encodeURIComponent(view) : ""}`;
+  if (location.hash !== h) location.hash = h; else render();
+}
+window.addEventListener("hashchange", () => { readHash(); render(); window.scrollTo({ top: 0 }); if (S.tab === "admin" && isAdmin()) loadProfile().then(() => { if (S.tab === "admin") { const st = keepOpen(); render(); restoreOpen(st); } }); });
+
+// ---------- tabs ----------
+const ICONS = {
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>',
+  standings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21V11H3v10h5zM15.5 21V4h-7v17h7zM21 21v-7h-5.5v7H21z"/></svg>',
+  races: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>',
+  players: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-7 7-7s7 3 7 7"/><path d="M16 4a4 4 0 0 1 0 8M22 21c0-3-1.5-5.5-4-6.5"/></svg>',
+  hof: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a4 4 0 0 1-4 4M7 5H4v2a4 4 0 0 0 4 4"/></svg>',
+  admin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+};
+const TABS = [["home","Domov"],["standings","Poradie"],["races","Preteky"],["players","Hráči"],["hof","Sieň slávy"],["admin","Správa"]];
+function renderTabs() {
+  const ab = document.getElementById("accountBtn");
+  if (S.profile) { ab.className = "acct"; ab.textContent = initials(S.profile.display_name); ab.title = `${S.profile.display_name} (${ROLE_LABEL[S.profile.role]})`; }
+  else { ab.className = "icon-btn"; ab.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>'; ab.title = "Prihlásiť sa"; }
+  document.getElementById("tabs").innerHTML = TABS.filter(([k]) => k !== "admin" || canEdit() || S.tab === "admin").map(([k, l]) =>
+    `<button data-tab="${k}" class="${S.tab === k ? "on" : ""}">${ICONS[k]}<span>${l}</span></button>`).join("");
+}
+document.getElementById("tabs").addEventListener("click", e => { const b = e.target.closest("[data-tab]"); if (b) go(b.dataset.tab); });
+
+function renderSeasonSel() {
+  const sel = document.getElementById("seasonSel");
+  sel.innerHTML = [...S.seasons].reverse().map(s => `<option value="${s.id}" ${s.id === S.seasonId ? "selected" : ""}>${esc(s.name)}${s.is_current ? " •" : ""}</option>`).join("");
+  sel.style.display = S.seasons.length && S.tab !== "hof" ? "" : "none";
+}
+document.getElementById("seasonSel").addEventListener("change", e => { S.seasonId = +e.target.value; S.hidden.clear(); go(S.tab, S.tab === "admin" ? null : (S.tab === "players" ? S.view : null)); });
+document.getElementById("accountBtn").addEventListener("click", () => accountModal());
+document.getElementById("refreshBtn").addEventListener("click", async () => { try { await Promise.all([load(), loadProfile()]); render(); toast("Dáta obnovené"); } catch (e) { toast(errMsg(e), "err"); } });
+
+// ---------- render ----------
+function render() {
+  renderTabs(); renderSeasonSel();
+  if (!configured) { $app.innerHTML = setupView(); return; }
+  if (!S.loaded) return;
+  const views = { home: viewHome, standings: viewStandings, races: viewRaces, players: viewPlayers, hof: viewHof, admin: viewAdmin };
+  $app.innerHTML = (views[S.tab] || viewStandings)();
+  if (S.tab === "standings") mountChart();
+  if (S.tab === "races") positionStrip();
+}
+
+function setupView() {
+  return `<div class="card pad" style="max-width:620px;margin:30px auto">
+    <h2 style="font-size:24px;font-weight:900">Appka ešte nie je prepojená so Supabase</h2>
+    <p class="t2">Otvor súbor <b>config.js</b> a vyplň <b>supabaseUrl</b> a <b>supabaseKey</b> (Supabase → Project Settings → API). Postup je v README.</p></div>`;
+}
+
+function emptySeason() {
+  return `<div class="card empty">Zatiaľ tu nie je žiadna sezóna.<br><br><button class="btn primary" onclick="location.hash='#/admin'">Prejsť do Adminu</button></div>`;
+}
+
+// ===== Poradie =====
+function viewHome() {
+  const name = CFG.leagueName || "F1 Liga";
+  const st = standings(S.seasonId); const s = st.season;
+  const next = st.races ? st.races.find(r => !RES_BY_RACE.has(r.id)) : null;
+  const last = st.done && st.done.length ? st.done[st.done.length - 1] : null;
+  const leader = st.rows && st.rows[0];
+  const greet = S.profile
+    ? `<p class="t2" style="margin:0;position:relative;z-index:1">Ahoj <b>${esc(S.profile.display_name)}</b> · <span class="pill">${ROLE_LABEL[S.profile.role]}</span></p>
+       <div class="cta">${canEdit() ? `<button class="btn primary" data-go="admin">🏁 Zapísať výsledky</button>` : ""}<button class="btn ${canEdit() ? "" : "primary"}" data-go="standings">Poradie</button><button class="btn" data-go="races">Preteky</button></div>
+       ${canEdit() ? "" : `<p class="muted" style="font-size:13px;margin:12px 0 0;position:relative;z-index:1">Na zapisovanie výsledkov ti musí admin prideliť práva.</p>`}`
+    : `<p class="t2" style="margin:0;max-width:520px;position:relative;z-index:1">Poradie, výsledky a štatistiky našej ligy. Prezerať môže každý, prihlásenie treba iba na zapisovanie výsledkov.</p>
+       <div class="cta"><button class="btn primary" data-account="login">Prihlásiť sa</button><button class="btn" data-account="signup">Vytvoriť účet</button><button class="btn" data-go="standings">Pozrieť poradie ›</button></div>`;
+  const tile = (k, body) => `<div class="card stat" style="padding:16px">${`<div class="k">${k}</div>`}${body}</div>`;
+  return `<div class="card home-hero">
+      <div class="lbl">${s ? esc(s.name) + (st.races.length ? ` · ${st.done.length}/${st.races.length} pretekov` : "") : "Vitaj"}</div>
+      <h1>${esc(name)}</h1>
+      ${greet}
+    </div>
+    ${s ? `<div class="home-grid">
+      ${tile(st.done.length < st.races.length ? "Líder" : "Šampión", leader ? `<div class="v" style="font-size:24px;margin-top:4px">${esc(pname(leader.pid))}</div><div class="muted num">${leader.pts} bodov${st.rows[1] ? ` · náskok ${leader.pts - st.rows[1].pts} na 2. miesto (${esc(pname(st.rows[1].pid))})` : ""}</div>` : '<div class="v">–</div>')}
+      ${tile("Ďalší závod", next ? `<div class="v" style="font-size:24px;margin-top:4px"><span class="flag">${flag(next.track)}</span> ${esc(next.track)}</div><div class="muted">Kolo ${next.round}${next.race_date ? " · " + new Date(next.race_date).toLocaleDateString("sk-SK") : ""}</div>` : '<div class="v" style="font-size:22px;margin-top:4px">Sezóna ukončená</div>')}
+      ${tile("Posledný závod", last ? `<div style="font-weight:900;font-size:18px;margin:4px 0 8px"><span class="flag">${flag(last.track)}</span> ${esc(last.track)}</div><div class="racelist">${RES_BY_RACE.get(last.id).slice(0, 3).map(x => `<div class="pr"><span class="posn p${x.position}">${x.position}</span>${esc(pname(x.player_id))}${x.fastest_lap ? ' <span class="fl"></span>' : ""}</div>`).join("")}</div>` : '<div class="v">–</div>')}
+    </div>
+    ${st.rows.length ? `<div class="row" style="justify-content:space-between;margin:26px 0 10px"><h2 class="sec" style="margin:0">Poradie · top 5</h2><button class="btn sm" data-go="standings">Celé poradie ›</button></div>
+    <div class="card tbl-wrap"><table><tbody>${st.rows.slice(0, 5).map((r, i) => `<tr data-player="${r.pid}"><td class="l" style="width:46px"><span class="posn ${i < 3 ? "p" + (i + 1) : ""}">${i + 1}</span></td><td class="l pname">${esc(pname(r.pid))}</td><td class="muted num">${r.wins} ${plural(r.wins, "výhra", "výhry", "výhier")}</td><td class="ptsbig num">${r.pts}</td></tr>`).join("")}</tbody></table></div>` : ""}` : ""}`;
+}
+function viewStandings() {
+  const st = standings(S.seasonId);
+  if (!st.season) return emptySeason();
+  const { rows, races, done, season: s } = st;
+  const leader = rows[0], second = rows[1];
+  const next = races.find(r => !RES_BY_RACE.has(r.id));
+  const lastRace = done[done.length - 1];
+  const lastWinner = lastRace ? RES_BY_RACE.get(lastRace.id)[0] : null;
+  const pct = races.length ? Math.round(done.length / races.length * 100) : 0;
+  const remaining = races.length - done.length;
+  const maxLeft = remaining * ((s.points_scheme || DEFAULT_SCHEME)[0] + (s.fastest_lap_bonus || 0));
+
+  let heroHtml = "";
+  if (leader) {
+    const gap = second ? leader.pts - second.pts : null;
+    const clinched = second && gap > maxLeft;
+    heroHtml = `<div class="hero">
+      <div class="card leader">
+        <div class="lbl">${s.is_current && remaining ? "Líder šampionátu" : "Šampión"} · ${esc(s.name)}</div>
+        <div class="name">${esc(pname(leader.pid))}</div>
+        <div class="pts num">${leader.pts} bodov</div>
+        <div class="gap">${second ? `${clinched && remaining ? "🏆 Titul už má istý · " : ""}náskok <b class="num">${gap}</b> ${plural(gap,"bod","body","bodov")} na 2. miesto (${esc(pname(second.pid))})` : ""}</div>
+      </div>
+      <div class="statgrid">
+        <div class="card stat"><div class="k">Odjazdené</div><div class="v num">${done.length}<span class="muted" style="font-size:16px"> / ${races.length}</span></div><div class="progress"><i style="width:${pct}%"></i></div></div>
+        <div class="card stat"><div class="k">${next ? "Ďalší závod" : "Sezóna"}</div><div class="v" style="font-size:20px;margin-top:4px">${next ? `<span class="flag">${flag(next.track)}</span> ${esc(next.track)}` : "Ukončená"}</div>${next ? `<div class="muted" style="font-size:13px">Kolo ${next.round}${next.race_date ? " · " + new Date(next.race_date).toLocaleDateString("sk-SK") : ""}</div>` : ""}</div>
+        <div class="card stat"><div class="k">Posledný víťaz</div><div class="v" style="font-size:20px;margin-top:4px">${lastWinner ? esc(pname(lastWinner.player_id)) : "–"}</div>${lastRace ? `<div class="muted" style="font-size:13px">${flag(lastRace.track)} ${esc(lastRace.track)}</div>` : ""}</div>
+        <div class="card stat"><div class="k">Najviac výhier</div>${(() => { const w = [...rows].sort((a, b) => b.wins - a.wins)[0]; return w && w.wins ? `<div class="v" style="font-size:20px;margin-top:4px">${esc(pname(w.pid))}</div><div class="muted num" style="font-size:13px">${w.wins} ${plural(w.wins,"výhra","výhry","výhier")}</div>` : `<div class="v">–</div>`; })()}</div>
+      </div></div>`;
+  }
+
+  const showFl = (s.fastest_lap_bonus || 0) > 0 || rows.some(r => r.fl);
+  const showOdk = rows.some(r => r.odk);
+  const table = rows.length ? `<div class="card tbl-wrap"><table>
+    <thead><tr><th class="l" style="width:46px">#</th><th class="l">Hráč</th><th>Body</th><th class="hide-sm">Rozdiel</th><th>Výhry</th><th>Pódiá</th><th class="hide-sm">Štarty</th><th class="hide-sm">Ø pozícia</th>${showFl ? '<th title="Najrýchlejšie kolá">NK</th>' : ""}${showOdk ? "<th>Odklady</th>" : ""}</tr></thead>
+    <tbody>${rows.map((r, i) => `<tr data-player="${r.pid}">
+      <td class="l"><span class="posn ${i < 3 ? "p" + (i + 1) : ""}">${i + 1}</span></td>
+      <td class="l pname">${esc(pname(r.pid))}</td>
+      <td class="ptsbig num">${r.pts}</td>
+      <td class="hide-sm muted num">${i ? "−" + (leader.pts - r.pts) : "–"}</td>
+      <td class="num">${r.wins}</td><td class="num">${r.podiums}</td>
+      <td class="hide-sm num">${r.starts}</td><td class="hide-sm num">${fmtAvg(r.avg)}</td>
+      ${showFl ? `<td class="num">${r.fl || ""}</td>` : ""}${showOdk ? `<td class="num">${r.odk || ""}</td>` : ""}
+    </tr>`).join("")}</tbody></table></div>` : `<div class="card empty">V tejto sezóne zatiaľ nie sú žiadne výsledky.</div>`;
+
+  return `${heroHtml}
+    <h2 class="sec">Poradie jazdcov</h2>${table}
+    ${done.length > 1 ? `<h2 class="sec">Vývoj bodov</h2><div class="card chart-card"><div class="legend" id="legend"></div><div class="chart" id="chart"></div></div>` : ""}`;
+}
+
+// --- cumulative chart ---
+function mountChart() {
+  const host = document.getElementById("chart"); if (!host) return;
+  const st = standings(S.seasonId);
+  const series = st.rows.slice(0, 8).map((r, i) => ({ pid: r.pid, name: pname(r.pid), color: SERIES[i], cum: r.cum }));
+  const legend = document.getElementById("legend");
+  legend.innerHTML = series.map(s => `<button data-toggle="${s.pid}" class="${S.hidden.has(s.pid) ? "off" : ""}"><i style="background:${s.color}"></i>${esc(s.name)}</button>`).join("")
+    + (st.rows.length > 8 ? `<span class="muted" style="font-size:12px;align-self:center">top 8</span>` : "");
+  const vis = series.filter(s => !S.hidden.has(s.pid));
+  const n = st.done.length;
+  const W = Math.max(320, host.clientWidth), H = Math.min(380, Math.max(240, W * 0.45));
+  const m = { l: 40, r: vis.length && vis.length <= 4 ? 78 : 14, t: 12, b: 30 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const maxY = Math.max(10, ...vis.map(s => s.cum[n - 1] || 0));
+  const step = niceStep(maxY / 4); const top = Math.ceil(maxY / step) * step;
+  const x = i => m.l + (n === 1 ? iw / 2 : i * iw / (n - 1));
+  const y = v => m.t + ih - v / top * ih;
+  let g = "";
+  for (let v = 0; v <= top; v += step) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="#2b2b30" stroke-width="1"/><text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="#8e8d86">${v}</text>`;
+  const every = Math.ceil(n / Math.max(2, Math.floor(iw / 34)));
+  st.done.forEach((r, i) => { if (i % every === 0 || i === n - 1) g += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="#8e8d86">${r.round}</text>`; });
+  let lines = "";
+  for (const s of vis) {
+    lines += `<path d="${s.cum.map((v, i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1)).join("")}" fill="none" stroke="${s.color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+  }
+  // end labels (only when ≤4 visible) with simple collision avoidance
+  if (vis.length && vis.length <= 4) {
+    const labs = vis.map(s => ({ s, y: y(s.cum[n - 1]) })).sort((a, b) => a.y - b.y);
+    for (let i = 1; i < labs.length; i++) if (labs[i].y - labs[i - 1].y < 14) labs[i].y = labs[i - 1].y + 14;
+    for (const l of labs) lines += `<circle cx="${x(n - 1)}" cy="${y(l.s.cum[n - 1])}" r="4" fill="${l.s.color}" stroke="#1a1a19" stroke-width="2"/><text x="${x(n - 1) + 8}" y="${l.y + 4}" font-size="12" font-weight="700" fill="#c3c2b7">${esc(l.s.name)}</text>`;
+  }
+  host.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Vývoj bodov počas sezóny">${g}${lines}<line id="xh" y1="${m.t}" y2="${m.t + ih}" stroke="#55555f" stroke-width="1" opacity="0"/><g id="dots"></g><rect x="${m.l - 10}" y="0" width="${iw + 20}" height="${H}" fill="transparent" id="hit"/></svg><div class="tip" id="tip"></div>`;
+  const svg = host.querySelector("svg"), tip = host.querySelector("#tip"), xh = host.querySelector("#xh"), dots = host.querySelector("#dots");
+  const move = ev => {
+    const rect = svg.getBoundingClientRect(); const px = (ev.clientX - rect.left) * W / rect.width;
+    const i = Math.max(0, Math.min(n - 1, Math.round(n === 1 ? 0 : (px - m.l) / iw * (n - 1))));
+    const race = st.done[i];
+    xh.setAttribute("x1", x(i)); xh.setAttribute("x2", x(i)); xh.setAttribute("opacity", 1);
+    dots.innerHTML = vis.map(s => `<circle cx="${x(i)}" cy="${y(s.cum[i])}" r="4.5" fill="${s.color}" stroke="#1a1a19" stroke-width="2"/>`).join("");
+    const rowsT = [...vis].sort((a, b) => b.cum[i] - a.cum[i]);
+    tip.innerHTML = `<div class="h">${flag(race.track)} ${esc(race.track)} <span class="muted">· kolo ${race.round}</span></div>` + rowsT.map(s => `<div class="r"><span><i style="background:${s.color}"></i>${esc(s.name)}</span><b class="num">${s.cum[i]}</b></div>`).join("");
+    const left = x(i) / W * rect.width; const tw = tip.offsetWidth;
+    tip.style.left = (left + 14 + tw > rect.width ? left - tw - 14 : left + 14) + "px"; tip.style.top = "8px"; tip.style.opacity = 1;
+  };
+  const hit = host.querySelector("#hit");
+  hit.addEventListener("pointermove", move); hit.addEventListener("pointerdown", move);
+  hit.addEventListener("pointerleave", () => { tip.style.opacity = 0; xh.setAttribute("opacity", 0); dots.innerHTML = ""; });
+}
+function niceStep(raw) { const p = Math.pow(10, Math.floor(Math.log10(Math.max(raw, 1)))); const f = raw / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p; }
+
+// ===== Preteky =====
+function viewRaces() {
+  const st = standings(S.seasonId);
+  if (!st.season) return emptySeason();
+  const s = st.season;
+  const next = st.races.find(r => !RES_BY_RACE.has(r.id));
+  const head = `<div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+    <h2 style="font-size:24px;font-weight:900">${esc(s.name)} <span class="muted" style="font-size:16px;font-weight:600">· ${st.done.length}/${st.races.length} pretekov</span></h2>
+    <div class="row" style="gap:10px">${S.raceView === "cards" ? `<div class="strip-nav"><button data-strip="-1" title="Doľava" aria-label="Doľava">‹</button><button data-strip="1" title="Doprava" aria-label="Doprava">›</button></div>` : ""}<div class="seg"><button data-rv="cards" class="${S.raceView === "cards" ? "on" : ""}">Karty</button><button data-rv="matrix" class="${S.raceView === "matrix" ? "on" : ""}">Tabuľka</button></div></div></div>`;
+  if (!st.races.length) return head + `<div class="card empty">Sezóna nemá žiadne preteky.</div>`;
+  if (S.raceView === "matrix") return head + matrixView(st);
+  return head + `<div class="dots">${st.races.map((r, i) => `<button data-jump="${i}" class="${RES_BY_RACE.has(r.id) ? "done" : (r === next ? "next" : "")}" title="${esc(r.track)}">${r.round}</button>`).join("")}</div>
+    <div class="strip" id="strip">${st.races.map(r => {
+    const res = RES_BY_RACE.get(r.id);
+    const cls = res ? "" : (r === next ? "next" : "todo");
+    return `<div class="card race ${cls}" data-race="${r.id}">
+      <div class="rn">Kolo ${r.round}${r.race_date ? " · " + new Date(r.race_date).toLocaleDateString("sk-SK") : ""}</div>
+      <div class="tn"><span class="flag">${flag(r.track)}</span>${esc(r.track)}</div>
+      ${res ? `<div class="racelist">${res.map(x => `<div class="pr ${x.position > 3 ? "low" : ""}"><span class="posn ${x.position <= 3 ? "p" + x.position : ""}">${x.position}</span>${esc(pname(x.player_id))}${x.fastest_lap ? ' <span class="fl" title="Najrýchlejšie kolo"></span>' : ""}<span class="pp num">${ptsFor(s, x)} b</span></div>`).join("")}</div>`
+        : `<div>${r === next ? '<span class="pill live">Na rade</span>' : '<span class="pill">Nejazdené</span>'}</div>`}
+    </div>`; }).join("")}</div>
+`;
+}
+function matrixView(st) {
+  const { rows, races } = st;
+  if (!rows.length) return `<div class="card empty">Zatiaľ žiadne výsledky.</div>`;
+  return `<div class="card tbl-wrap"><table class="matrix"><thead><tr><th class="l">Hráč</th>${races.map(r => `<th title="${esc(r.track)}">${r.round}<br><span class="flag" style="font-size:14px">${flag(r.track)}</span></th>`).join("")}<th>Body</th></tr></thead>
+  <tbody>${rows.map(row => `<tr><td class="l pname">${esc(pname(row.pid))}</td>${races.map(r => {
+    const x = (RES_BY_RACE.get(r.id) || []).find(q => q.player_id === row.pid);
+    if (!x) return `<td><span class="c e">·</span></td>`;
+    return `<td><span class="c ${x.position <= 3 ? "p" + x.position : ""} ${x.fastest_lap ? "f" : ""}" title="${esc(r.track)}: ${x.position}. miesto">${x.position}</span></td>`;
+  }).join("")}<td class="ptsbig num" style="padding-right:12px">${row.pts}</td></tr>`).join("")}</tbody></table></div>
+  <p class="hint">Čísla = umiestnenie. Zlatá/strieborná/bronzová = pódium${rows.some(r => r.fl) ? ", fialová bodka = najrýchlejšie kolo" : ""}.</p>`;
+}
+function raceModal(raceId) {
+  const r = S.races.find(x => x.id === raceId); if (!r) return;
+  const s = season(r.season_id); const res = RES_BY_RACE.get(r.id) || [];
+  openModal(`<div class="rn muted" style="font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase">${esc(s.name)} · Kolo ${r.round}</div>
+    <h2 style="font-size:28px;font-weight:900;margin:4px 0 14px"><span class="flag">${flag(r.track)}</span> ${esc(r.track)}</h2>
+    ${res.length ? `<table><tbody>${res.map(x => `<tr style="cursor:default"><td class="l" style="width:44px"><span class="posn ${x.position <= 3 ? "p" + x.position : ""}">${x.position}</span></td><td class="l pname">${esc(pname(x.player_id))} ${x.fastest_lap ? '<span class="fl">NK</span>' : ""}</td><td class="num ptsbig">+${ptsFor(s, x)}</td></tr>`).join("")}</tbody></table>`
+      : `<div class="empty">Tento závod ešte nebol odjazdený.</div>`}
+    <div class="row" style="margin-top:16px;justify-content:flex-end;gap:8px">${canEdit() ? `<button class="btn" data-edit-race="${r.id}">${res.length ? "Upraviť výsledky" : "Zapísať výsledky"}</button>` : ""}<button class="btn" data-close>Zavrieť</button></div>`);
+}
+
+// ===== Hráči =====
+function viewPlayers() {
+  if (S.view) return playerDetail(+S.view);
+  const at = allTime().filter(a => a.starts > 0 || P.get(a.pid)?.active).sort((a, b) => b.titles - a.titles || b.pts - a.pts);
+  if (!at.length) return `<div class="card empty">Zatiaľ žiadni hráči.</div>`;
+  return `<h2 style="font-size:24px;font-weight:900;margin-bottom:14px">Hráči</h2><div class="players">${at.map(a => {
+    const p = P.get(a.pid);
+    return `<div class="card pcard" data-player="${a.pid}">
+      <div class="row"><div class="avatar">${esc(initials(p.name))}</div><div><div class="pname">${esc(p.name)} ${a.titles ? `<span class="trophy" title="Tituly">${"🏆".repeat(Math.min(a.titles, 5))}</span>` : ""}</div>
+      <div class="meta">${a.seasons.length} ${plural(a.seasons.length,"sezóna","sezóny","sezón")}${p.active ? "" : " · neaktívny"}</div></div></div>
+      <div class="minis"><div class="mini"><div class="v num">${a.wins}</div><div class="k">Výhry</div></div><div class="mini"><div class="v num">${a.podiums}</div><div class="k">Pódiá</div></div><div class="mini"><div class="v num">${a.pts}</div><div class="k">Body</div></div></div>
+    </div>`; }).join("")}</div>`;
+}
+function playerDetail(pid) {
+  const p = P.get(pid); if (!p) return `<div class="card empty">Hráč neexistuje.</div>`;
+  const all = allTime(); const a = all.find(x => x.pid === pid);
+  const rank = key => [...all].filter(x => x.starts).sort((x, y) => y[key] - x[key]).findIndex(x => x.pid === pid) + 1;
+  // recent form (last 5 results)
+  const myRes = S.results.filter(r => r.player_id === pid).map(r => ({ r, race: S.races.find(x => x.id === r.race_id) })).filter(x => x.race)
+    .sort((x, y) => (season(x.race.season_id).sort_order - season(y.race.season_id).sort_order) || x.race.round - y.race.round);
+  const form = myRes.slice(-5);
+  const others = S.players.filter(q => q.id !== pid && S.results.some(r => r.player_id === q.id));
+  const opp = S.h2h && S.h2h !== pid && P.get(S.h2h) ? S.h2h : (others[0]?.id ?? null);
+  let h2hHtml = "";
+  if (opp) {
+    let ahead = 0, behind = 0, races = 0;
+    for (const arr of RES_BY_RACE.values()) {
+      const me = arr.find(x => x.player_id === pid), ot = arr.find(x => x.player_id === opp);
+      if (me && ot) { races++; if (me.position < ot.position) ahead++; else behind++; }
+    }
+    const pa = races ? Math.round(ahead / races * 100) : 50;
+    h2hHtml = `<div class="card pad"><div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:8px"><b>Vzájomné súboje</b>
+      <select class="input" id="h2hSel" style="width:auto">${others.map(o => `<option value="${o.id}" ${o.id === opp ? "selected" : ""}>vs. ${esc(o.name)}</option>`).join("")}</select></div>
+      ${races ? `<div class="row" style="justify-content:space-between;margin-top:14px;font-weight:900;font-size:22px"><span class="num">${ahead}</span><span class="muted" style="font-size:13px;font-weight:600">${races} spoločných pretekov</span><span class="num">${behind}</span></div>
+      <div style="display:flex;height:10px;border-radius:6px;overflow:hidden;margin-top:6px;gap:2px"><i style="width:${pa}%;background:var(--red)"></i><i style="flex:1;background:var(--surface-3)"></i></div>
+      <div class="row muted" style="justify-content:space-between;font-size:13px;margin-top:4px"><span>${esc(p.name)} pred</span><span>${esc(pname(opp))} pred</span></div>` : `<p class="muted">Nikdy spolu nejazdili.</p>`}</div>`;
+  }
+  return `<button class="back" data-go="players">‹ Všetci hráči</button>
+    <div class="row" style="gap:14px;margin-bottom:16px"><div class="avatar" style="width:60px;height:60px;font-size:24px;background:var(--red)">${esc(initials(p.name))}</div>
+      <div><h1 style="font-size:32px;font-weight:900;font-style:italic">${esc(p.name)}</h1>
+      <div class="muted">${a.titles ? `<span class="trophy">🏆 ${a.titles}× šampión</span> (${a.titleNames.map(esc).join(", ")}) · ` : ""}${a.seasons.length} ${plural(a.seasons.length,"sezóna","sezóny","sezón")}</div></div></div>
+    <div class="statgrid" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">
+      ${[["Body celkovo", a.pts, rank("pts")],["Výhry", a.wins, rank("wins")],["Pódiá", a.podiums, rank("podiums")],["Najrýchl. kolá", a.fl, a.fl ? rank("fl") : null],["Štarty", a.starts, null],["Ø pozícia", fmtAvg(a.avg), null],["Úspešnosť výhier", a.starts ? Math.round(a.wins / a.starts * 100) + " %" : "–", null]]
+        .map(([k, v, rk]) => `<div class="card stat"><div class="k">${k}</div><div class="v num">${v}</div>${rk ? `<div class="muted" style="font-size:12px">${rk}. v histórii</div>` : ""}</div>`).join("")}
+    </div>
+    ${form.length ? `<h2 class="sec">Posledné preteky</h2><div class="row" style="flex-wrap:wrap;gap:8px">${form.map(f => `<div class="card" style="padding:10px 12px;display:flex;align-items:center;gap:10px"><span class="posn ${f.r.position <= 3 ? "p" + f.r.position : ""}">${f.r.position}</span><div style="font-size:13px"><b>${flag(f.race.track)} ${esc(f.race.track)}</b><div class="muted">${esc(season(f.race.season_id).name)}</div></div></div>`).join("")}</div>` : ""}
+    <h2 class="sec">Po sezónach</h2>
+    <div class="card tbl-wrap"><table><thead><tr><th class="l">Sezóna</th><th>Umiestnenie</th><th>Body</th><th>Výhry</th><th>Pódiá</th><th>NK</th><th class="hide-sm">Štarty</th><th class="hide-sm">Ø poz.</th></tr></thead>
+    <tbody>${a.seasons.map(x => `<tr data-season-go="${x.sid}"><td class="l pname">${esc(x.name)}${x.current ? ' <span class="pill live" style="font-size:11px">prebieha</span>' : ""}</td><td><span class="posn ${x.place <= 3 ? "p" + x.place : ""}">${x.place}</span></td><td class="ptsbig num">${x.pts}</td><td class="num">${x.wins}</td><td class="num">${x.podiums}</td><td class="num">${x.fl || ""}</td><td class="hide-sm num">${x.starts}</td><td class="hide-sm num">${fmtAvg(x.avg)}</td></tr>`).join("") || `<tr><td colspan="8" class="l muted">Zatiaľ žiadne výsledky</td></tr>`}</tbody></table></div>
+    <h2 class="sec">Head-to-head</h2>${h2hHtml || '<div class="card empty">Žiadni súperi.</div>'}`;
+}
+
+// ===== Sieň slávy =====
+function viewHof() {
+  const all = allTime().filter(a => a.starts);
+  const champs = S.seasons.map(s => ({ s, st: standings(s.id) })).filter(x => x.st.rows.length);
+  const top = (key, label, fmt = v => v) => {
+    const list = [...all].sort((a, b) => b[key] - a[key]).filter(a => a[key] > 0).slice(0, 5);
+    return `<div class="card pad"><div class="k muted" style="font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">${label}</div>
+      ${list.map((a, i) => `<div class="list-row" data-player="${a.pid}" style="cursor:pointer"><span class="posn ${i < 3 ? "p" + (i + 1) : ""}" style="width:24px;height:24px;font-size:12px">${i + 1}</span><span class="pname" style="flex:1;font-size:15px">${esc(pname(a.pid))}</span><b class="num">${fmt(a[key])}</b></div>`).join("") || '<div class="muted">–</div>'}</div>`;
+  };
+  return `<h2 style="font-size:24px;font-weight:900;margin-bottom:14px">Sieň slávy</h2>
+    <div class="races">${[...champs].reverse().map(({ s, st }) => {
+      const fin = isFinished(s);
+      return `<div class="card race" data-season-go="${s.id}"><div class="rn">${esc(s.name)} · ${st.done.length}/${st.races.length} pretekov</div>
+      <div class="tn">${fin ? '<span class="trophy">🏆</span>' : '<span class="pill live">prebieha</span>'} ${esc(pname(st.rows[0].pid))}</div>
+      <div class="podium">${st.rows.slice(0, 3).map((r, i) => `<div class="pr"><span class="posn p${i + 1}">${i + 1}</span>${esc(pname(r.pid))}<span class="pp num">${r.pts} b</span></div>`).join("")}</div></div>`; }).join("")}</div>
+    <h2 class="sec">Historické rebríčky</h2>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+      ${top("titles", "Tituly")}${top("wins", "Výhry")}${top("podiums", "Pódiá")}${top("pts", "Body celkovo")}${top("fl", "Najrýchlejšie kolá")}${top("starts", "Štarty")}
+      ${(() => { const list = [...all].filter(a => a.starts >= 10).sort((a, b) => b.wins / b.starts - a.wins / a.starts).filter(a => a.wins).slice(0, 5);
+        return `<div class="card pad"><div class="muted" style="font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">Úspešnosť výhier <span style="text-transform:none;letter-spacing:0">(min. 10 štartov)</span></div>${list.map((a, i) => `<div class="list-row" data-player="${a.pid}" style="cursor:pointer"><span class="posn ${i < 3 ? "p" + (i + 1) : ""}" style="width:24px;height:24px;font-size:12px">${i + 1}</span><span class="pname" style="flex:1;font-size:15px">${esc(pname(a.pid))}</span><b class="num">${Math.round(a.wins / a.starts * 100)} %</b></div>`).join("") || '<div class="muted">–</div>'}</div>`; })()}
+    </div>`;
+}
+
+// ===== Admin =====
+function viewAdmin() {
+  if (!canEdit()) return `<div class="card pad" style="max-width:460px;margin:30px auto">
+    <h2 style="font-size:22px;font-weight:900;margin-bottom:6px">Správa ligy</h2>
+    ${S.user ? `<p class="t2" style="margin-top:0">Si prihlásený ako <b>${esc(S.profile?.display_name || "")}</b>, ale zatiaľ nemáš práva na zapisovanie. Požiadaj admina, aby ti ich pridelil.</p>`
+      : `<p class="t2" style="margin-top:0">Na zapisovanie výsledkov sa musíš prihlásiť. Prezerať môže každý aj bez účtu.</p><button class="btn primary" data-account>Prihlásiť sa</button>`}</div>`;
+  const s = season(S.seasonId);
+  const races = s ? seasonRaces(s.id) : [];
+  if (!S.edit || !races.some(r => r.id === S.edit.raceId)) {
+    const next = races.find(r => !RES_BY_RACE.has(r.id)) || races[races.length - 1];
+    S.edit = next ? { raceId: next.id, order: (RES_BY_RACE.get(next.id) || []).map(x => ({ player_id: x.player_id, fl: x.fastest_lap })) } : null;
+  }
+  const activePlayers = S.players.filter(p => p.active).sort((a, b) => a.name.localeCompare(b.name, "sk"));
+  const scheme = s ? (s.points_scheme || DEFAULT_SCHEME) : DEFAULT_SCHEME;
+  const editRace = S.edit && S.races.find(r => r.id === S.edit.raceId);
+  const used = new Set(S.edit?.order.map(o => o.player_id));
+
+  const resultsSec = !s ? `<p class="muted">Najprv treba vytvoriť sezónu${isAdmin() ? " (nižšie)" : " – to môže admin"}.</p>` : !races.length ? `<p class="muted">Sezóna nemá preteky – pridaj ich v sekcii Kalendár.</p>` : `
+    <label class="f">Závod<select class="input" id="raceSel">${races.map(r => `<option value="${r.id}" ${r.id === S.edit.raceId ? "selected" : ""}>${r.round}. ${esc(r.track)}${RES_BY_RACE.has(r.id) ? " ✓" : ""}</option>`).join("")}</select></label>
+    ${RES_BY_RACE.has(editRace.id) ? `<p class="hint">⚠️ Tento závod už má výsledky – uložením ich prepíšeš.</p>` : ""}
+    <p class="hint" style="margin-top:14px">Ťukaj na jazdcov <b>v poradí, v akom dojazdili</b> (prvý ťuk = 1. miesto). Poradie potom upravíš potiahnutím za ⠿ alebo šípkami.</p>
+    <div class="chips">${activePlayers.map(p => `<button class="chip ${used.has(p.id) ? "used" : ""}" data-add="${p.id}">${esc(p.name)}</button>`).join("")}</div>
+    <div class="order">${S.edit.order.map((o, i) => `<div class="orow"><span class="drag" data-drag="${i}" title="Potiahni na zmenu poradia">⠿</span><span class="posn ${i < 3 ? "p" + (i + 1) : ""}">${i + 1}</span><span class="pname">${esc(pname(o.player_id))}</span>
+      <span class="pp num">+${(scheme[i] || 0) + (o.fl ? (s.fastest_lap_bonus || 0) : 0)}</span>
+      <button class="mini-btn ${o.fl ? "on" : ""}" data-fl="${i}" title="Najrýchlejšie kolo">NK</button>
+      <button class="mini-btn" data-up="${i}" ${i ? "" : "disabled"} title="Posunúť hore">↑</button>
+      <button class="mini-btn" data-down="${i}" ${i < S.edit.order.length - 1 ? "" : "disabled"} title="Posunúť dole">↓</button>
+      <button class="mini-btn" data-rm="${i}" title="Odobrať">✕</button></div>`).join("") || '<div class="muted" style="padding:8px 0">Zatiaľ nikto…</div>'}</div>
+    <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn primary" id="saveRes" ${S.edit.order.length ? "" : "disabled"}>Uložiť výsledky</button>
+      <button class="btn" id="resetRes">Vyčistiť výber</button>
+      ${RES_BY_RACE.has(editRace.id) ? `<button class="btn danger" id="clearRes">Zmazať výsledky závodu</button>` : ""}</div>
+    <p class="hint">NK = najrýchlejšie kolo. ${(s.fastest_lap_bonus || 0) ? `Dáva +${s.fastest_lap_bonus} ${plural(s.fastest_lap_bonus,"bod","body","bodov")}.` : "Eviduje sa iba do štatistík, body nepridáva."}</p>`;
+
+  const calSec = !s ? "" : `${races.map(r => `<div class="list-row"><span class="muted num" style="width:26px">${r.round}.</span>
+      <input class="input" style="flex:1" value="${esc(r.track)}" data-track="${r.id}">
+      <input class="input" type="date" style="width:150px" value="${r.race_date || ""}" data-date="${r.id}" title="Dátum (nepovinné)">
+      <button class="mini-btn" data-delrace="${r.id}" title="Zmazať závod">✕</button></div>`).join("")}
+    <form class="row" id="addRaceForm" style="margin-top:12px;gap:8px"><input class="input" id="newTrack" placeholder="Nová trať, napr. Madrid" required><button class="btn" type="submit">Pridať</button></form>
+    <p class="hint">Zmeny názvu a dátumu sa uložia, keď klikneš mimo políčka.</p>`;
+
+  const playersSec = `${S.players.slice().sort((a, b) => a.name.localeCompare(b.name, "sk")).map(p => `<div class="list-row">
+      <input class="input" style="flex:1" value="${esc(p.name)}" data-pname="${p.id}">
+      <button class="btn sm ${p.active ? "" : "danger"}" data-pactive="${p.id}">${p.active ? "Aktívny" : "Neaktívny"}</button></div>`).join("")}
+    <form class="row" id="addPlayerForm" style="margin-top:12px;gap:8px"><input class="input" id="newPlayer" placeholder="Meno nového hráča" required><button class="btn" type="submit">Pridať hráča</button></form>
+    <p class="hint">Neaktívni hráči sa neponúkajú pri zápise výsledkov, ich história ostáva.</p>`;
+
+  const postSec = !s ? "" : `${activePlayers.map(p => { const c = S.post.find(x => x.season_id === s.id && x.player_id === p.id)?.count || 0;
+      return `<div class="list-row"><span class="pname" style="flex:1">${esc(p.name)}</span><button class="mini-btn" data-odk="${p.id}" data-d="-1" ${c ? "" : "disabled"}>−</button><b class="num" style="width:26px;text-align:center">${c}</b><button class="mini-btn" data-odk="${p.id}" data-d="1">+</button></div>`; }).join("")}`;
+
+  const seasonSec = `${s ? `<form id="seasonForm" class="grid" style="margin-bottom:18px">
+      <b>Nastavenia: ${esc(s.name)}</b>
+      <label class="f">Názov<input class="input" id="sName" value="${esc(s.name)}" required></label>
+      <label class="f">Body za umiestnenia (oddelené čiarkou)<input class="input" id="sScheme" value="${scheme.join(", ")}" required></label>
+      <label class="f">Body navyše za najrýchlejšie kolo (0 = iba štatistika)<input class="input" type="number" min="0" max="10" id="sFl" value="${s.fastest_lap_bonus || 0}"></label>
+      <label class="row" style="gap:8px;font-weight:600"><input type="checkbox" id="sCur" ${s.is_current ? "checked" : ""}> Aktuálna sezóna (otvorí sa ako prvá)</label>
+      <div><button class="btn" type="submit">Uložiť nastavenia sezóny</button></div></form>` : ""}
+    <form id="newSeasonForm" class="grid"><b>Nová sezóna</b>
+      <label class="f">Názov<input class="input" id="nsName" value="Sezóna ${S.seasons.length + 1}" required></label>
+      <label class="f">Kalendár tratí skopírovať z<select class="input" id="nsCopy"><option value="">— prázdny kalendár —</option>${[...S.seasons].reverse().map(x => `<option value="${x.id}" ${x.id === S.seasonId ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
+      <label class="row" style="gap:8px;font-weight:600"><input type="checkbox" id="nsCur" checked> Nastaviť ako aktuálnu</label>
+      <div><button class="btn primary" type="submit">Vytvoriť sezónu</button></div></form>`;
+
+  const usersSec = `${S.profiles.map(u => `<div class="list-row"><div style="flex:1;min-width:0"><div class="pname">${esc(u.display_name)}${u.id === S.user.id ? ' <span class="muted" style="font-weight:600;font-size:13px">(ty)</span>' : ""}</div><div class="muted" style="font-size:13px;overflow:hidden;text-overflow:ellipsis">${esc(u.email || "")}</div></div>
+      ${u.id === S.user.id ? `<span class="pill">${ROLE_LABEL[u.role]}</span>` : `<select class="input" style="width:auto" data-role="${u.id}">${["viewer", "editor", "admin"].map(r => `<option value="${r}" ${r === u.role ? "selected" : ""}>${ROLE_LABEL[r]}</option>`).join("")}</select>`}</div>`).join("")}
+    <p class="hint">Kto chce zapisovať, zaregistruje sa v appke cez ikonu účtu vpravo hore. Potom sa tu objaví a dáš mu rolu <b>Zapisovateľ</b>.<br>Zapisovateľ: výsledky, kalendár, hráči, odklady. Admin navyše spravuje sezóny a role.</p>`;
+  return `<div class="row" style="justify-content:space-between;margin-bottom:14px"><h2 style="font-size:24px;font-weight:900">Správa ${s ? `<span class="muted" style="font-size:16px;font-weight:600">· ${esc(s.name)}</span>` : ""}</h2><span class="pill">${ROLE_LABEL[S.profile.role]}</span></div>
+    <details class="adm card" ${s && races.length ? "open" : ""}><summary>🏁 Zapísať výsledky</summary><div class="body">${resultsSec}</div></details>
+    ${s ? `<details class="adm card"><summary>📅 Kalendár pretekov</summary><div class="body">${calSec}</div></details>` : ""}
+    <details class="adm card"><summary>👥 Hráči</summary><div class="body">${playersSec}</div></details>
+    ${s ? `<details class="adm card"><summary>⏸️ Odklady</summary><div class="body"><p class="hint" style="margin-top:0">Počet odložených pretekov v sezóne ${esc(s.name)}.</p>${postSec}</div></details>` : ""}
+    ${isAdmin() ? `<details class="adm card" ${s ? "" : "open"}><summary>🗓️ Sezóny</summary><div class="body">${seasonSec}</div></details>
+    <details class="adm card"><summary>🔐 Používatelia a role</summary><div class="body">${usersSec}</div></details>` : ""}`;
+}
+
+// ---------- RPC ----------
+async function rpc(fn, args, okMsg) {
+  const { data, error } = await sb.rpc(fn, args);
+  if (error) {
+    toast(errMsg(error), "err");
+    if (/oprávnenie|prihlásený|permission/i.test(error.message || "")) { await loadProfile(); render(); }
+    throw error;
+  }
+  await load(); await loadProfile(); render();
+  if (okMsg) toast(okMsg);
+  return data;
+}
+const keepOpen = () => [...document.querySelectorAll("details.adm")].map(d => d.open);
+const restoreOpen = st => document.querySelectorAll("details.adm").forEach((d, i) => { if (st[i] != null) d.open = st[i]; });
+async function adminDo(fn, args, msg) { const st = keepOpen(); let ok = true; try { await rpc(fn, args, msg); } catch { ok = false; } restoreOpen(st); return ok; }
+
+// ---------- modal ----------
+function openModal(html) { $modal.innerHTML = `<div class="modal-bg"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`; }
+function closeModal() { $modal.innerHTML = ""; }
+$modal.addEventListener("click", e => {
+  if (e.target.closest("[data-edit-race]")) { const id = +e.target.closest("[data-edit-race]").dataset.editRace; const r = S.races.find(x => x.id === id);
+    S.edit = { raceId: id, order: (RES_BY_RACE.get(id) || []).map(x => ({ player_id: x.player_id, fl: x.fastest_lap })) }; closeModal(); S.seasonId = r.season_id; go("admin"); return; }
+  if (e.target.classList.contains("modal-bg") || e.target.closest("[data-close]")) { closeModal(); return; }
+  const at = e.target.closest("[data-authtab]"); if (at) { S.authTab = at.dataset.authtab; accountModal(); return; }
+  if (e.target.closest("#logoutBtn")) { sb.auth.signOut().then(() => { S.user = null; loadProfile().then(() => { closeModal(); if (S.tab === "admin") go("standings"); else render(); toast("Odhlásený"); }); }); return; }
+});
+$modal.addEventListener("submit", async e => {
+  e.preventDefault(); const f = e.target; const btn = f.querySelector("button[type=submit]"); if (btn) btn.disabled = true;
+  try {
+    if (f.id === "loginForm") {
+      const { data, error } = await sb.auth.signInWithPassword({ email: f.email.value.trim(), password: f.password.value });
+      if (error) throw error;
+      S.user = data.user; await loadProfile(); closeModal(); render(); toast(`Ahoj ${S.profile?.display_name || ""}!`);
+    } else if (f.id === "signupForm") {
+      const { data, error } = await sb.auth.signUp({ email: f.email.value.trim(), password: f.password.value, options: { data: { display_name: f.dname.value.trim() } } });
+      if (error) throw error;
+      if (data.session) { S.user = data.user; await loadProfile(); closeModal(); render(); toast(canEdit() ? "Účet vytvorený – si admin 👑" : "Účet vytvorený. Admin ti môže prideliť práva."); }
+      else { closeModal(); toast("Skontroluj email a potvrď registráciu"); }
+    } else if (f.id === "nameForm") {
+      const { error } = await sb.rpc("update_my_name", { p_name: f.dname.value }); if (error) throw error;
+      await loadProfile(); accountModal(); render(); toast("Meno uložené");
+    }
+  } catch (err) { toast(errMsg(err), "err"); if (btn) btn.disabled = false; }
+});
+function accountModal() {
+  if (!configured) return;
+  if (S.user && S.profile) {
+    openModal(`<div class="row" style="gap:14px;margin-bottom:16px"><div class="avatar" style="background:var(--red);width:52px;height:52px;font-size:20px">${esc(initials(S.profile.display_name))}</div>
+      <div><h2 style="font-size:24px;font-weight:900">${esc(S.profile.display_name)}</h2><div class="muted">${esc(S.user.email || "")} · <span class="pill">${ROLE_LABEL[S.profile.role]}</span></div></div></div>
+      ${S.profile.role === "viewer" ? `<p class="t2">Zatiaľ máš práva iba na prezeranie. Ak máš zapisovať výsledky, povedz adminovi, nech ti dá rolu Zapisovateľ.</p>` : ""}
+      <form id="nameForm" class="row" style="gap:8px"><input class="input" name="dname" value="${esc(S.profile.display_name)}" required><button class="btn" type="submit">Zmeniť meno</button></form>
+      <div class="row" style="margin-top:18px;justify-content:space-between"><button class="btn danger" id="logoutBtn">Odhlásiť sa</button><button class="btn" data-close>Zavrieť</button></div>`);
+    return;
+  }
+  const login = S.authTab === "login";
+  openModal(`<h2 style="font-size:24px;font-weight:900;margin-bottom:4px">${login ? "Prihlásenie" : "Registrácia"}</h2>
+    <p class="t2" style="margin-top:0">Prezerať môže každý aj bez účtu. Účet potrebuješ iba na zapisovanie výsledkov, práva ti pridelí admin.</p>
+    <div class="seg tabs-in"><button data-authtab="login" class="${login ? "on" : ""}">Prihlásiť</button><button data-authtab="signup" class="${login ? "" : "on"}">Nový účet</button></div>
+    <form id="${login ? "loginForm" : "signupForm"}" class="grid">
+      ${login ? "" : `<label class="f">Meno / prezývka<input class="input" name="dname" required maxlength="40" autocomplete="nickname"></label>`}
+      <label class="f">Email<input class="input" type="email" name="email" required autocomplete="email"></label>
+      <label class="f">Heslo<input class="input" type="password" name="password" required minlength="6" autocomplete="${login ? "current-password" : "new-password"}"></label>
+      <div class="row" style="justify-content:space-between;margin-top:6px"><button class="btn" type="button" data-close>Zrušiť</button><button class="btn primary" type="submit">${login ? "Prihlásiť sa" : "Vytvoriť účet"}</button></div>
+    </form>`);
+  setTimeout(() => $modal.querySelector("input")?.focus(), 50);
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+// ---------- events ----------
+$app.addEventListener("click", async e => {
+  const t = e.target.closest("button, [data-player], [data-race], [data-season-go], [data-go]");
+  if (!t) return;
+  const d = t.dataset;
+  if (d.toggle) { const id = +d.toggle; S.hidden.has(id) ? S.hidden.delete(id) : S.hidden.add(id); mountChart(); return; }
+  if (d.rv) { S.raceView = d.rv; render(); return; }
+  if (d.go) { go(d.go); return; }
+  if (d.seasonGo) { S.seasonId = +d.seasonGo; S.hidden.clear(); go("standings"); return; }
+  if (d.strip) { const el = document.getElementById("strip"); el && el.scrollBy({ left: +d.strip * Math.max(260, el.clientWidth * 0.8), behavior: "smooth" }); return; }
+  if (d.jump != null) { const el = document.getElementById("strip"); const c = el && el.children[+d.jump]; c && el.scrollTo({ left: c.offsetLeft - el.children[0].offsetLeft, behavior: "smooth" }); return; }
+  if (d.race) { raceModal(+d.race); return; }
+  if (d.player && t.tagName !== "BUTTON") { go("players", d.player); return; }
+  if (d.account != null) { if (d.account) S.authTab = d.account; accountModal(); return; }
+  if (!canEdit()) return;
+  // admin
+  const ed = S.edit;
+  if (d.add) { ed.order.push({ player_id: +d.add, fl: false }); render(); return; }
+  if (d.rm != null) { ed.order.splice(+d.rm, 1); render(); return; }
+  if (d.up != null) { const i = +d.up; [ed.order[i - 1], ed.order[i]] = [ed.order[i], ed.order[i - 1]]; render(); return; }
+  if (d.down != null) { const i = +d.down; [ed.order[i + 1], ed.order[i]] = [ed.order[i], ed.order[i + 1]]; render(); return; }
+  if (d.fl != null) { const i = +d.fl; const was = ed.order[i].fl; ed.order.forEach(o => o.fl = false); ed.order[i].fl = !was; render(); return; }
+  if (t.id === "resetRes") { ed.order = []; render(); return; }
+  if (t.id === "saveRes") {
+    t.disabled = true;
+    const ok = await adminDo("save_race_results", { p_race_id: ed.raceId, p_results: ed.order.map((o, i) => ({ player_id: o.player_id, position: i + 1, fastest_lap: o.fl })) }, "Výsledky uložené ✓");
+    if (!ok) { render(); return; }
+    const st = standings(S.seasonId); const nx = st.races.find(r => !RES_BY_RACE.has(r.id));
+    if (nx) { S.edit = { raceId: nx.id, order: [] }; render(); }
+    return;
+  }
+  if (t.id === "clearRes") { if (confirm("Naozaj zmazať všetky výsledky tohto závodu?")) await adminDo("clear_race_results", { p_race_id: ed.raceId }, "Výsledky zmazané"); return; }
+  if (d.delrace) { const r = S.races.find(x => x.id === +d.delrace); if (confirm(`Zmazať závod ${r.track}${RES_BY_RACE.has(r.id) ? " AJ S VÝSLEDKAMI" : ""}?`)) await adminDo("delete_race", { p_race_id: r.id }, "Závod zmazaný"); return; }
+  if (d.pactive) { const p = P.get(+d.pactive); await adminDo("update_player", { p_player_id: p.id, p_name: p.name, p_active: !p.active }, "Uložené"); return; }
+  if (d.odk) { const pid = +d.odk; const c = S.post.find(x => x.season_id === S.seasonId && x.player_id === pid)?.count || 0;
+    await adminDo("set_postponements", { p_season_id: S.seasonId, p_player_id: pid, p_count: c + (+d.d) }); return; }
+});
+$app.addEventListener("change", async e => {
+  const t = e.target;
+  if (t.id === "raceSel") { const id = +t.value; S.edit = { raceId: id, order: (RES_BY_RACE.get(id) || []).map(x => ({ player_id: x.player_id, fl: x.fastest_lap })) }; render(); return; }
+  if (t.id === "h2hSel") { S.h2h = +t.value; render(); return; }
+  if (t.dataset.track || t.dataset.date) {
+    const id = +(t.dataset.track || t.dataset.date); const r = S.races.find(x => x.id === id);
+    const track = t.dataset.track ? t.value.trim() : r.track; const date = t.dataset.date ? (t.value || null) : r.race_date;
+    if (!track) { t.value = r.track; return; }
+    await adminDo("update_race", { p_race_id: id, p_track: track, p_race_date: date }, "Uložené"); return;
+  }
+  if (t.dataset.role) { await adminDo("set_user_role", { p_user_id: t.dataset.role, p_role: t.value }, "Rola zmenená"); return; }
+  if (t.dataset.pname) { const p = P.get(+t.dataset.pname); const name = t.value.trim(); if (!name || name === p.name) { t.value = p.name; return; }
+    await adminDo("update_player", { p_player_id: p.id, p_name: name, p_active: p.active }, "Uložené"); return; }
+});
+$app.addEventListener("submit", async e => {
+  e.preventDefault(); const f = e.target;
+  if (f.id === "addRaceForm") { await adminDo("add_race", { p_season_id: S.seasonId, p_track: document.getElementById("newTrack").value }, "Závod pridaný"); return; }
+  if (f.id === "addPlayerForm") { await adminDo("add_player", { p_name: document.getElementById("newPlayer").value }, "Hráč pridaný"); return; }
+  if (f.id === "seasonForm") {
+    const scheme = document.getElementById("sScheme").value.split(/[,;\s]+/).filter(Boolean).map(Number);
+    if (!scheme.length || scheme.some(n => !Number.isInteger(n) || n < 0)) { toast("Body musia byť celé čísla oddelené čiarkou", "err"); return; }
+    await adminDo("update_season", { p_season_id: S.seasonId, p_name: document.getElementById("sName").value, p_points_scheme: scheme, p_fastest_lap_bonus: +document.getElementById("sFl").value || 0, p_is_current: document.getElementById("sCur").checked }, "Sezóna uložená"); return;
+  }
+  if (f.id === "newSeasonForm") {
+    const copy = document.getElementById("nsCopy").value;
+    try { const id = await rpc("create_season", { p_name: document.getElementById("nsName").value, p_copy_from_season: copy ? +copy : null, p_make_current: document.getElementById("nsCur").checked }, "Sezóna vytvorená");
+      S.seasonId = id; S.edit = null; go("admin"); } catch {}
+    return;
+  }
+});
+$app.addEventListener("pointerdown", e => {
+  const h = e.target.closest("[data-drag]"); if (!h || !S.edit) return;
+  e.preventDefault();
+  const rows = [...h.closest(".order").querySelectorAll(".orow")];
+  const from = +h.dataset.drag, row = rows[from], startY = e.clientY;
+  const rects = rows.map(r => r.getBoundingClientRect()); const gap = rects.length > 1 ? rects[1].top - rects[0].top : rects[0].height + 6;
+  let to = from; row.classList.add("dragging");
+  try { h.setPointerCapture(e.pointerId); } catch {}
+  const move = ev => {
+    const dy = ev.clientY - startY; row.style.transform = `translateY(${dy}px)`;
+    const y = rects[from].top + rects[from].height / 2 + dy;
+    to = rects.findIndex(r => y < r.bottom); if (to === -1) to = rows.length - 1;
+    rows.forEach((r, i) => { if (i === from) return; let sh = 0;
+      if (from < to && i > from && i <= to) sh = -gap; if (from > to && i < from && i >= to) sh = gap;
+      r.style.transform = sh ? `translateY(${sh}px)` : ""; });
+  };
+  const up = () => {
+    h.removeEventListener("pointermove", move); h.removeEventListener("pointerup", up); h.removeEventListener("pointercancel", up);
+    if (to !== from) { const [it] = S.edit.order.splice(from, 1); S.edit.order.splice(to, 0, it); }
+    const st = keepOpen(); render(); restoreOpen(st);
+  };
+  h.addEventListener("pointermove", move); h.addEventListener("pointerup", up); h.addEventListener("pointercancel", up);
+});
+function positionStrip() {
+  const el = document.getElementById("strip"); if (!el) return;
+  const cards = [...el.children]; if (!cards.length) return;
+  const st = standings(S.seasonId); const nextIdx = st.races.findIndex(r => !RES_BY_RACE.has(r.id));
+  const idx = nextIdx === -1 ? cards.length - 1 : nextIdx;
+  el.style.scrollBehavior = "auto";
+  const base = cards[0].offsetLeft;
+  if (el.clientWidth < cards[0].offsetWidth * 2) el.scrollLeft = cards[Math.max(0, nextIdx === -1 ? idx : idx - 1)].offsetLeft - base;
+  else el.scrollLeft = Math.max(0, cards[idx].offsetLeft - base - el.clientWidth + cards[idx].offsetWidth + 4);
+  el.style.scrollBehavior = "";
+  el.onwheel = e => { if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    const max = el.scrollWidth - el.clientWidth; if ((e.deltaY < 0 && el.scrollLeft <= 0) || (e.deltaY > 0 && el.scrollLeft >= max - 1)) return;
+    e.preventDefault(); el.style.scrollBehavior = "auto"; el.scrollLeft += e.deltaY; el.style.scrollBehavior = ""; };
+}
+let rz; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { if (S.tab === "standings") mountChart(); }, 150); });
+
+// ---------- start ----------
+readHash();
+(async () => {
+  if (!configured) { render(); return; }
+  try {
+    const { data } = await sb.auth.getSession(); S.user = data.session?.user || null;
+    await Promise.all([load(), loadProfile()]); render();
+    sb.auth.onAuthStateChange((ev, session) => {
+      const u = session?.user || null; if ((u?.id || null) === (S.user?.id || null)) return;
+      S.user = u; setTimeout(() => loadProfile().then(render), 0);
+    });
+  }
+  catch (e) { $app.innerHTML = `<div class="card pad" style="max-width:560px;margin:30px auto"><h2 style="font-size:22px;font-weight:900">Nepodarilo sa načítať dáta</h2><p class="t2">${esc(errMsg(e))}</p><p class="muted">Skontroluj config.js (URL a kľúč) a či si v Supabase spustil oba SQL súbory. Ak bol projekt dlho neaktívny, mohol sa pozastaviť – obnovíš ho v Supabase dashboarde.</p><button class="btn" onclick="location.reload()">Skúsiť znova</button></div>`; }
+})();
+</script>
+</body>
+</html>
